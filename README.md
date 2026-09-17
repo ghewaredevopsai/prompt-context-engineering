@@ -17,6 +17,8 @@ prompt-context-engineering/
   prompt-learning-outcomes.md       the outcomes, where they came from, and the facts that age
   presentation/                     7 decks, one per tier
   hands-on/                         7 Markdown lab guides + their landing page
+  solutions/                        reference answers for every lab - look whenever you want
+  trainer/                          delivery map, timings, room questions, the deck check
   assets/                           one theme file, one slide runner
 ```
 
@@ -50,6 +52,9 @@ Print to PDF straight from the browser.
 
 ## House rules for this module
 
+- **Solutions ship with the module.** [`solutions/`](solutions/README.md) has a reference answer for
+  every lab, and participants are told to look whenever they want. Nothing in these labs is a
+  spoiler, because nothing is scored - the value is the number *you* record.
 - **The labs are Markdown and measured, not scored.** No blanks, no pass marks, no total &mdash;
   because an assistant's output changes between runs and a score would be pretending otherwise.
   Each lab records a number before and after and ends with a committed `lab-N-record.md`.

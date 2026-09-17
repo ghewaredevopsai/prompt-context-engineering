@@ -1,7 +1,3 @@
-# Trainer-only material is kept outside this repository. Never add it here.
-CLAUDE.md
-trainer/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -10,6 +6,10 @@ venv/
 
 # Deck-check scratch files
 presentation/.probe-*.html
+
+# Participant lab output - people commit their own record sheets, not each other's
+lab-*-record.md
+answer*.json
 
 # Editors and OS
 .vscode/

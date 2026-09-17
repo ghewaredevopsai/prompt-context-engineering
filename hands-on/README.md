@@ -48,6 +48,10 @@ copy and make a fresh one".
 
 Lab 6 is the extension lab and is not part of the two-hour path.
 
+**[`../solutions/`](../solutions/README.md) has a reference answer for every lab.** Look whenever you
+want - before, during or after. None of these labs is scored, so there is nothing to spoil; the
+value is the number you record, not whether it matches the folder.
+
 ## Getting started
 
 ```bash
