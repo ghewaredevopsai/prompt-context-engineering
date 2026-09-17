@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Engineering &mdash; reusable module</title>
+<style>
+:root{
+  --bg:#0e1116; --bg-2:#141922; --panel:#1a2029; --line:#2f3846; --line-2:#435063;
+  --fg:#e9edf2; --fg-dim:#a6b1c0; --fg-faint:#717f91;
+  --accent:#d98a3d; --accent-2:#6ea8fe; --good:#5fbf8f;
+  --mono:ui-monospace,"JetBrains Mono","Cascadia Mono",Consolas,"DejaVu Sans Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.5}
+a{color:var(--accent-2);text-decoration:none} a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.92em;color:var(--fg-dim)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header.top{background:linear-gradient(160deg,var(--bg) 0%,var(--bg-2) 100%);
+  border-bottom:2px solid var(--accent);padding:40px 0 30px}
+.tag{font-size:12.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);
+  font-weight:700;margin:0 0 8px}
+h1{font-family:var(--serif);font-size:40px;font-weight:600;margin:0 0 12px}
+header.top p.pitch{color:var(--fg-dim);max-width:800px;margin:0 0 18px}
+.meta{display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:13px;color:var(--fg-faint)}
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+h2{font-family:var(--serif);font-size:25px;font-weight:600;margin:0 0 6px}
+section > .wrap > p.intro{color:var(--fg-dim);margin:0 0 20px;max-width:820px}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.tier.ext{border-style:dashed;border-color:var(--line-2)}
+.tier .n{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.tier h3{margin:0 0 6px;font-size:18px;font-weight:650}
+.tier p{margin:0 0 10px;font-size:14.5px;color:var(--fg-dim);line-height:1.42}
+.tier .foot{display:flex;justify-content:space-between;font-family:var(--mono);
+  font-size:11.5px;color:var(--fg-faint);border-top:1px solid var(--line);padding-top:8px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--accent);font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;font-weight:650}
+td{color:var(--fg-dim)} td b{color:var(--fg)}
+tr:last-child td{border-bottom:none}
+.note{background:var(--panel);border-left:3px solid var(--accent-2);border-radius:0 5px 5px 0;
+  padding:12px 16px;margin:14px 0;color:var(--fg-dim);font-size:15px}
+.note b{color:var(--fg)}
+.note.warn{border-left-color:var(--accent);background:rgba(217,138,61,.07)}
+footer{padding:26px 0 40px;font-size:13px;color:var(--fg-faint)}
+footer a{color:var(--fg-faint)}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <p class="tag">Reusable module</p>
+  <h1>Prompt &amp; Context Engineering</h1>
+  <p class="pitch">Two hours on the half of this craft that is not about any one vendor: what a
+    request is made of, how to make an answer checkable, which named patterns are worth their
+    tokens, what belongs in the context window, and how to notice when a prompt that used to work
+    has stopped.</p>
+  <p class="meta">
+    <span>6 tiers &middot; 6 labs &middot; ~2 hours</span>
+    <span>~40% talk, ~60% hands-on</span>
+    <span>Assumes: you write code for a living</span>
+    <span>Trainer: Rajesh Gheware</span>
+  </p>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The tiers</h2>
+  <p class="intro">Each tier is a short talk and a lab. Take the ones you need &mdash; a room that
+    only writes prompts for a chat window can stop after Tier 3; a room building a pipeline needs
+    Tiers 2 and 5 most.</p>
+  <div class="tiers">
+    <div class="tier">
+      <span class="n">Tier 0 &middot; 5 min + lab</span>
+      <h3><a href="presentation/t0-three-answers.html">Same request, three answers</a></h3>
+      <p>The four inputs you did not type, three of which are yours. Where the leverage actually is,
+        and why most teams work on the wrong one first.</p>
+      <div class="foot"><span>Lab 0 &middot; 5 min</span><span>Set the meter running</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 1 &middot; 10 min + lab</span>
+      <h3><a href="presentation/t1-anatomy.html">The six parts of a prompt</a></h3>
+      <p>Role, task, context, constraints, format, examples &mdash; and the specific failure each
+        one prevents, so you can name what was missing instead of rewording everything.</p>
+      <div class="foot"><span>Lab 1 &middot; 12 min</span><span>Rebuild the one-liner</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 2 &middot; 8 min + lab</span>
+      <h3><a href="presentation/t2-output-contracts.html">Output contracts</a></h3>
+      <p>Prose, delimited, or a schema you supplied. What a validator can and cannot judge, and why
+        the JSON is usually the shortest of the three.</p>
+      <div class="foot"><span>Lab 2 &middot; 14 min</span><span>Make it validate</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 3 &middot; 8 min + lab</span>
+      <h3><a href="presentation/t3-patterns.html">The pattern set</a></h3>
+      <p>Few-shot, decomposition, chain of thought, self-critique &mdash; what each buys, what each
+        costs, and the one most rooms are still using out of habit.</p>
+      <div class="foot"><span>Lab 3 &middot; 13 min</span><span>Four patterns, one task</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 4 &middot; 7 min + lab</span>
+      <h3><a href="presentation/t4-grounding.html">Grounding</a></h3>
+      <p>The window as a budget. Paste it, point at it, or let it search &mdash; and the measured
+        finding that the smallest bundle usually gives the best answer.</p>
+      <div class="foot"><span>Lab 4 &middot; 12 min</span><span>Three groundings, one question</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 5 &middot; 8 min + lab</span>
+      <h3><a href="presentation/t5-failure-and-drift.html">Failure and drift</a></h3>
+      <p>Four failure classes with four different tells, three directions a prompt rots from, and
+        the five rows that are the only thing standing in the way.</p>
+      <div class="foot"><span>Lab 5 &middot; 12 min</span><span>Break it, repair it, lock it</span></div>
+    </div>
+    <div class="tier ext">
+      <span class="n">Extension &middot; 10 min + lab</span>
+      <h3><a href="presentation/t6-model-behaviour.html">How models differ in habit</a></h3>
+      <p>Six habits that vary between models, the one line of prompt that pins each, and how to
+        write something that survives being moved to a model you did not choose.</p>
+      <div class="foot"><span>Lab 6 &middot; 20 min</span><span>Not in the 2h path</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>The labs</h2>
+  <p class="intro">All six run against <a href="https://github.com/ghewaredevopsai/meridian-freight">Meridian
+    Freight Desk</a>, a small fictional service whose house rules were never written down anywhere a
+    program can read. Start at <a href="hands-on/README.md">hands-on/</a>.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Lab</th><th>What you do</th><th>What you write down</th></tr>
+    <tr><td><b>0</b> Set the meter running</td><td>Clone, run the tests, meter the repository</td>
+      <td>Whole-repo estimate; which single file is a fifth of it</td></tr>
+    <tr><td><b>1</b> Rebuild the one-liner</td><td>The same request twice: bare, then assembled</td>
+      <td>Turns to green, and house rules broken out of eight</td></tr>
+    <tr><td><b>2</b> Make it validate</td><td>One summary asked three ways, each run through a checker</td>
+      <td>Contract pass rate over three runs, and output length</td></tr>
+    <tr><td><b>3</b> Four patterns, one task</td><td>In pairs, two patterns each, then swap sheets</td>
+      <td>Defects found against tokens spent, per pattern</td></tr>
+    <tr><td><b>4</b> Three groundings</td><td>One question, three sizes of context</td>
+      <td>Tokens sent, and whether it found the real defect</td></tr>
+    <tr><td><b>5</b> Break it, repair it, lock it</td><td>Break a working prompt three prescribed ways</td>
+      <td>Violations before, broken and repaired; five checks</td></tr>
+  </table>
+  </div>
+  <div class="note"><b>Measured, not scored.</b> There is no pass mark and no total. Every lab asks for
+    a number before and the same number after, and ends with a committed <code>lab-N-record.md</code>.
+    Nobody grades your prompt &mdash; the sheet is what you take back to work.</div>
+  <div class="note warn"><b>One before-and-after is a data point, not a result.</b> Where a lab measures
+    something that varies between runs, the room puts its rows on the board and the spread across a
+    dozen people is the finding. The labs say so where it matters.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>What this module covers, and what it does not</h2>
+  <div class="note"><b>In scope.</b> The model-agnostic craft: what a request is made of, output
+    contracts and validating a response, the named pattern set, grounding as a decision about how much
+    and what kind, the failure taxonomy, drift, and evaluating a prompt repeatably.</div>
+  <div class="note"><b>Out of scope, deliberately.</b> <b>How to write the files</b> &mdash;
+    <code>copilot-instructions.md</code>, <code>applyTo</code> globs, prompt files, checking that an
+    instruction file was used &mdash; belongs to the <b>Copilot as Assistant</b> module, Tier 3. <b>Which model to choose</b>, and what any of this costs in money,
+    belongs to <b>Token Optimization</b>. <b>Tool and MCP cost</b>
+    belongs to the <b>MCP</b> module. This module says which parts of a prompt
+    should stop being typed; that module says which file to put them in.</div>
+  <p>The full list is in <a href="prompt-learning-outcomes.md">prompt-learning-outcomes.md</a>, with
+    where each outcome came from.</p>
+</div></section>
+
+<footer><div class="wrap">
+  &copy; Gheware DevOps &amp; Agentic AI &middot;
+  <a href="https://devops.gheware.com">devops.gheware.com</a> &middot;
+  training@gheware.com &middot; +91-9606795215 &middot; Trainer: Rajesh Gheware
+</div></footer>
+
+</body>
+</html>

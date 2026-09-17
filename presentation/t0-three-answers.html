@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Tier 0 &mdash; Same Request, Three Answers</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; T0" data-home="../index.html"
+      data-next="t1-anatomy.html" data-next-label="Tier 1 - Anatomy">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 0</span>
+    <h1>Same request,<br>three answers</h1>
+    <p class="sub">You typed the same thing twice and got different code. That is not the model being
+      unreliable. It is four inputs you did not type, and three of them are yours to control.</p>
+    <p class="meta">
+      <span>3 slides &middot; ~5 minutes</span>
+      <span>Lab 0 follows &middot; set the meter running</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The phenomenon</p>
+    <h2>One request goes in. Four things you did not type go with it.</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg fill" viewBox="0 0 1180 300" style="max-height:44vh">
+      <!-- the request -->
+      <rect class="box-a" x="10" y="120" width="250" height="60" rx="6"/>
+      <text x="135" y="146" text-anchor="middle" class="t-acc" font-size="19.5" font-weight="700">your request</text>
+      <text x="135" y="168" text-anchor="middle" class="t-mono t-dim" font-size="16.9">"add a surcharge"</text>
+
+      <!-- the four hidden pipes -->
+      <rect class="box" x="300" y="8"   width="300" height="44" rx="5"/>
+      <text x="316" y="36" class="t-faint" font-size="16.9">vendor system prompt</text>
+      <text x="586" y="36" text-anchor="end" class="t-faint t-mono" font-size="16.2">not yours</text>
+
+      <rect class="box-b" x="300" y="62" width="300" height="44" rx="5"/>
+      <text x="316" y="90" class="t-blue" font-size="16.9">instruction files in the repo</text>
+      <text x="586" y="90" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
+
+      <rect class="box-b" x="300" y="196" width="300" height="44" rx="5"/>
+      <text x="316" y="224" class="t-blue" font-size="16.9">this conversation so far</text>
+      <text x="586" y="224" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
+
+      <rect class="box-b" x="300" y="250" width="300" height="44" rx="5"/>
+      <text x="316" y="278" class="t-blue" font-size="16.9">files it chose to read</text>
+      <text x="586" y="278" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours, indirectly</text>
+
+      <!-- joining -->
+      <path class="wire-a" d="M260 150 H660"/>
+      <path class="wire-faint" d="M600 30 H630 V140 M600 84 H620 V146 M600 218 H620 V156 M600 272 H630 V162"/>
+      <polygon points="660,150 648,144 648,156" fill="var(--accent)"/>
+
+      <rect class="box-a" x="660" y="118" width="150" height="64" rx="6"/>
+      <text x="735" y="156" text-anchor="middle" font-size="19.5" font-weight="700">model</text>
+
+      <!-- three answers -->
+      <path class="wire" d="M810 150 H860 V60 H900 M810 150 H900 M810 150 H860 V240 H900"/>
+      <rect class="box-g" x="900" y="38"  width="270" height="44" rx="5"/>
+      <text x="916" y="66" class="t-good" font-size="16.9">uses integer paise, has a test</text>
+      <rect class="box"   x="900" y="128" width="270" height="44" rx="5"/>
+      <text x="916" y="156" class="t-dim" font-size="16.9">works, but floats the money</text>
+      <rect class="box-r" x="900" y="218" width="270" height="44" rx="5"/>
+      <text x="916" y="246" class="t-bad" font-size="16.9">invents a pricing rule</text>
+    </svg>
+    <div class="note"><b>Only the top pipe is out of your hands.</b> The other three are files you can write,
+      a conversation you can restart, and a set of attachments you can choose. This module is about those three.</div>
+  </div>
+  <div class="notes"><p>The three answers on the right are not exaggerated: they are the three shapes you get from
+    the same one-line request against a repository that has never been told how the team works. The one that invents
+    a pricing rule is the dangerous one, because it looks like the other two.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Where the leverage is</p>
+    <h2>The part you type is the smallest part of what you send</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid3 fill">
+      <div class="card">
+        <h3><span class="n">1</span>What you type</h3>
+        <p>Tens of tokens. Rewritten every time. The part everyone tries to improve first, and the
+          part with the least room in it.</p>
+      </div>
+      <div class="card blue">
+        <h3><span class="n">2</span>What you attach</h3>
+        <p>Thousands of tokens, chosen per request. Attach the folder and you have made a decision
+          about cost and accuracy without noticing you made one.</p>
+      </div>
+      <div class="card on">
+        <h3><span class="n">3</span>What stands</h3>
+        <p>Written once, sent on <b>every</b> request forever. The rules a new hire would otherwise
+          learn by having a pull request rejected.</p>
+      </div>
+    </div>
+    <div class="warn"><b>The order people work on these is backwards.</b> Most teams spend a month collecting
+      clever phrasings for box 1 and never write box 3, which is the one that changes every answer
+      the team gets, every day, without anyone retyping anything.</div>
+    <div class="takeaway"><b>Lab 0 now:</b> clone the freight desk, run its tests, and measure what
+      "just attach the repository" actually costs. Five minutes. Everything after this is measured
+      against the number you write down.</div>
+  </div>
+  <div class="notes"><p>Keep the three boxes in this order for the rest of the module: the tiers work up
+    from what you type to what stands. Tier 1 is box 1, Tier 4 is box 2, and the instruction files that
+    make up box 3 belong to the Copilot-as-Assistant module, which this one deliberately does not repeat.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>

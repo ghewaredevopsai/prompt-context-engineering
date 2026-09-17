@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Tier 1 &mdash; The Six Parts</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; T1" data-home="../index.html"
+      data-prev="t0-three-answers.html" data-prev-label="Tier 0"
+      data-next="t2-output-contracts.html" data-next-label="Tier 2 - Contracts">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 1</span>
+    <h1>The six parts<br>of a prompt</h1>
+    <p class="sub">Not a template to fill in. Six questions, each of which prevents one specific
+      failure &mdash; so when an answer comes back wrong, you can name the part that was missing
+      instead of rewording the whole thing and hoping.</p>
+    <p class="meta">
+      <span>5 slides &middot; ~10 minutes</span>
+      <span>Lab 1 follows &middot; rebuild the one-liner</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The anatomy</p>
+    <h2>Six parts, and the failure each one prevents</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 250" style="max-height:36vh">
+      <text x="10" y="18" class="t-faint t-mono" font-size="15.6">width = how much of the request it usually is</text>
+
+      <rect class="box-a" x="10" y="28"  width="150" height="30" rx="4"/>
+      <text x="22" y="49" font-size="17" font-weight="700">role</text>
+      <text x="180" y="49" class="t-dim" font-size="16.9">answers at the wrong level for who is reading</text>
+
+      <rect class="box-a" x="10" y="64"  width="300" height="30" rx="4"/>
+      <text x="22" y="85" font-size="17" font-weight="700">task</text>
+      <text x="330" y="85" class="t-dim" font-size="16.9">solves the adjacent problem, well</text>
+
+      <rect class="box-b" x="10" y="100" width="700" height="30" rx="4"/>
+      <text x="22" y="121" font-size="17" font-weight="700">context</text>
+      <text x="730" y="121" class="t-dim" font-size="16.9">invents the rules it cannot see</text>
+
+      <rect class="box-a" x="10" y="136" width="240" height="30" rx="4"/>
+      <text x="22" y="157" font-size="17" font-weight="700">constraints</text>
+      <text x="270" y="157" class="t-dim" font-size="16.9">changes things you did not ask about</text>
+
+      <rect class="box-a" x="10" y="172" width="120" height="30" rx="4"/>
+      <text x="22" y="193" font-size="17" font-weight="700">format</text>
+      <text x="150" y="193" class="t-dim" font-size="16.9">an answer a person has to read before anything can use it</text>
+
+      <rect class="box-b" x="10" y="208" width="420" height="30" rx="4"/>
+      <text x="22" y="229" font-size="17" font-weight="700">examples</text>
+      <text x="450" y="229" class="t-dim" font-size="16.9">right shape, wrong idiom for this codebase</text>
+    </svg>
+    <div class="note"><b>Context and examples are the wide ones</b> &mdash; and they are the two people leave out,
+      because they are the two that take effort. Role and format are a line each and get all the attention.</div>
+  </div>
+  <div class="notes"><p>The widths are the point of the picture. A request is mostly context and examples by volume,
+    which is why Tier 4 is about what goes in the window and Tier 2 is about the shape of what comes back. Role is
+    the narrowest band and the one most blog posts are about.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The same job, twice</p>
+    <h2>A one-liner is not a short prompt. It is five missing parts.</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid2 fill">
+      <div class="card bad">
+        <h3>What people send</h3>
+<pre><s>add a surcharge for oversized consignments</s></pre>
+        <p>Every answer to this is a guess. The guesses are not random &mdash; they are the
+          defaults of a million other codebases, which is exactly what you do not want.</p>
+      </div>
+      <div class="card good">
+        <h3>The same request, assembled</h3>
+<pre><i># task</i>
+Add an oversize surcharge to <u>rating.py</u>.
+
+<i># context</i>
+Rules are in <u>docs/ops-runbook.md</u>.
+Money is integer paise.
+
+<i># constraints</i>
+Do not change <u>manifest.py</u>.
+No new dependencies. unittest only.
+
+<i># format</i>
+The diff, then the test you added.</pre>
+      </div>
+    </div>
+    <div class="warn"><b>Notice what is not in the right-hand version:</b> no "you are an expert Python
+      developer", no "think step by step", no politeness. Every line either names a file, states a rule,
+      or forbids something &mdash; and a reviewer could check any of them against the diff.</div>
+  </div>
+  <div class="notes"><p>The test for a line in a prompt is the same as the test for a line in an instructions
+    file: could a reviewer point at a diff and say it broke this? "Be careful with money" fails that test.
+    "Money is integer paise" passes it.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Placement</p>
+    <h2>Two of the six should never be typed twice</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 210" style="max-height:32vh">
+      <text x="185" y="22" text-anchor="middle" class="t-faint" font-size="16.2">per request</text>
+      <text x="590" y="22" text-anchor="middle" class="t-faint" font-size="16.2">per task, saved</text>
+      <text x="990" y="22" text-anchor="middle" class="t-faint" font-size="16.2">once, for the team</text>
+
+      <rect class="box-a" x="10" y="34" width="350" height="160" rx="6"/>
+      <text x="185" y="62" text-anchor="middle" class="t-acc" font-size="19.5" font-weight="700">the chat box</text>
+      <text x="185" y="92"  text-anchor="middle" font-size="17">task</text>
+      <text x="185" y="118" text-anchor="middle" font-size="17">context you attach</text>
+      <text x="185" y="160" text-anchor="middle" class="t-faint" font-size="16.2">changes every time,</text>
+      <text x="185" y="180" text-anchor="middle" class="t-faint" font-size="16.2">so it lives where you type</text>
+
+      <rect class="box-b" x="400" y="34" width="380" height="160" rx="6"/>
+      <text x="590" y="62" text-anchor="middle" class="t-blue" font-size="19.5" font-weight="700">a prompt file</text>
+      <text x="590" y="92"  text-anchor="middle" font-size="17">format</text>
+      <text x="590" y="118" text-anchor="middle" font-size="17">examples</text>
+      <text x="590" y="160" text-anchor="middle" class="t-faint" font-size="16.2">the request you make weekly,</text>
+      <text x="590" y="180" text-anchor="middle" class="t-faint" font-size="16.2">invoked by name</text>
+
+      <rect class="box-g" x="820" y="34" width="350" height="160" rx="6"/>
+      <text x="995" y="62" text-anchor="middle" class="t-good" font-size="19.5" font-weight="700">an instructions file</text>
+      <text x="995" y="92"  text-anchor="middle" font-size="17">role</text>
+      <text x="995" y="118" text-anchor="middle" font-size="17">constraints</text>
+      <text x="995" y="160" text-anchor="middle" class="t-faint" font-size="16.2">true of every request</text>
+      <text x="995" y="180" text-anchor="middle" class="t-faint" font-size="16.2">anyone on the team makes</text>
+    </svg>
+    <div class="note"><b>Retyping a constraint is a smell.</b> If you have told it twice this week that money is
+      integer paise, that line has stopped being part of your prompt and become part of your repository.
+      <b>How</b> to write those files is the Copilot-as-Assistant module's Tier 3 &mdash; this module only says
+      which parts belong there.</div>
+  </div>
+  <div class="notes"><p>This slide is the boundary with the assistant module drawn rather than announced.
+    We say which of the six parts should stop being typed; that module says which file to put it in and what
+    the glob syntax is. If you are teaching both in one day, say that out loud here.</p></div>
+</section>
+
+<!-- 5 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Read the answer</p>
+    <h2>Which part was missing?</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid-2-1 fill">
+      <div class="card">
+        <h3>You asked for an oversize surcharge. You got this.</h3>
+<pre><i># rating.py</i>
+<b>import</b> decimal
+
+<b>def</b> oversize_surcharge(consignment, rate=<em>0.075</em>):
+    <i># 7.5% of declared value for oversize pieces</i>
+    <b>if</b> any(p.length_cm &gt; <em>120</em> <b>for</b> p in consignment.parcels):
+        <b>return</b> decimal.Decimal(consignment.declared_value_minor) * rate
+    <b>return</b> decimal.Decimal(0)</pre>
+        <p class="codecap">"Added the surcharge as a percentage, seemed more flexible than a flat fee."</p>
+      </div>
+      <div class="card on">
+        <h3>Name the part</h3>
+        <ul>
+          <li>It invented a <b>percentage</b> rule. The tariff says flat.</li>
+          <li>It added a <b>dependency</b> and returned a Decimal.</li>
+          <li>It read one dimension, not volume.</li>
+        </ul>
+        <p>Three failures, two parts: <b>context</b> and <b>constraints</b>. Rewording the task
+          would have fixed none of them.</p>
+      </div>
+    </div>
+    <div class="takeaway"><b>Lab 1 now:</b> send the one-liner, then send it assembled. Record turns to green
+      and how many house rules each version broke. The number is the point, not the prose.</div>
+  </div>
+  <div class="notes"><p>Worth saying plainly: the generated code is good code. It is readable, it is typed, it
+    handles the empty case. It is also wrong in three ways that no amount of code-reading skill catches, because
+    the rules it broke are not in the repository &mdash; they are in a runbook nobody attached.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>

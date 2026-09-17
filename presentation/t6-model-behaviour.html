@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Extension &mdash; Model Behaviour</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; Ext" data-home="../index.html"
+      data-prev="t5-failure-and-drift.html" data-prev-label="Tier 5">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Extension</span>
+    <h1>How models differ<br>in habit</h1>
+    <p class="sub">Not which is best &mdash; that is a different module, and the answer expires monthly.
+      This is what actually varies between them when you hand the same request to each, and how to
+      write a prompt that survives being run against a model you did not choose.</p>
+    <p class="meta">
+      <span>4 slides &middot; ~10 minutes</span>
+      <span>Not in the two-hour path</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">What varies</p>
+    <h2>Six habits, and the one line of prompt that pins each one</h2>
+  </div></header>
+  <div class="body">
+    <table class="tight fill">
+      <tr><th>Habit</th><th>How it shows up</th><th>Pin it with</th></tr>
+      <tr><td><b>Verbosity</b></td>
+        <td>Two lines of code wrapped in six paragraphs, or a bare diff with no explanation at all.</td>
+        <td>A format line. "The diff, then one sentence."</td></tr>
+      <tr><td><b>Willingness to ask</b></td>
+        <td>Ambiguity met with a question, or with a confident guess that is never flagged as one.</td>
+        <td>"If the rule is not in the files I gave you, stop and ask."</td></tr>
+      <tr><td><b>Scope discipline</b></td>
+        <td>Touches only the file named, or tidies three neighbours while it is in there.</td>
+        <td>An explicit do-not-touch list.</td></tr>
+      <tr><td><b>Instruction recall</b></td>
+        <td>Holds a constraint for ten turns, or loses it after three.</td>
+        <td>Restate the constraint in the turn that matters. Or start a new chat.</td></tr>
+      <tr><td><b>Tool-calling consistency</b></td>
+        <td>Reads the two files you named, or opens nine and reads none properly.</td>
+        <td>Name the files. Attachment beats search.</td></tr>
+      <tr><td><b>Refusal and hedging</b></td>
+        <td>"I cannot be certain, but&hellip;" on something checkable, which reads as caution and
+          costs you the answer.</td>
+        <td>Give it the source of truth, then the hedge has nowhere to live.</td></tr>
+    </table>
+    <div class="note"><b>Every pin in the right-hand column is a part of the prompt from Tier 1.</b> That is
+      the point of the tier: a well-assembled request is also the most portable one, because it leaves less
+      for a habit to fill in.</div>
+  </div>
+  <div class="notes"><p>Nothing on this slide names a model, and it should stay that way even when someone in
+    the room asks directly. The honest answer is that the roster changes faster than this deck does, and that
+    the six habits are stable while the rankings are not.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The ambiguity test</p>
+    <h2>One under-specified request, three honest responses</h2>
+  </div></header>
+  <div class="body">
+    <div class="card" style="margin-bottom:10px">
+<pre>Fix the manifest total so it matches the quote.</pre>
+    </div>
+    <div class="grid3 fill">
+      <div class="card good">
+        <h3>Asks</h3>
+        <p>"Two things disagree here. The runbook says fuel applies after surcharges; the notes file
+          says base only. Which is authoritative?"</p>
+        <p><b>Best outcome</b>, and the rarest.</p>
+      </div>
+      <div class="card">
+        <h3>Picks, and says so</h3>
+        <p>"I have assumed the runbook is authoritative because it is dated later. If not, the change
+          is one line."</p>
+        <p><b>Fine</b> &mdash; the assumption is visible and cheap to reverse.</p>
+      </div>
+      <div class="card bad">
+        <h3>Picks, silently</h3>
+        <p>Edits <code>rating.py</code> to match <code>manifest.py</code>, making both consistently
+          wrong, and reports success.</p>
+        <p><b>The expensive one.</b> Nothing in the diff says a decision was made.</p>
+      </div>
+    </div>
+    <div class="warn"><b>You cannot change which of these you get by choosing a better model.</b> You can change
+      it by removing the ambiguity &mdash; attach the runbook, say which document wins &mdash; or by asking for
+      the assumptions to be listed before the code.</div>
+  </div>
+  <div class="notes"><p>This is the freight desk's real contradiction: ops-runbook.md and tariff-2026-notes.md
+    disagree about whether fuel applies to surcharges, and manifest.py was written by somebody reading the wrong
+    one. The third column is not hypothetical - it is what happens when nobody attaches either document.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Portability</p>
+    <h2>Write for the model you will be moved to</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid2 fill">
+      <div class="card bad">
+        <h3>Tuned to one model's habits</h3>
+        <ul>
+          <li>Relies on it asking when unsure</li>
+          <li>Relies on it holding a rule for ten turns</li>
+          <li>Relies on it not touching neighbouring files</li>
+          <li>"Think step by step" doing the work</li>
+        </ul>
+        <p>Works beautifully until the seat is upgraded.</p>
+      </div>
+      <div class="card good">
+        <h3>Portable</h3>
+        <ul>
+          <li>The rule is attached, not assumed</li>
+          <li>The constraint is restated where it matters</li>
+          <li>The do-not-touch list is explicit</li>
+          <li>The output has a shape a script checks</li>
+        </ul>
+        <p>Survives a model change, a vendor change and a new joiner.</p>
+      </div>
+    </div>
+    <div class="takeaway"><b>Extension lab:</b> run one prompt against three models and write up what differed
+      in <b>habit</b>, not in quality. Which column above did each one land in? That write-up is what to hand
+      whoever picks the model &mdash; it is the input to the Token Optimization module, not a substitute for it.</div>
+  </div>
+  <div class="notes"><p>The hand-off line matters: behaviour observations belong here, the selection decision
+    belongs in the token module. A room that has had both should be able to say which evidence goes to which
+    question.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>

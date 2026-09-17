@@ -1,0 +1,18 @@
+# Trainer-only material is kept outside this repository. Never add it here.
+CLAUDE.md
+trainer/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Deck-check scratch files
+presentation/.probe-*.html
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

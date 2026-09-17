@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Tier 4 &mdash; Grounding</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; T4" data-home="../index.html"
+      data-prev="t3-patterns.html" data-prev-label="Tier 3"
+      data-next="t5-failure-and-drift.html" data-next-label="Tier 5 - Failure">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 4</span>
+    <h1>Grounding</h1>
+    <p class="sub">What goes in the window, how much of it, and the finding that surprises every room:
+      the smallest bundle usually gives the best answer, not merely the cheapest one.</p>
+    <p class="meta">
+      <span>4 slides &middot; ~7 minutes</span>
+      <span>Lab 4 follows &middot; three groundings, one question</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The budget</p>
+    <h2>The window is a budget, and you are already spending it</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 190" style="max-height:28vh">
+      <text x="10" y="20" class="t-faint t-mono" font-size="15.6">one turn, drawn to scale</text>
+
+      <rect class="box"   x="10"  y="34" width="90"  height="54" rx="4"/>
+      <rect class="box-b" x="104" y="34" width="120" height="54" rx="4"/>
+      <rect class="box-r" x="228" y="34" width="560" height="54" rx="4"/>
+      <rect class="box-b" x="792" y="34" width="180" height="54" rx="4"/>
+      <rect class="box-a" x="976" y="34" width="60"  height="54" rx="4"/>
+      <rect class="box-g" x="1040" y="34" width="130" height="54" rx="4"/>
+
+      <text x="55"   y="66" text-anchor="middle" class="t-faint" font-size="15.6">system</text>
+      <text x="164"  y="66" text-anchor="middle" class="t-blue"  font-size="15.6">instructions</text>
+      <text x="508"  y="60" text-anchor="middle" class="t-bad"   font-size="17" font-weight="700">the files you attached</text>
+      <text x="508"  y="80" text-anchor="middle" class="t-bad"   font-size="15.6">most of it never read</text>
+      <text x="882"  y="66" text-anchor="middle" class="t-blue"  font-size="15.6">conversation so far</text>
+      <text x="1006" y="66" text-anchor="middle" class="t-acc"   font-size="15.6">ask</text>
+      <text x="1105" y="60" text-anchor="middle" class="t-good"  font-size="15.6">room for</text>
+      <text x="1105" y="78" text-anchor="middle" class="t-good"  font-size="15.6">the answer</text>
+
+      <path class="wire-faint dash" d="M10 104 H972"/>
+      <text x="491" y="126" text-anchor="middle" class="t-faint" font-size="16.2">re-sent in full on every single turn</text>
+
+      <text x="10" y="162" class="t-dim" font-size="16.9">Squeeze this and you are not saving money. You are making room for a longer,</text>
+      <text x="10" y="182" class="t-dim" font-size="16.9">better-aimed answer &mdash; and giving the model less to be distracted by.</text>
+    </svg>
+    <div class="note"><b>You will see this picture again</b> in the Token Optimization module, annotated with what
+      to evict first. It is the same budget seen from the other side: here it buys accuracy, there it buys money.</div>
+  </div>
+  <div class="notes"><p>The red band is deliberately most of the bar. On the freight desk repository, "attach
+    everything" is about forty-six thousand estimated tokens, and the two files that actually decide the answer
+    are under three thousand. The lab measures exactly that, so the room does not have to take this on faith.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Three ways</p>
+    <h2>Paste it, point at it, or let it go looking</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 200" style="max-height:30vh">
+      <rect class="box-g" x="10"  y="30" width="370" height="130" rx="6"/>
+      <text x="195" y="60" text-anchor="middle" class="t-good" font-size="19.5" font-weight="700">paste the lines</text>
+      <text x="195" y="88"  text-anchor="middle" class="t-dim" font-size="16.9">the six runbook lines</text>
+      <text x="195" y="108" text-anchor="middle" class="t-dim" font-size="16.9">that decide the answer</text>
+      <text x="195" y="140" text-anchor="middle" class="t-faint" font-size="16.2">exact, tiny, and you had to</text>
+      <text x="195" y="158" text-anchor="middle" class="t-faint" font-size="16.2">know which six</text>
+
+      <rect class="box-b" x="400" y="30" width="370" height="130" rx="6"/>
+      <text x="585" y="60" text-anchor="middle" class="t-blue" font-size="19.5" font-weight="700">point at files</text>
+      <text x="585" y="88"  text-anchor="middle" class="t-dim" font-size="16.9">rating.py and manifest.py</text>
+      <text x="585" y="108" text-anchor="middle" class="t-dim" font-size="16.9">and nothing else</text>
+      <text x="585" y="140" text-anchor="middle" class="t-faint" font-size="16.2">the everyday answer:</text>
+      <text x="585" y="158" text-anchor="middle" class="t-faint" font-size="16.2">cheap, and usually enough</text>
+
+      <rect class="box-r" x="790" y="30" width="380" height="130" rx="6"/>
+      <text x="980" y="60" text-anchor="middle" class="t-bad" font-size="19.5" font-weight="700">let it search</text>
+      <text x="980" y="88"  text-anchor="middle" class="t-dim" font-size="16.9">the whole repository,</text>
+      <text x="980" y="108" text-anchor="middle" class="t-dim" font-size="16.9">retrieved a slice at a time</text>
+      <text x="980" y="140" text-anchor="middle" class="t-faint" font-size="16.2">for when you genuinely</text>
+      <text x="980" y="158" text-anchor="middle" class="t-faint" font-size="16.2">do not know where to look</text>
+
+      <path class="wire-a" d="M20 188 H1170"/>
+      <polygon points="1170,188 1158,182 1158,194" fill="var(--accent)"/>
+      <text x="30" y="182" class="t-acc" font-size="16.2">precise and cheap</text>
+      <text x="1150" y="182" text-anchor="end" class="t-acc" font-size="16.2">convenient and expensive</text>
+    </svg>
+    <div class="warn"><b>Search is not a substitute for knowing.</b> It is the right tool for an unfamiliar
+      repository and the wrong one for the file you had open ten seconds ago. Most over-spending is somebody
+      using column three for a column two problem.</div>
+  </div>
+  <div class="notes"><p>The arrow runs the way it does on purpose: precision and cost fall together, which is
+    not what people expect. They expect a trade-off, and reach for the expensive option believing they are
+    buying accuracy with money. Lab 4 is fifteen minutes of evidence that they are not.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The question the lab asks</p>
+    <h2>Why does the manifest total differ from the quote total?</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid3 fill">
+      <div class="card bad">
+        <h3>Attach everything</h3>
+        <p><b>~46,700</b> est. tokens</p>
+        <p>Answers about the code it read most of, which is the tariff file. Often does not
+          mention the drift at all.</p>
+      </div>
+      <div class="card">
+        <h3>Two files</h3>
+        <p><b>~2,900</b> est. tokens</p>
+        <p>Names the fuel-surcharge drift, because both halves of the contradiction are in front
+          of it and nothing else is.</p>
+      </div>
+      <div class="card good">
+        <h3>Six pasted lines</h3>
+        <p><b>~600</b> est. tokens</p>
+        <p>Names it, and cites the runbook rule it breaks &mdash; because you gave it the rule.</p>
+      </div>
+    </div>
+    <div class="takeaway"><b>Lab 4 now:</b> ask that question three ways and record the estimated tokens and
+      whether it named the drift. Sixteen times the context, and the wrong answer. That row is the whole tier.</div>
+  </div>
+  <div class="notes"><p>These three numbers come from the repository as it stands and are reproducible with
+    ctxmeter; the yes/no column is not, and the lab says so. If a room's run disagrees, that is a finding worth
+    hearing, not a broken lab - write it on the board and ask what was different.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>

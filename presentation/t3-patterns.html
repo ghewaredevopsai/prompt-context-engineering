@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Tier 3 &mdash; The Pattern Set</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; T3" data-home="../index.html"
+      data-prev="t2-output-contracts.html" data-prev-label="Tier 2"
+      data-next="t4-grounding.html" data-next-label="Tier 4 - Grounding">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 3</span>
+    <h1>The pattern set</h1>
+    <p class="sub">Four moves that are worth knowing by name, what each one costs, and the one that
+      most rooms are still using out of habit after the models stopped needing it.</p>
+    <p class="meta">
+      <span>4 slides &middot; ~8 minutes</span>
+      <span>Lab 3 follows &middot; four patterns, one task</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The four</p>
+    <h2>Each one buys something. Each one is drawn as what it actually does.</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg fill" viewBox="0 0 1180 260" style="max-height:40vh">
+      <text x="10" y="18" class="t-faint t-mono" font-size="15.6">rightwards = more tokens per attempt</text>
+      <path class="wire-faint dash" d="M10 34 H1170"/>
+
+      <!-- few-shot -->
+      <rect class="box-b" x="10" y="52" width="250" height="180" rx="6"/>
+      <text x="135" y="80" text-anchor="middle" class="t-blue" font-size="19.5" font-weight="700">few-shot</text>
+      <rect class="box" x="34" y="96"  width="90" height="26" rx="3"/>
+      <rect class="box" x="146" y="96" width="90" height="26" rx="3"/>
+      <rect class="box" x="34" y="130" width="90" height="26" rx="3"/>
+      <rect class="box" x="146" y="130" width="90" height="26" rx="3"/>
+      <text x="135" y="118" text-anchor="middle" class="t-faint" font-size="15.6">in &rarr; out</text>
+      <text x="135" y="152" text-anchor="middle" class="t-faint" font-size="15.6">in &rarr; out</text>
+      <rect class="box-a" x="34" y="164" width="202" height="26" rx="3"/>
+      <text x="135" y="183" text-anchor="middle" class="t-acc" font-size="15.6">yours &rarr; ?</text>
+      <text x="135" y="212" text-anchor="middle" class="t-dim" font-size="16.2">shows the idiom</text>
+      <text x="135" y="228" text-anchor="middle" class="t-faint" font-size="15.6">you cannot describe</text>
+
+      <!-- decomposition -->
+      <rect class="box-b" x="280" y="52" width="250" height="180" rx="6"/>
+      <text x="405" y="80" text-anchor="middle" class="t-blue" font-size="19.5" font-weight="700">decomposition</text>
+      <rect class="box-a" x="370" y="96" width="70" height="26" rx="3"/>
+      <path class="wire" d="M405 122 V136 M330 136 H480 M330 136 V150 M405 136 V150 M480 136 V150"/>
+      <rect class="box" x="304" y="150" width="52" height="26" rx="3"/>
+      <rect class="box" x="379" y="150" width="52" height="26" rx="3"/>
+      <rect class="box" x="454" y="150" width="52" height="26" rx="3"/>
+      <text x="405" y="206" text-anchor="middle" class="t-dim" font-size="16.2">three small reviewable</text>
+      <text x="405" y="224" text-anchor="middle" class="t-dim" font-size="16.2">diffs, not one big one</text>
+
+      <!-- chain of thought -->
+      <rect class="box" x="550" y="52" width="250" height="180" rx="6"/>
+      <text x="675" y="80" text-anchor="middle" class="t-faint" font-size="19.5" font-weight="700">chain of thought</text>
+      <rect class="box" x="580" y="100" width="46" height="24" rx="3"/>
+      <rect class="box" x="634" y="100" width="46" height="24" rx="3"/>
+      <rect class="box" x="688" y="100" width="46" height="24" rx="3"/>
+      <rect class="box" x="742" y="100" width="34" height="24" rx="3"/>
+      <path class="wire-faint" d="M626 112 H634 M680 112 H688 M734 112 H742"/>
+      <text x="675" y="158" text-anchor="middle" class="t-acc" font-size="16.9" font-weight="700">mostly obsolete</text>
+      <text x="675" y="184" text-anchor="middle" class="t-dim" font-size="16.2">a reasoning model already</text>
+      <text x="675" y="202" text-anchor="middle" class="t-dim" font-size="16.2">does this, and you pay</text>
+      <text x="675" y="220" text-anchor="middle" class="t-dim" font-size="16.2">twice when you ask for it</text>
+
+      <!-- self-critique -->
+      <rect class="box-b" x="820" y="52" width="350" height="180" rx="6"/>
+      <text x="995" y="80" text-anchor="middle" class="t-blue" font-size="19.5" font-weight="700">self-critique</text>
+      <rect class="box-a" x="900" y="100" width="190" height="30" rx="4"/>
+      <text x="995" y="121" text-anchor="middle" font-size="16.2">answer</text>
+      <path class="wire-a" d="M1090 115 H1130 V158 H860 V115 H900"/>
+      <polygon points="900,115 888,109 888,121" fill="var(--accent)"/>
+      <text x="995" y="152" text-anchor="middle" class="t-acc" font-size="16.2">"now find three ways</text>
+      <text x="995" y="172" text-anchor="middle" class="t-acc" font-size="16.2">this is wrong"</text>
+      <text x="995" y="204" text-anchor="middle" class="t-dim" font-size="16.2">finds the most defects</text>
+      <text x="995" y="222" text-anchor="middle" class="t-bad" font-size="16.2">costs about twice as much</text>
+    </svg>
+  </div>
+  <div class="notes"><p>Chain of thought is on the slide because the room will ask about it, and because a lot of
+    internal prompt libraries still open with "think step by step". Against a reasoning model that is at best
+    redundant and at worst it makes the model narrate its reasoning twice, once hidden and once out loud, and
+    you are billed for both.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Choosing</p>
+    <h2>When each one earns its tokens</h2>
+  </div></header>
+  <div class="body">
+    <table class="tight fill">
+      <tr><th>Pattern</th><th>Reach for it when</th><th>Do not bother when</th><th>Cost</th></tr>
+      <tr>
+        <td><b>Few-shot</b></td>
+        <td>The rule is easier to show than to say &mdash; naming conventions, a house error style,
+          the shape of a good commit message.</td>
+        <td>You can state the rule in one checkable line. Then state it.</td>
+        <td>+ the examples, every turn</td>
+      </tr>
+      <tr>
+        <td><b>Decomposition</b></td>
+        <td>The change touches several files, or you want to review it in pieces rather than accept
+          a 300-line diff on trust.</td>
+        <td>The task is one function and one test.</td>
+        <td>more turns, smaller each</td>
+      </tr>
+      <tr>
+        <td><b>Chain of thought</b></td>
+        <td>You need the reasoning <b>visible</b> for a human to audit &mdash; a design decision someone
+          will question next month.</td>
+        <td>You are on a reasoning model and just want the answer. Set the effort instead.</td>
+        <td>output tokens, the expensive kind</td>
+      </tr>
+      <tr>
+        <td><b>Self-critique</b></td>
+        <td>The cost of a quiet defect is high: money, dates, boundaries, anything in a nightly job.</td>
+        <td>You are going to read the diff carefully anyway, and it is ten lines.</td>
+        <td>roughly double</td>
+      </tr>
+    </table>
+    <div class="warn"><b>None of these is a setting you leave on.</b> A prompt file that always few-shots,
+      always decomposes and always self-critiques costs four times the baseline on the day somebody asks
+      it to rename a variable.</div>
+  </div>
+  <div class="notes"><p>The last row of the cost column is the one to say out loud: self-critique roughly
+    doubles the bill for the request. On a boundary bug in money code that is obviously worth it. On a
+    docstring it is not, and the room should leave able to tell those apart without a table.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The move that is not on the list</p>
+    <h2>Ask for the test first, and stop</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid2 fill">
+      <div class="card good">
+        <h3>Two requests, in this order</h3>
+<pre>Write <b>only</b> the unittest for the
+oversize surcharge, from the rules in
+<u>docs/ops-runbook.md</u>. Do not write
+the implementation. Stop after the test.</pre>
+        <p>You review a test, not an implementation. A wrong test is obvious in a way that
+          plausible code is not.</p>
+      </div>
+      <div class="card on">
+        <h3>Why it beats every pattern above</h3>
+        <p>It converts "is this right?" &mdash; which you have to be an expert to answer &mdash;
+          into "does this run red, then green?", which anyone can answer.</p>
+        <p>It is also the cheapest thing on this deck: the test is short, and you stop paying
+          the moment it is wrong.</p>
+      </div>
+    </div>
+    <div class="takeaway"><b>Lab 3 now:</b> run the same task four ways, in pairs, and swap sheets. Record
+      house-rule violations caught and estimated tokens per pattern. The finding is the ratio, not the winner.</div>
+  </div>
+  <div class="notes"><p>Spec-first is deliberately held back to the end of the tier rather than listed as a
+    fifth pattern, because it is a different kind of move: the four above change how you ask, this one changes
+    what you ask for. If the room takes one thing from this tier, it should be this slide.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>

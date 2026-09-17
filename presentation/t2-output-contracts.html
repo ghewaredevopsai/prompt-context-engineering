@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt &amp; Context Tier 2 &mdash; Output Contracts</title>
+<link rel="stylesheet" href="../assets/pce-theme.css">
+</head>
+<body data-deck="Prompt &middot; T2" data-home="../index.html"
+      data-prev="t1-anatomy.html" data-prev-label="Tier 1"
+      data-next="t3-patterns.html" data-next-label="Tier 3 - Patterns">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 2</span>
+    <h1>Output contracts</h1>
+    <p class="sub">An answer a person has to read is a draft. An answer a program can check is a step
+      in a pipeline. The difference is one paragraph in the request &mdash; and it is the difference
+      between a demo and something that runs on Tuesday without you.</p>
+    <p class="meta">
+      <span>4 slides &middot; ~8 minutes</span>
+      <span>Lab 2 follows &middot; make it validate</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Three shapes</p>
+    <h2>Ask the same question three ways, get three different kinds of thing back</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid3 fill">
+      <div class="card bad">
+        <h3>Free prose</h3>
+<pre class="sm">There are seven exceptions
+this morning. Most are
+MF-06 &mdash; four consignments
+booked against last year's
+tariff. Two need dimensions.</pre>
+        <p><b>Checked by:</b> a person, reading.</p>
+      </div>
+      <div class="card">
+        <h3>Delimited</h3>
+<pre class="sm">MF-1003|MF-06|reprice
+MF-1024|MF-01|call depot
+MF-1034|MF-03,MF-04|hold
+MF-1038|MF-06|reprice</pre>
+        <p><b>Checked by:</b> a regular expression, badly. Nothing tells you a field is missing.</p>
+      </div>
+      <div class="card good">
+        <h3>A schema you supplied</h3>
+<pre class="sm">{"generated_for": "2026-03-04",
+ "exceptions": [
+   {"consignment": "MF-1003",
+    "codes": ["MF-06"],
+    "action": "reprice"}],
+ "total": 1}</pre>
+        <p><b>Checked by:</b> <u>json.loads</u>, then keys, then a closed set.</p>
+      </div>
+    </div>
+    <div class="note"><b>The JSON is usually the shortest of the three.</b> People expect a contract to cost
+      tokens; most of the time it saves them, because the model stops narrating.</div>
+  </div>
+  <div class="notes"><p>The delimited middle column is worth a moment. It looks structured and it is the one
+    teams reach for first, but a missing field shifts every column silently and nothing raises. It is the
+    format that fails quietly, which is the worst property a format can have.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The loop</p>
+    <h2>When the check fails, you repair the request &mdash; not the answer</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 180" style="max-height:26vh">
+      <rect class="box-a" x="10" y="50" width="180" height="56" rx="6"/>
+      <text x="100" y="84" text-anchor="middle" class="t-acc" font-size="19.5" font-weight="700">request</text>
+      <path class="wire-a" d="M190 78 H250"/><polygon points="250,78 238,72 238,84" fill="var(--accent)"/>
+
+      <rect class="box" x="250" y="50" width="160" height="56" rx="6"/>
+      <text x="330" y="84" text-anchor="middle" font-size="19.5">model</text>
+      <path class="wire" d="M410 78 H470"/><polygon points="470,78 458,72 458,84" fill="var(--accent-2)"/>
+
+      <rect class="box-b" x="470" y="50" width="200" height="56" rx="6"/>
+      <text x="570" y="78" text-anchor="middle" class="t-blue t-mono" font-size="16.9">check_contract.py</text>
+      <text x="570" y="98" text-anchor="middle" class="t-faint" font-size="15.6">shape only</text>
+
+      <path class="wire-b" d="M670 66 H760"/><polygon points="760,66 748,60 748,72" fill="var(--accent-2)"/>
+      <rect class="box-g" x="760" y="40" width="410" height="42" rx="5"/>
+      <text x="780" y="67" class="t-good" font-size="17">exit 0 &mdash; the next step can run unattended</text>
+
+      <path class="wire-r" d="M570 106 V140 H240 V106"/>
+      <polygon points="240,106 234,118 246,118" fill="var(--bad)"/>
+      <text x="405" y="134" text-anchor="middle" class="t-bad" font-size="16.9">exit 1 &mdash; change the request and run it again</text>
+      <text x="405" y="158" text-anchor="middle" class="t-faint" font-size="15.6">the only honest retry: fixing the output by hand proves nothing</text>
+    </svg>
+    <div class="grid2 fill">
+      <div class="card">
+        <h3>What the checker says</h3>
+<pre class="sm"><s>exceptions[2].codes has 'MF-07',
+which is not one of the six</s>
+<s>'total' says 9 but there are 7 rows</s></pre>
+      </div>
+      <div class="card on">
+        <h3>What it deliberately cannot say</h3>
+        <p>Whether those are the <b>right</b> seven consignments. Whether the actions are sensible.
+          Whether it understood the question at all.</p>
+        <p><b>Shape is a lower bar than correct</b> &mdash; and it is the bar that decides whether a
+          human has to be in the loop.</p>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><p>MF-07 does not exist. The closed set of six is in validate.py and the billing feed
+    rejects anything else, so a hallucinated code is a rejected batch and somebody's morning. That is why the
+    checker knows the set rather than just checking that codes is a list of strings.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Read the PR &middot; 60 seconds</p>
+    <h2>Would you merge this?</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid-2-1 fill">
+      <div class="card">
+        <h3>summarise-exceptions.md &middot; +4 &minus;2</h3>
+<pre><s>- Return JSON with a generated_for date,
+- an exceptions array and a total. Each
+- entry needs the consignment id, its
+- codes, and a one-line action.</s>
+<em>+ Return the summary as JSON.
++ Be thorough and include all relevant
++ details for the supervisor.
++ Use your best judgement on structure.</em></pre>
+        <p class="codecap">"Loosened it up &mdash; the rigid schema was making the summaries less useful."</p>
+      </div>
+      <div class="card on">
+        <h3>Decide before you discuss</h3>
+        <ul>
+          <li>What can still be automated downstream?</li>
+          <li>Which of the six parts just disappeared?</li>
+          <li>Is the complaint real &mdash; and is this the fix?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="takeaway"><b>Lab 2 now:</b> ask for the same summary three ways and run each through
+      <code>check_contract.py</code>. Record the pass rate over three runs each, and the output length.
+      One of those numbers will surprise you.</div>
+  </div>
+  <div class="notes"><p>The complaint in the caption is usually genuine: a schema written too early does
+    flatten a summary. The fix is a better schema - an optional notes field - not the removal of the
+    contract. Watch for the room to split on this one; it is the most contested slide in the tier.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/pce-deck.js"></script>
+</body>
+</html>
