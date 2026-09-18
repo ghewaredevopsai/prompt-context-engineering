@@ -3,6 +3,27 @@
 **Tier 5 &middot; Failure and drift** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
 Assistant: chat &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find out which part of a working prompt is load-bearing, and write down the thing
+that would catch it when it stops working.
+
+By the end you should be able to:
+
+- name three directions a working prompt rots from;
+- say why a green test suite is not evidence when the model wrote both sides;
+- write a check that is machine-checkable, and recognise honestly when you cannot.
+
+## What to watch for
+
+- **Break 2 is the quiet one.** Deleting constraints produces visibly worse code.
+  Pointing at the wrong document produces confident, well-formatted, wrong code that
+  cites a real source. Only one of those survives review.
+- **Break 3 costs more than it looks.** Loosening the format tends to loosen
+  everything: the model starts explaining, and while explaining it starts editing
+  neighbours.
+- **Three of your five checks will not be writable.** That is the exercise. Notice
+  *which* three - they are the ones you were quietly relying on a person for.
 ## The situation
 
 You have a prompt that works &mdash; run B from Lab 1. In three months it will stop
@@ -153,7 +174,7 @@ deliverable, not your memory of the run:
 git add lab-5-record.md prompt-check.md && git commit -m "lab 5: break, repair, lock"
 ```
 
-## Notice
+## Key takeaways
 
 - **Break 2 is the quiet one.** Deleting constraints produces obviously worse code.
   Pointing at the wrong document produces *confident, well-formatted, wrong* code

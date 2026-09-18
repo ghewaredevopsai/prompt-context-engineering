@@ -2,11 +2,11 @@
 
                        est. tokens sent   named the drift?   also found the two
                                                              missing surcharges?
-A: everything          45,714             no                 no
+A: everything          51,866             no                 no
 B: two files           2,213              yes                yes
 C: six pasted lines    294                yes                yes
 
-Ratio of A to C: 155 times the context.
+Ratio of A to C: 178 times the context.
 Which gave the most useful answer? C - it named the drift AND quoted the runbook
 rule it breaks, because I had given it the rule.
 

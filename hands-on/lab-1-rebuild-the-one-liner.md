@@ -3,6 +3,26 @@
 **Tier 1 &middot; The six parts** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
 Assistant: chat or agent mode &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find out what the six parts of a prompt are worth, on one real feature, measured
+against rules that were never written in the code.
+
+By the end you should be able to:
+
+- name which part of a request was missing when an answer comes back wrong;
+- write a constraint a reviewer could check against a diff;
+- say which rule no amount of code-reading would have caught.
+
+## What to watch for
+
+- **Rule 4, the charging order.** If the surcharge lands after the fuel line, every
+  Saturday consignment under-bills forever and **no test in the repository fails**.
+  That is the defect class that survives review.
+- **Rule 5, export excluded.** It is the only rule stated as a negative, and the last
+  one to survive into run B. Watch whether quoting the runbook fixed it.
+- **Run A's code is good code.** Readable, typed, handles the empty case. That is
+  exactly the problem.
 ## The situation
 
 The desk has started collecting on Saturdays and the surcharge was never built. You
@@ -162,7 +182,7 @@ git add lab-1-record.md && git commit -m "lab 1: one-liner vs assembled"
 Put your two numbers on the board with everyone else's. **One row is a data point;
 twelve rows is a finding.** Look at the spread before you believe your own result.
 
-## Notice
+## Key takeaways
 
 - **Run A's code is usually good code.** Readable, typed, handles the empty case.
   That is exactly the problem: rules 1, 4 and 5 are invisible to a reader who does

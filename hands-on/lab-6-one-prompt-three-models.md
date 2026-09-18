@@ -6,6 +6,26 @@ Assistant: chat, with a model picker &nbsp;|&nbsp; measured, not scored
 > **Not part of the two-hour path.** Run it when the room has a model picker and time,
 > or as pre-work before the Token Optimization module.
 
+## Objective
+
+Find out what your prompt was quietly relying on, by handing it to models you did not
+choose.
+
+By the end you should be able to:
+
+- name six habits that differ between models and the one line that pins each;
+- classify a response to an ambiguous request, and say which combination is dangerous;
+- say what belongs in a behaviour write-up and what belongs in a model-selection
+  decision.
+
+## What to watch for
+
+- **Class and direction are independent.** A model can pick silently *and* pick
+  correctly. That combination is the dangerous one, because it teaches you to trust
+  the silence.
+- **What one added line does to the spread.** Most of "this model is better at
+  ambiguity" is "this model happens to ask by default".
+- **The date.** These observations have a shelf life of about one model release.
 ## The situation
 
 You are about to be moved to a different model. Not because you chose it &mdash;
@@ -121,7 +141,7 @@ deliverable, not your memory of the run:
 git add lab-6-record.md && git commit -m "lab 6: one prompt, three models"
 ```
 
-## Notice
+## Key takeaways
 
 - **The spread narrows when you add the line.** That is the finding. Most of what
   looks like "this model is better at ambiguity" is "this model happens to ask by

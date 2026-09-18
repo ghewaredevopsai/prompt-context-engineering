@@ -3,6 +3,26 @@
 **Tier 0 &middot; Same request, three answers** &nbsp;|&nbsp; ~5 minutes &nbsp;|&nbsp;
 No assistant needed &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Establish the numbers every later lab is compared against, and meet the instrument
+you will be quoting all day.
+
+By the end you should be able to:
+
+- say what "just attach the repository" costs, with a figure;
+- name the single largest file in it, and whether it has anything to do with the
+  logic you care about;
+- state what the estimator cannot see, without looking it up.
+
+## What to watch for
+
+- **One file is about a fifth of the repository.** Note which, and ask yourself
+  whether a question about pricing logic needs it.
+- **The tool made you type `--absolute`.** That is deliberate. Ask why before you
+  read the footer.
+- **The test that fails.** You are not fixing it today. Write down what you think it
+  is; Lab 4 tells you whether you were right.
 ## The situation
 
 You have just been handed the freight desk codebase. Before you ask an assistant
@@ -100,7 +120,7 @@ deliverable, not your memory of the run:
 git add lab-0-record.md && git commit -m "lab 0: baseline"
 ```
 
-## Notice
+## Key takeaways
 
 - **`ctxmeter` made you pass `--absolute`.** It refuses to print a single total
   without being asked twice, because a number from an estimator is exactly the kind

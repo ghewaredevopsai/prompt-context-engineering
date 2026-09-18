@@ -6,8 +6,8 @@ Deterministic — everyone in the room gets these:
 
 | grounding | est. tokens | ratio |
 |---|--:|--:|
-| A: attach everything | ~45,700 | 155x |
-| B: `rating.py` + `manifest.py` | ~2,200 | 7.5x |
+| A: attach everything | ~52,000 | ~180x |
+| B: `rating.py` + `manifest.py` | ~2,200 | ~8x |
 | C: six runbook lines + the failing test output | ~300 | 1x |
 
 ## The right answer
@@ -32,7 +32,7 @@ that `manifest.py` is **correct**.
 
 ## Why the biggest bundle loses
 
-It is not that the model got confused by volume, although 45,700 tokens of mostly-tariff-data does
+It is not that the model got confused by volume, although 52,000 tokens of mostly-tariff-data does
 not help.
 
 **It is that `docs/tariff-2026-notes.md` is in bundle A**, and that document says fuel applies to
@@ -40,7 +40,7 @@ the base alone — which is exactly what `manifest.py` does. The model was not h
 a document you gave it, that happens to be wrong, and agreed with it.
 
 **A stale document in the bundle is worse than no document.** That is the whole tier, and this is
-the measurement that proves it: a hundred and fifty times the context, and a worse answer, because one of the
+the measurement that proves it: more than a hundred times the context, and a worse answer, because one of the
 extra files was lying.
 
 ## The stretch, and what it shows

@@ -3,6 +3,26 @@
 **Tier 4 &middot; Grounding** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
 Assistant: chat &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Settle, with numbers, whether attaching more context buys you a better answer.
+
+By the end you should be able to:
+
+- choose between pasting the lines, pointing at files, and letting it search, and
+  justify the choice on both precision and cost;
+- explain why the cheapest bundle often gives the best answer;
+- say why a stale document in the bundle is worse than no document.
+
+## What to watch for
+
+- **Whether run A names the drift at all.** It has everything it needs and often does
+  not, which is the finding.
+- **What run A read instead.** `docs/tariff-2026-notes.md` is stale and agrees with
+  the bug. If A told you `manifest.py` was correct, it was not hallucinating - it was
+  reading a document you handed it.
+- **That neither B nor C can tell you which file is *right*.** Both are internally
+  consistent. Only the runbook settles it, and only because a person decided it does.
 ## The situation
 
 One failing test, one question, three ways of answering it. This is the lab that
@@ -21,25 +41,26 @@ The question, identical in all three runs:
 
 ---
 
-## Step 1 &mdash; Measure the three bundles first
+## Step 1 &mdash; Measure all three before you send anything
 
-Before you send anything &mdash; so you cannot talk yourself into a number afterwards.
+So you cannot talk yourself into a number afterwards.
 
 ```bash
 cd ~/meridian-freight
-
-# A: everything
-python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/everything.txt)
-
-# B: the two files that decide it
-python3 tools/ctxmeter.py count --absolute meridian/rating.py meridian/manifest.py
-
-# C: just the rule that settles it
-sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
-python3 tools/ctxmeter.py count --absolute six-lines.txt
+python3 tools/grounding_report.py
 ```
 
-Write all three totals down now.
+```
+    grounding    what you attach                      est. tok      vs C
+A   everything   the whole repository                    53263      183x
+B   two files    rating.py + manifest.py                  2213        8x
+C   the rule     six-lines.txt + failing-test.txt          291        1x
+```
+
+It also **writes the two files run C needs** &mdash; the Charging order lines and the
+failing test output &mdash; so C is ready to paste.
+
+Your numbers will differ slightly as the repo changes; the ratio will not.
 
 ---
 
@@ -63,13 +84,8 @@ Ask the same question.
 
 New chat. Attach **nothing at all**.
 
-Paste the contents of `six-lines.txt`, then the failing test output:
-
-```bash
-python3 -m unittest tests.test_manifest -v 2>&1 | tail -12
-```
-
-Ask the same question.
+Paste the contents of **`six-lines.txt`** and then **`failing-test.txt`** &mdash; both
+written for you in Step 1. Ask the same question.
 
 ---
 
@@ -87,7 +103,14 @@ Yes or no, for each run. Note separately whether it also spotted the two surchar
 
 ## Step 6 &mdash; Record
 
-One paste creates the sheet:
+```bash
+python3 tools/grounding_report.py --record
+```
+
+That writes `lab-4-record.md` with the three token figures and the ratio already in
+it. **You fill in the two yes/no columns** &mdash; which is the whole lab.
+
+Or write the sheet by hand:
 
 ```bash
 cat > lab-4-record.md <<'EOF'
@@ -118,9 +141,9 @@ and everyone's will match. The yes/no columns are not, and the spread across the
 is the real result &mdash; if a third of the room got a "yes" from run A, that is
 worth more discussion than any slide.
 
-## Notice
+## Key takeaways
 
-- **Run A is over a hundred times the context of run C.** If it also gave the worse
+- **Run A is well over a hundred times the context of run C.** If it also gave the worse
   answer, then you have just watched context work against you, not for you. The model
   had everything it needed in run A &mdash; it also had two large data files, forty
   sample consignments and a stale notes document.

@@ -59,7 +59,7 @@ Deterministic, identical in every room, safe to quote from the front:
 
 | Measurement | Value |
 |---|---|
-| Practice repo, everything attached | ~45,700 est. tokens |
+| Practice repo, everything attached | ~52,000 est. tokens |
 | `naive.txt` bundle | ~38,400 |
 | `minimal.txt` (rating.py + manifest.py) | ~2,200 |
 | Six runbook lines + the failing test output | ~300 |
@@ -148,7 +148,7 @@ a slide and never re-derived is the exact failure this module teaches people to 
 
 - [ ] `python3 check-decks.py` &rarr; **0 problems** on all seven decks
 - [ ] Clone the practice repo fresh and confirm **27 tests, 1 failure**
-- [ ] `python3 tools/ctxmeter.py repo --absolute` still gives ~45,700 &mdash; if it has moved, update
+- [ ] `python3 tools/ctxmeter.py repo --absolute` still gives ~52,000 &mdash; if it has moved, update
       section 4 and Lab 4's slide numbers in T4 slide 4
 - [ ] Run Labs 1 and 4 with live Copilot and time them. **The lab minutes above are estimates and
       have not been rehearsed against a live assistant.**

@@ -21,12 +21,19 @@ different answers from their assistant, and comparing those two results is the a
 
 ## The numbers you can check yourself
 
-These are deterministic. If yours differ, something has changed in the practice repo and the
-[delivery map](../trainer/delivery-map.md) should be updated:
+These are deterministic for a given state of the practice repo &mdash; but the repo grows, so the
+absolute totals drift. **Re-derive them rather than trusting this table**:
+
+```bash
+python3 tools/grounding_report.py     # the three groundings, live
+python3 tools/audit_report.py         # the four cuts, live
+```
+
+At the time of writing:
 
 | Measurement | Value |
 |---|---|
-| Practice repo, everything attached | ~45,700 est. tokens |
+| Practice repo, everything attached | ~52,000 est. tokens |
 | `naive.txt` bundle | ~38,400 |
 | `minimal.txt` &mdash; `rating.py` + `manifest.py` | ~2,200 |
 | Six runbook lines + the failing test output | ~300 |
