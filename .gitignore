@@ -1,18 +1,23 @@
-# Python
+# Prompt & Context Engineering
+#
+# Content is 7 decks, 7 Markdown labs, a solutions folder and one trainer script.
+# Nobody works inside this repository during a lab - participants work in
+# meridian-freight - so there are no lab artifacts to exclude here.
+
+# Python, for trainer/check-decks.py
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
-# Deck-check scratch files
+# Deck-check scratch: check-decks.py writes a probe copy beside the deck it renders
+# and removes it again, but a crashed run can leave one behind.
 presentation/.probe-*.html
-
-# Participant lab output - people commit their own record sheets, not each other's
-lab-*-record.md
-answer*.json
+presentation/.canary*.html
+presentation/.h.html
 
 # Editors and OS
-.vscode/
+.vscode/settings.json
 .idea/
 .DS_Store
 Thumbs.db
