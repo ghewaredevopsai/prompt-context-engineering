@@ -65,7 +65,8 @@ Deterministic, identical in every room, safe to quote from the front:
 | Six runbook lines + the failing test output | ~300 |
 | Test suite | 27 tests, exactly 1 failure |
 | The failing assertion | `113987 != 114655` |
-| Lab 2 answer sizes, 16 exceptions | prose ~125 / delimited ~169 / **JSON ~707** est. tokens |
+| Lab 2 answer sizes, run 1 | prose 125 / delimited 169 / **JSON 707** &mdash; ratio 5.7x |
+| Lab 2 answer sizes, run 2 | prose 450 / delimited 226 / **JSON 846** &mdash; ratio 1.9x |
 
 **Not deterministic, and the labs say so:** turns to green, house rules broken, contract pass rate,
 whether a given run names the drift. Put these on a board and read the spread. If you quote a single
@@ -84,9 +85,15 @@ three shapes. It is not: on this report it is about **five and a half times** th
 prose. Prose groups and discards per-consignment detail; JSON enumerates sixteen rows
 and repeats the keys on each. If anyone saw the old wording, correct it out loud.
 
-The corrected point is stronger: a contract costs roughly 5x, and buys a pipeline that
-runs without a person in it. Output tokens bill at about 6x input, so this is a real
-invoice line, not a free win.
+⚠️ **And do not replace it with "5x" either.** Two measured runs gave 5.7x and 1.9x,
+and the prose-versus-delimited order swapped between them. **Only one thing is stable:
+the JSON is the largest**, for the structural reason that it enumerates every row and
+repeats the keys.
+
+Say "between about two and six times, depending on how much it narrates", then **ask
+the room for their ratios and put them on a board.** The spread is the lesson, and it
+is the same lesson as Tier 5's about n=1. Output tokens bill at roughly 6x input, so
+the difference is a real invoice line on anything run at volume.
 
 ### Why `ctxmeter diff` refuses a percentage on the flagship cut
 

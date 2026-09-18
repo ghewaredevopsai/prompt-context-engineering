@@ -54,38 +54,43 @@ check_contract: bad.json breaks the contract in 3 place(s)
 
 ## What the three shapes actually cost
 
-Measured on this report, which carries 16 exceptions:
+**Two measured runs on the same 16-exception report:**
 
-| shape | file | est. tokens | what it can do |
-|---|---|--:|---|
-| free prose | `answer.txt` | ~125 | a person reads it |
-| delimited | `answer.delimited` | ~169 | a regex, badly |
-| supplied schema | `answer.json` | **~707** | `json.loads`, key checks, a closed code set |
+| shape | file | run 1 | run 2 |
+|---|---|--:|--:|
+| free prose | `answer.txt` | 125 | **450** |
+| delimited | `answer.delimited` | 169 | **226** |
+| supplied schema | `answer.json` | **707** | **846** |
+| | JSON / prose | 5.7x | **1.9x** |
 
-`python3 tools/lab2_report.py` prints this table from whichever of the three files
-exist, and `--record` writes the sheet with the numbers already in it.
+`python3 tools/lab2_report.py` prints this from whichever files exist; `--record`
+writes the sheet with the numbers in.
 
-**The JSON is about five and a half times the prose.** If you expected the contract to
-be cheaper, so did the person who wrote the first version of this lab &mdash; it is
-not, and the reason is worth sitting with.
+### What is stable, and what is not
 
-**Prose is short because it throws information away.** It groups: *"four consignments
-are MF-06"*. The JSON enumerates all sixteen and repeats `consignment`, `codes` and
-`action` on every row. They are not two renderings of one answer; they are two
-different answers, and only one of them can be acted on per consignment.
+**Stable: the JSON is the largest.** Both runs, every time, for a structural reason
+&mdash; it enumerates all sixteen consignments and repeats `consignment`, `codes` and
+`action` on every row.
 
-So the honest framing is not "contracts are free". It is:
+**Not stable: the multiple.** 5.7x in one run, 1.9x in the other. It depends entirely
+on how much the prose run narrated, and that varies between models, days and moods.
 
-> A contract costs roughly five times the tokens, and buys you a pipeline that runs
-> without a person in it.
+**Not stable: whether prose or delimited is smaller.** Run 1 had prose shortest; run 2
+had delimited shortest. A chatty prose answer loses to pipes; a terse one wins.
 
-That is a trade a team can actually reason about &mdash; and since **output tokens
-bill at roughly six times the input rate**, it is a real number on a real invoice if
-the thing runs thousands of times a day. The Token Optimization module picks this up
-in Tier 4: the cheapest answer is the one no model generates at all.
+So the honest line is **not** "a contract costs 5x". It is:
 
-**Where "shorter" can be true:** a very short list, two or three rows, where prose
-still carries a paragraph of narration and the JSON does not. It does not hold at 16.
+> A contract is the largest of the three, by somewhere between about two and six
+> times, and it buys you a pipeline that runs without a person in it.
+
+**Do not quote a single multiple from the front of the room.** Ask for the room's
+ratios and put them on a board &mdash; the spread *is* the lesson, and it is the same
+lesson as Tier 5's: one run is a data point.
+
+Prose is short because it **throws information away**: it groups, "four are MF-06",
+where the JSON lists all sixteen. They are two different answers, and only one can be
+acted on per consignment. And since **output tokens bill at roughly six times input**,
+the difference is a real invoice line on anything that runs thousands of times a day.
 
 ## Why the checker is deliberately weak
 

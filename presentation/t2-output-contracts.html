@@ -63,14 +63,17 @@ MF-1038|MF-06|reprice</pre>
         <p><b>Checked by:</b> <u>json.loads</u>, then keys, then a closed set.</p>
       </div>
     </div>
-    <div class="warn"><b>The contract is the longest of the three, by about five times.</b> Prose is short
-      because it <b>groups</b> &mdash; "four are MF-06" &mdash; and throws the per-consignment detail away.
-      JSON enumerates all sixteen and repeats the keys on every row. They are not two renderings of one
-      answer; only one of them can be acted on per consignment. <b>Machine readability is bought, not free.</b></div>
+    <div class="warn"><b>The contract is the longest of the three &mdash; between about two and six times
+      the prose, depending on how much the model narrates.</b> Prose is short because it <b>groups</b>
+      &mdash; "four are MF-06" &mdash; and throws the per-consignment detail away. JSON enumerates all
+      sixteen and repeats the keys on every row. They are not two renderings of one answer; only one can
+      be acted on per consignment. <b>Machine readability is bought, not free.</b></div>
   </div>
-  <div class="notes"><p>Measured on the practice report's 16 exceptions: prose ~125 est. tokens, delimited
-    ~169, JSON ~707. An earlier version of this deck claimed the JSON was the shortest, which is wrong at
-    this size and only holds for a two-or-three-row list where prose still carries a paragraph of narration.
+  <div class="notes"><p>Two measured runs on the practice report: prose 125 / delimited 169 / JSON 707, and
+    prose 450 / delimited 226 / JSON 846. The JSON is largest both times; the multiple is 5.7x and 1.9x, and
+    the prose-versus-delimited order swapped between them. Quote the range, never a single multiple, and ask
+    the room for their ratios. An earlier version of this deck claimed the JSON was the shortest, which is
+    simply wrong.
     The delimited middle column is also worth a moment: it looks structured, it is the one teams reach for
     first, and a missing field shifts every column silently. It fails quietly, which is the worst property
     a format can have.</p></div>
