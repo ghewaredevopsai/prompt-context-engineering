@@ -23,26 +23,26 @@ what it would take to take the human out of that loop.
 
 ## What you will do
 
-**Three requests, three attempts each. Nine runs.**
+**Three requests, one run each.** Save each reply under its own name, then let a
+script do the measuring.
 
-| | the request | what you are testing |
-|---|---|---|
-| **A** | ask for a summary | free prose &mdash; nothing to check |
-| **B** | ask for pipe-separated lines | delimited &mdash; looks checkable, is not |
-| **C** | ask for JSON in a shape you supply | a contract a program can verify |
+| | the request | save it as | what you are testing |
+|---|---|---|---|
+| **A** | ask for a summary | `answer.txt` | free prose &mdash; nothing to check |
+| **B** | ask for pipe-separated lines | `answer.delimited` | looks checkable, is not |
+| **C** | ask for JSON in a shape you supply | `answer.json` | a contract a program can verify |
 
 ## What to watch for
 
-Four things. Note each one as it happens &mdash; they are what you discuss afterwards.
+Four things. Note each as it happens &mdash; they are what you discuss afterwards.
 
 1. **Does the reply parse at all?** Run A will not. That is the finding, not a failure.
 2. **Does anything wrap the answer?** A ``` fence, or a "Here is the summary:" line.
-   That is a right answer in a wrong shape, and it breaks a pipeline just as
-   thoroughly as a wrong one.
-3. **Does an exception code appear that is not one of the six?** `MF-07` and `MF-99`
-   both turn up. Specific, plausible, correctly formatted, and invented.
-4. **How the three lengths compare.** Write the numbers down before you form an
-   opinion about which shape is "efficient".
+   A right answer in a wrong shape breaks a pipeline just as thoroughly as a wrong one.
+3. **Does a code appear that is not one of the six?** `MF-07` and `MF-99` both turn up.
+   Specific, plausible, correctly formatted, and invented.
+4. **How the three lengths compare.** Write them down before forming an opinion about
+   which shape is "efficient".
 
 Work straight down this page; every step says exactly what to do.
 
@@ -50,7 +50,7 @@ Work straight down this page; every step says exactly what to do.
 
 ## Step 1 &mdash; Make the report
 
-Run this once. The output is the input for all nine runs.
+Run this once. The output is the input for all three runs.
 
 ```bash
 cd ~/meridian-freight
@@ -60,8 +60,8 @@ cat exceptions.txt
 
 You should see about 35 lines, starting `MERIDIAN FREIGHT  exceptions`.
 
-**Use this same text every time.** If the input changes between runs, nothing you
-measure afterwards means anything.
+**Use this same text in all three runs.** If the input changes, nothing you measure
+afterwards means anything.
 
 ---
 
@@ -77,21 +77,9 @@ Here is this morning's exceptions report. Summarise it for the duty supervisor.
 
 **2.3** Paste the contents of `exceptions.txt` underneath it. Send.
 
-**2.4** Save the reply as **`answer.txt`**: copy it, then **File &rarr; New File** in
-your editor, paste, save into the `meridian-freight` folder. Paste it **exactly as it
-came back**. (Prefer the terminal? See the last section of this lab.)
-
-**2.5** Check it:
-
-```bash
-python3 tools/check_contract.py answer.txt
-```
-
-It fails on the first line: `not valid JSON`. **That is the finding** &mdash; there is
-nothing in prose for a program to check. Write "fail" in the tally at Step 5.
-
-**2.6** Repeat 2.1 to 2.5 **twice more**, in a new chat each time. Three attempts at
-request A in total.
+**2.4** Save the reply as **`answer.txt`** in the `meridian-freight` folder &mdash;
+copy it, then **File &rarr; New File**, paste, save. Paste it **exactly as it came
+back**. (Prefer the terminal? See the last section of this lab.)
 
 ---
 
@@ -108,14 +96,11 @@ One line per consignment: id|codes|action, pipe separated, no header, no prose.
 
 **3.3** Paste `exceptions.txt` underneath. Send.
 
-**3.4** Save the reply as **`answer.json`**, the same way as 2.4.
+**3.4** Save the reply as **`answer.delimited`**.
 
-**3.5** Check it. It is rejected too &mdash; the checker wants JSON. So score this one
-**by hand**, on a single question:
+**3.5** Look at it and answer one question, for the record sheet later:
 
 > If one field had gone missing from a line, would you be able to tell?
-
-**3.6** Repeat **twice more**, new chat each time.
 
 ---
 
@@ -146,66 +131,74 @@ The codes are a closed set of six, defined in meridian/validate.py. Use no other
 python3 tools/check_contract.py answer.json
 ```
 
-`satisfies the contract` is a pass. If it fails, read *which* line it objected to
-&mdash; then **change the request and run again**. Never hand-edit the answer to make
-it pass; that proves nothing. Note what you changed.
-
-**4.6** Repeat **twice more**, new chat each time.
+If it fails, read *which* line it objected to, then **change the request and run
+again** in a new chat. Never hand-edit the answer to make it pass &mdash; that proves
+nothing about what the next run would do. Note what you changed.
 
 ---
 
-## Step 5 &mdash; Fill in the tally
+## Step 5 &mdash; Build the comparison table
 
-Nine runs, pass or fail:
-
-```
-          attempt 1   attempt 2   attempt 3
-A prose    ___         ___         ___
-B pipes    ___         ___         ___
-C schema   ___         ___         ___
-```
-
----
-
-## Step 6 &mdash; Measure the length
+You have three files. One command measures all three and checks each against the
+contract:
 
 ```bash
-python3 tools/ctxmeter.py count --absolute answer.txt
-python3 tools/ctxmeter.py count --absolute answer.json
+python3 tools/lab2_report.py
 ```
 
-Compare the two totals. **The JSON will be several times larger** &mdash; write down
-the ratio, because the Notice section below is about what that buys you.
+```
+    shape       file              est. tokens   contract
+------------------------------------------------------------------
+A   prose       answer.txt                 62   fail (not valid JSON...)
+B   delimited   answer.delimited          164   fail (not valid JSON...)
+C   schema      answer.json               706   pass
+
+  largest / smallest = 11.4x
+```
+
+Your numbers will differ &mdash; the shape of the table will not.
+
+**Prefer to have the assistant do it?** Paste your three answers into a chat with:
+
+```text
+Here are three answers to the same request, in three formats. For each, tell me:
+the format, roughly how long it is, whether a script could parse it without a
+human, and what information the shorter ones dropped to get shorter.
+```
+
+Then compare its answer with the script's. Where they disagree, the script is
+measuring and the model is estimating &mdash; which is itself worth a minute.
+
+---
+
+## Step 6 &mdash; Read the three lengths
+
+From that table:
+
+- **prose** is the shortest, by a lot
+- **delimited** sits in the middle &mdash; one line per consignment, no repeated keys
+- **JSON** is the largest, several times the prose
+
+**Before you read the takeaways, answer this for yourself:** the prose is short
+because it left something out. What?
 
 ---
 
 ## Step 7 &mdash; Record
 
-One paste creates the sheet:
+One command writes the sheet, already filled in with your measurements:
 
 ```bash
-cat > lab-2-record.md <<'EOF'
-# Lab 2
-
-                     contract passes   est. output tokens   what broke
-free prose           _ / 3             ______               ______________
-delimited            _ / 3             ______               ______________
-supplied schema      _ / 3             ______               ______________
-
-What I changed in the request to make C pass: ____________________
-
-JSON vs prose: ______ times larger.   What does that buy? ______________
-EOF
+python3 tools/lab2_report.py --record
 ```
 
-Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+That creates `lab-2-record.md` with the table and three questions left blank. Open
+it, answer those three in your own words, then commit it &mdash; the sheet is the
 deliverable, not your memory of the run:
 
 ```bash
 git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
 ```
-
----
 
 ## Key takeaways
 
@@ -236,10 +229,15 @@ git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
 
 ## Stretch
 
-Add one line to request C: `If a consignment's action is unclear from the codes
-alone, set action to "review" rather than guessing.` Run it three more times. Did the
-pass rate change? Did the *content* get more honest? Only one of those two is
-something `check_contract.py` can see, and noticing which is the point of Tier 5.
+**A. Does C stay passing?** Run request C twice more, in new chats, saving over
+`answer.json` each time and re-running `python3 tools/lab2_report.py`. A contract that
+passes once and fails on the third run is not a contract you can schedule &mdash; and
+finding that out is worth more than the first pass was.
+
+**B. Make it more honest.** Add one line to request C: `If a consignment's action is
+unclear from the codes alone, set action to "review" rather than guessing.` Did the
+pass rate change? Did the *content* get better? Only one of those two is something
+`check_contract.py` can see, and noticing which is the point of Tier 5.
 
 ---
 

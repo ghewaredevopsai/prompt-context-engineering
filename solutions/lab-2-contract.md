@@ -56,11 +56,14 @@ check_contract: bad.json breaks the contract in 3 place(s)
 
 Measured on this report, which carries 16 exceptions:
 
-| shape | est. tokens | what it can do |
-|---|--:|---|
-| free prose | ~125 | a person reads it |
-| delimited | ~169 | a regex, badly |
-| supplied schema | **~707** | `json.loads`, key checks, a closed code set |
+| shape | file | est. tokens | what it can do |
+|---|---|--:|---|
+| free prose | `answer.txt` | ~125 | a person reads it |
+| delimited | `answer.delimited` | ~169 | a regex, badly |
+| supplied schema | `answer.json` | **~707** | `json.loads`, key checks, a closed code set |
+
+`python3 tools/lab2_report.py` prints this table from whichever of the three files
+exist, and `--record` writes the sheet with the numbers already in it.
 
 **The JSON is about five and a half times the prose.** If you expected the contract to
 be cheaper, so did the person who wrote the first version of this lab &mdash; it is

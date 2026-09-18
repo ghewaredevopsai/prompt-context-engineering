@@ -53,8 +53,8 @@ re-teach what an LLM is, and it does not teach any vendor's syntax &mdash; see *
       other way proves nothing.
 
 **Lab evidence**
-- [ ] Lab 2 &mdash; a contract pass rate for three shapes over three runs each, and the output length
-      that surprised you.
+- [ ] Lab 2 &mdash; three shapes of answer measured side by side, and you can say what the
+      contract costs and what it buys.
 
 ## Tier 3 &middot; The pattern set
 
