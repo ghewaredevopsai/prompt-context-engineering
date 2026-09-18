@@ -2,8 +2,12 @@
 
 ## The ambiguity, precisely
 
-`Fix the manifest total so it matches the quote.` is under-specified in exactly one way: two files
-disagree and nothing in the request says which is right.
+`The manifest total and the quote total disagree. Fix it.` is under-specified in exactly one way:
+two files disagree and nothing in the request says which is right.
+
+An earlier version said *"Fix the manifest total so it matches the quote"*. That names the direction
+&mdash; change the manifest &mdash; so a model editing `rating.py` would be disobeying rather than
+resolving an ambiguity, and the direction column measured almost nothing.
 
 - `rating.py` charges fuel on base + surcharges — **correct**, per the runbook
 - `manifest.py` charges fuel on base alone — wrong, per the runbook

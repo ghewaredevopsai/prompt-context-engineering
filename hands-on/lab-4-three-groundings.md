@@ -14,15 +14,6 @@ By the end you should be able to:
 - explain why the cheapest bundle often gives the best answer;
 - say why a stale document in the bundle is worse than no document.
 
-## What to watch for
-
-- **Whether run A names the drift at all.** It has everything it needs and often does
-  not, which is the finding.
-- **What run A read instead.** `docs/tariff-2026-notes.md` is stale and agrees with
-  the bug. If A told you `manifest.py` was correct, it was not hallucinating - it was
-  reading a document you handed it.
-- **That neither B nor C can tell you which file is *right*.** Both are internally
-  consistent. Only the runbook settles it, and only because a person decided it does.
 ## The situation
 
 One failing test, one question, three ways of answering it. This is the lab that
@@ -32,12 +23,16 @@ settles the argument about whether attaching more context buys you a better answ
 
 > Why does the manifest total differ from the quote total?
 
-**One question, asked three times with three sizes of context.** This is the lab that
-settles whether attaching more buys you a better answer.
+## What to watch for
 
-The question, identical in all three runs:
-
-> Why does the manifest total differ from the quote total?
+- **Whether run A names the drift at all.** It has everything it needs and often does
+  not, which is the finding.
+- **What run A read instead.** `docs/tariff-2026-notes.md` is stale and agrees with
+  the bug. If A told you `manifest.py` was correct, it was not hallucinating - it was
+  reading a document you handed it.
+- **That B cannot tell you which file is *right*.** Both files are internally
+  consistent. Only the runbook settles it, and only because a person decided it does.
+  C can say, but only because you chose its rule.
 
 ---
 
@@ -52,15 +47,19 @@ python3 tools/grounding_report.py
 
 ```
     grounding    what you attach                      est. tok      vs C
-A   everything   the whole repository                    53263      183x
-B   two files    rating.py + manifest.py                  2213        8x
-C   the rule     six-lines.txt + failing-test.txt          291        1x
+A   everything   the whole repository                    53974      147x
+B   two files    rating.py + manifest.py                  2214        6x
+C   the rule     rule + fuel lines + failing test          367        1x
 ```
 
-It also **writes the two files run C needs** &mdash; the Charging order lines and the
-failing test output &mdash; so C is ready to paste.
+It also **writes the three files run C needs**, ready to paste:
 
-Your numbers will differ slightly as the repo changes; the ratio will not.
+- `six-lines.txt` &mdash; the runbook's *Charging order* section
+- `fuel-lines.txt` &mdash; the lines of `rating.py` and `manifest.py` that compute fuel
+- `failing-test.txt` &mdash; the failing test's output
+
+A counts the repository as cloned, not the lab files you have added since, so
+everyone in the room gets the same three figures.
 
 ---
 
@@ -84,8 +83,12 @@ Ask the same question.
 
 New chat. Attach **nothing at all**.
 
-Paste the contents of **`six-lines.txt`** and then **`failing-test.txt`** &mdash; both
-written for you in Step 1. Ask the same question.
+Paste the contents of **`six-lines.txt`**, **`fuel-lines.txt`** and
+**`failing-test.txt`** &mdash; all three written for you in Step 1. Ask the same
+question.
+
+C gets the rule *and* the two lines of code it governs, so a C answer that names the
+drift has matched one against the other, not just read the rule back to you.
 
 ---
 
@@ -96,8 +99,9 @@ Not "did it sound insightful". Only this:
 > Did it name the fuel-surcharge drift &mdash; that `manifest.py` applies fuel to the
 > base alone, while `rating.py` applies it to base plus surcharges?
 
-Yes or no, for each run. Note separately whether it also spotted the two surcharges
-`manifest.py` omits entirely.
+Yes or no, for each run. Note separately, for A and B, whether it also spotted the
+two surcharges `manifest.py` omits entirely. C cannot: none of its lines shows a
+surcharge, so that cell is n/a.
 
 ---
 
@@ -108,7 +112,7 @@ python3 tools/grounding_report.py --record
 ```
 
 That writes `lab-4-record.md` with the three token figures and the ratio already in
-it. **You fill in the two yes/no columns** &mdash; which is the whole lab.
+it. **You fill in the yes/no columns** &mdash; which is the whole lab.
 
 Or write the sheet by hand:
 
@@ -120,7 +124,7 @@ cat > lab-4-record.md <<'EOF'
                                                              missing surcharges?
 A: everything          ______             ___                ___
 B: two files           ______             ___                ___
-C: six pasted lines    ______             ___                ___
+C: rule + fuel lines   ______             ___                n/a
 
 Ratio of A to C: ______ times the context.
 Which gave the most useful answer? ______
@@ -136,7 +140,7 @@ deliverable, not your memory of the run:
 git add lab-4-record.md && git commit -m "lab 4: three groundings"
 ```
 
-**Put the three yes/no columns on the board.** The token numbers are deterministic
+**Put the yes/no columns on the board.** The token numbers are deterministic
 and everyone's will match. The yes/no columns are not, and the spread across the room
 is the real result &mdash; if a third of the room got a "yes" from run A, that is
 worth more discussion than any slide.
@@ -149,7 +153,7 @@ worth more discussion than any slide.
   sample consignments and a stale notes document.
 
 - **Run C had the least and knew the most**, because you did the thinking: you chose
-  which six lines mattered. That is the trade the whole tier is about. Column three
+  which lines mattered &mdash; the rule, and the two lines of code it governs. That is the trade the whole tier is about. Column three
   is cheapest and requires you to know your codebase; column one is most convenient
   and requires nothing.
 
@@ -158,13 +162,14 @@ worth more discussion than any slide.
   `manifest.py` was correct, it was not hallucinating. It was reading a document you
   gave it, that happens to be wrong. **That is what "attach everything" means.**
 
-- **Neither B nor C can tell you which one is right.** Both files are internally
-  consistent. Only the runbook settles it, and only if you attach the runbook and not
-  the notes. Deciding *which* source is authoritative is your job and stays your job.
+- **B cannot tell you which one is right, and C can only because you chose its
+  rule.** Both files are internally consistent. Only the runbook settles it, and only
+  because a person decided the runbook outranks the notes. Deciding *which* source is
+  authoritative is your job and stays your job.
 
 ## Stretch
 
-Run A again, but exclude the two `data/*.json` files and `docs/tariff-2026-notes.md`.
+Run A again, but exclude the `data/` folder and `docs/tariff-2026-notes.md`.
 Meter it first. You have removed most of the tokens and the single wrong document.
 Does it now match run B? That is the shape of a well-chosen `.gitignore` for context
 &mdash; and the first thing to reach for when someone says "the tool is not good at

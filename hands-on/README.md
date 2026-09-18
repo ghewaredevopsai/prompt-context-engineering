@@ -17,8 +17,9 @@ program can read.
   something non-deterministic &mdash; turns, credits &mdash; the room puts its rows on
   the board at the end and the **spread across a dozen people** is the finding. Your
   own row on its own proves very little, and the labs say so where it matters.
-- **You need Copilot** (or another assistant) in your editor for Labs 1&ndash;5. Lab 0
-  and every `tools/` command run offline with Python 3 alone.
+- **You need Copilot** (or another assistant) in your editor for Labs 1&ndash;5. Labs 1
+  and 5 need **agent mode**: the assistant has to open the runbook itself and edit code
+  you then test. Lab 0 and every `tools/` command run offline with Python 3 alone.
 - **Nothing is installed.** The practice repo is standard library only, on purpose:
   a corporate laptop with no network still does every lab.
 
@@ -60,9 +61,9 @@ copy and make a fresh one".
 | [0](lab-0-set-the-meter-running.md) | 0 | 5 min | Clone, run the tests, meter the repository | Whole-repo estimate, tests passing |
 | [1](lab-1-rebuild-the-one-liner.md) | 1 | 12 min | Send a one-liner, then the same request assembled | Turns to green, house rules broken |
 | [2](lab-2-make-it-validate.md) | 2 | 14 min | Ask for a summary three ways, validate each | Contract pass rate, output length |
-| [3](lab-3-four-patterns-one-task.md) | 3 | 13 min | Few-shot, decomposition, chain of thought, self-critique | Defects found, tokens per pattern |
+| [3](lab-3-four-patterns-one-task.md) | 3 | 15 min | Bare, few-shot, decomposition, self-critique &mdash; plus one chain-of-thought demo | Defects found, tokens sent per pattern |
 | [4](lab-4-three-groundings.md) | 4 | 12 min | One question, three sizes of context | Estimated tokens, did it find the drift |
-| [5](lab-5-break-it-repair-it-lock-it.md) | 5 | 12 min | Break a working prompt three ways, then write checks | Violations before/broken/repaired |
+| [5](lab-5-break-it-repair-it-lock-it.md) | 5 | 12 min | Break a working prompt one of three ways, then write checks | Violations before/broken/repaired |
 | [6](lab-6-one-prompt-three-models.md) | Ext | 20 min | The same prompt against three models | Which habits differed |
 
 Lab 6 is the extension lab and is not part of the two-hour path.

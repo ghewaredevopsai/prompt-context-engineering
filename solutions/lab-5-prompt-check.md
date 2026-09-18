@@ -6,7 +6,7 @@
 |---|:--:|---|
 | baseline (working prompt) | 0–1 of 8 | occasionally misses rule 5, export exclusion |
 | 1 — delete `# constraints` | 3–5 | obviously worse: new dependencies, `manifest.py` edited, sometimes a float |
-| 2 — point at the wrong document | 2–4 | **confident, well-formatted, wrong.** Fuel after the surcharge, because the stale notes say so |
+| 2 — point at the wrong document | 2–4 | **confident, well-formatted, wrong.** SAT added after the fuel line, unfuelled, because the stale notes say surcharges are not fuelled. The notes say nothing about Saturdays; the damage comes in through their general fuel rule |
 | 3 — loosen `# format` | 2–3 | starts explaining; while explaining, starts editing neighbouring files |
 | repaired | 0–1 | back to baseline |
 
@@ -58,8 +58,8 @@ A check that asserts on something **not** happening — the Saturday export case
 that are what catch a model update, because a model that starts being "helpful" about edge cases
 breaks them first. Almost nobody writes them.
 
-## What a fresh run scores
+## What the repaired run scores
 
-Against the repaired prompt, a fresh run typically passes 4 or 5 of the five writable rows. If it
+Against the repaired prompt, the repaired run typically passes 4 or 5 of the five writable rows. If it
 passes all five twice running, your prompt is in good shape. If it passes three, you have found
 drift on the day it happened, which is the only day it is cheap to fix.

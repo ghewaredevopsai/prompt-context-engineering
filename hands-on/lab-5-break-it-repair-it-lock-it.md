@@ -1,7 +1,7 @@
 # Lab 5 &mdash; Break it, repair it, lock it
 
 **Tier 5 &middot; Failure and drift** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
-Assistant: chat &nbsp;|&nbsp; measured, not scored
+Assistant: **agent mode** &nbsp;|&nbsp; measured, not scored
 
 ## Objective
 
@@ -14,6 +14,19 @@ By the end you should be able to:
 - say why a green test suite is not evidence when the model wrote both sides;
 - write a check that is machine-checkable, and recognise honestly when you cannot.
 
+## The situation
+
+You have a prompt that works &mdash; run B from Lab 1. In three months it will stop
+working and nobody will notice on the day. This lab is about finding out which part
+of it is load-bearing, and writing down the thing that would have caught it.
+
+You will run it once as it is, once with **one** of three prescribed breaks, and once
+repaired &mdash; and the repaired run is also the one you test your own checks
+against. **Use agent mode**, as in Lab 1: the prompt points the assistant at files it
+has to open itself, and it edits code you then test and reset.
+
+Work straight down this page.
+
 ## What to watch for
 
 - **Break 2 is the quiet one.** Deleting constraints produces visibly worse code.
@@ -22,17 +35,8 @@ By the end you should be able to:
 - **Break 3 costs more than it looks.** Loosening the format tends to loosen
   everything: the model starts explaining, and while explaining it starts editing
   neighbours.
-- **Three of your five checks will not be writable.** That is the exercise. Notice
-  *which* three - they are the ones you were quietly relying on a person for.
-## The situation
-
-You have a prompt that works &mdash; run B from Lab 1. In three months it will stop
-working and nobody will notice on the day. This lab is about finding out which part
-of it is load-bearing, and writing down the thing that would have caught it.
-
-**You have a prompt that works** &mdash; run B from Lab 1. You are going to break it
-three prescribed ways, repair it, and write down the checks that would have caught
-the damage. Work straight down this page.
+- **Some of your five checks will not be writable.** That is the exercise. Notice
+  *which* ones &mdash; they are the ones you were quietly relying on a person for.
 
 ---
 
@@ -40,11 +44,23 @@ the damage. Work straight down this page.
 
 ```bash
 cd ~/meridian-freight
+git status
+```
+
+`git status` must report nothing to commit. If Lab 1's run B code is still there,
+clear it first with `git restore . && git clean -fd` &mdash; otherwise the baseline
+asks for a surcharge that already exists. Then:
+
+```bash
 git switch -c lab-5-drift
 ```
 
 Have **your Lab 1 run B prompt** and its **eight-row checklist** in front of you. You
-score against those same eight rows five times in this lab.
+score against those same eight rows three times in this lab.
+
+**Take a break number.** Count off round the room &mdash; 1, 2, 3, 1, 2, 3 &mdash; and
+run only that break in Step 3. Every break still gets several runs across the room,
+which tells you more than one person running all three would.
 
 ---
 
@@ -65,55 +81,29 @@ git restore . && git clean -fd
 
 ---
 
-## Step 3 &mdash; Break 1: delete the constraints
+## Step 3 &mdash; Run your break
 
-**3.1** Take the working prompt and **delete the whole `# constraints` block**. Change
-nothing else.
+Take the working prompt, apply **your** break below and change nothing else. New
+chat, send it, score the eight rows, then reset with `git restore . && git clean -fd`.
 
-**3.2** New chat, send it, score the eight rows.
+**Break 1 &mdash; delete the constraints.** Delete the whole `# constraints` block.
 
-**3.3** Reset: `git restore . && git clean -fd`
-
----
-
-## Step 4 &mdash; Break 2: point at the wrong document
-
-**4.1** Take the working prompt again. In the `# context` block, change
+**Break 2 &mdash; point at the wrong document.** In the `# context` block, change
 
 `docs/ops-runbook.md, section "Saturday collections"` &rarr; `docs/tariff-2026-notes.md`
 
-That file exists. It is simply the wrong one.
+That file exists. It is simply the wrong one. It says nothing about Saturdays at all;
+what it does say is that surcharges are *not* fuelled &mdash; watch where that lands.
 
-**4.2** New chat, send it, score the eight rows.
-
-**4.3** Reset.
-
----
-
-## Step 5 &mdash; Break 3: loosen the format
-
-**5.1** Take the working prompt again. Replace the whole `# format` block with:
+**Break 3 &mdash; loosen the format.** Replace the whole `# format` block with:
 
 ```text
 Explain your approach and then implement it.
 ```
 
-**5.2** New chat, send it, score the eight rows.
-
-**5.3** Reset.
-
 ---
 
-## Step 6 &mdash; Repair
-
-Put the prompt back together as it was in Step 2. Run it once more and confirm it
-scores as it did then.
-
-If it does not, that is a finding, not a mistake &mdash; write down what else changed.
-
----
-
-## Step 7 &mdash; Lock it
+## Step 4 &mdash; Lock it
 
 Create `prompt-check.md` with **five rows**. One paste starts it:
 
@@ -133,18 +123,30 @@ Fill in the other four. **Try to make every row checkable by something other tha
 person reading it.**
 
 You will not manage it for all five. That is the exercise, not a failure of it
-&mdash; see the Notice section once you have tried.
+&mdash; see the takeaways once you have tried.
 
 ---
 
-## Step 8 &mdash; Run your own checks
+## Step 5 &mdash; Repair, and run your checks
 
-Take one fresh run of the repaired prompt and see how many of your five rows it
-passes.
+**5.1** Put the prompt back exactly as it was in Step 2. New chat, send it, score the
+eight rows.
+
+If it does not score as it did in Step 2, that is a finding, not a mistake &mdash;
+write down what else changed.
+
+**5.2** **Do not reset yet.** Check this run's code against your five rows:
+
+- an **assert in test** row &mdash; add the test to `tests/test_rating.py` and run
+  `python3 -m unittest discover -s tests -t .`
+- a "file untouched" row &mdash; `git diff --name-only`
+- a row only a person can check &mdash; check it by reading, and say so on the sheet
+
+Count how many of the five this run passes.
 
 ---
 
-## Step 9 &mdash; Record
+## Step 6 &mdash; Record
 
 One paste creates the sheet:
 
@@ -154,24 +156,27 @@ cat > lab-5-record.md <<'EOF'
 
                           rules broken / 8
 baseline (working)        ___
-break 1: no constraints   ___    which rows: ____________
-break 2: wrong document   ___    which rows: ____________
-break 3: loose format     ___    which rows: ____________
+my break: number ___      ___    which rows: ____________
 repaired                  ___
+
+From the board, the other two breaks:
+break ___                 ___    which rows: ____________
+break ___                 ___    which rows: ____________
 
 Of my five checks, ___ are machine-checkable and ___ need a person.
 The check I could not write, and what I would need to make it writable:
 ____________________________________________________________
 
-A fresh run passed ___ of my 5 checks.
+The repaired run passed ___ of my 5 checks.
 EOF
 ```
 
-Fill in the blanks in any editor, then commit it &mdash; the sheet is the
-deliverable, not your memory of the run:
+Fill in the blanks in any editor, then commit the sheet and the check file &mdash; only
+those. The repaired run's code is thrown away straight after:
 
 ```bash
 git add lab-5-record.md prompt-check.md && git commit -m "lab 5: break, repair, lock"
+git restore . && git clean -fd
 ```
 
 ## Key takeaways
@@ -185,8 +190,8 @@ git add lab-5-record.md prompt-check.md && git commit -m "lab 5: break, repair, 
   loosens everything else with it: the model starts explaining, and while explaining
   it starts editing neighbouring files. Format is not only about parsing.
 
-- **Three of your five checks will not be writable**, and they will be the
-  interesting three &mdash; "the code is idiomatic", "the summary is useful". Those
+- **Some of your five checks will not be writable**, and they will be the
+  interesting ones &mdash; "the code is idiomatic", "the summary is useful". Those
   are the rows where you were quietly relying on a person. Either decompose them into
   something specific, or write down which human owns that judgement. Both are honest.
   Leaving the row blank is not.

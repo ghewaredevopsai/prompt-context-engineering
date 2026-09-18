@@ -63,14 +63,14 @@ mistake in this lab, and it does not mention the number 32000 at all.
 
 | # | House rule | Where it is written | What a one-liner run typically does |
 |---|---|---|---|
-| 1 | Flat 32000 paise, not a percentage | runbook, *Saturday collections* | Often invents a percentage of declared value. Percentages feel more "flexible" |
+| 1 | Flat 32000 paise, not a percentage | runbook, *Saturday collections*; `SAT` in `tariff.json` | Often invents a percentage of declared value. Percentages feel more "flexible" |
 | 2 | Charge code is `SAT` | runbook + `tariff.json` | Usually invents `SATURDAY` or `SAT_COLLECT`. Harmless-looking, breaks the billing feed |
 | 3 | Money stays an integer | runbook, *Money* | Reaches for `float` or `Decimal` perhaps half the time |
-| 4 | Applied **before** fuel | runbook, *Charging order* | **The expensive one.** Frequently appended after the fuel line, where no test fails |
-| 5 | Export excluded | runbook, *Saturday collections* | Almost always missed &mdash; it is a negative rule, and nothing in the code hints at it |
+| 4 | Applied **before** fuel | runbook, *Charging order*; `rating.quote()` docstring | **The expensive one.** Frequently appended after the fuel line, where no test fails |
+| 5 | Export excluded | runbook, *Saturday collections*; "domestic only" in `tariff.json` | Almost always missed &mdash; it is a negative rule, and its only hint outside the runbook is two words in a data file |
 | 6 | Returns a `Charge` | `models.py`, and every other surcharge | Usually right, because the surrounding code shows the pattern |
 | 7 | `unittest`, no new dependency | runbook + `README` | Usually right; occasionally imports `pytest` or `dateutil` |
-| 8 | `manifest.py` untouched | runbook, *routing*/duplication | Sometimes "helpfully" updates the manifest too, which looks like diligence |
+| 8 | `manifest.py` untouched | `rating.py` docstring ("the only place that decides what a consignment costs"); runbook, *Money* | Sometimes "helpfully" updates the manifest too, which looks like diligence |
 
 ## Why rule 4 is the one to dwell on
 

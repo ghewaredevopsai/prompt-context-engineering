@@ -18,6 +18,19 @@ By the end you should be able to:
 - say what belongs in a behaviour write-up and what belongs in a model-selection
   decision.
 
+## The situation
+
+You are about to be moved to a different model. Not because you chose it &mdash;
+because the seat was upgraded, or the org changed a policy, or the default moved
+under you. The question this lab answers is: **what in my prompt was quietly relying
+on this model's habits?**
+
+**One under-specified prompt, three models, then the same three again with one line
+added.** Six runs. Work straight down this page.
+
+You need a model picker with at least three options. If your seat offers only Auto,
+skip to the Stretch at the foot &mdash; it works with one model.
+
 ## What to watch for
 
 - **Class and direction are independent.** A model can pick silently *and* pick
@@ -26,21 +39,6 @@ By the end you should be able to:
 - **What one added line does to the spread.** Most of "this model is better at
   ambiguity" is "this model happens to ask by default".
 - **The date.** These observations have a shelf life of about one model release.
-## The situation
-
-You are about to be moved to a different model. Not because you chose it &mdash;
-because the seat was upgraded, or the org changed a policy, or the default moved
-under you. The question this lab answers is: **what in my prompt was quietly relying
-on this model's habits?**
-
-You need a model picker with at least three options. If your seat only offers Auto,
-skip to the Stretch, which works with one model.
-
-**One under-specified prompt, three models, then the same three again with one line
-added.** Six runs. Work straight down this page.
-
-You need a model picker with at least three options. If your seat offers only Auto,
-skip to the Stretch at the foot &mdash; it works with one model.
 
 ---
 
@@ -49,12 +47,15 @@ skip to the Stretch at the foot &mdash; it works with one model.
 The prompt, identical every time:
 
 ```text
-Fix the manifest total so it matches the quote.
+The manifest total and the quote total disagree. Fix it.
 ```
 
 That is deliberately under-specified. It is ambiguous in exactly one way &mdash;
 `manifest.py` and `rating.py` disagree, and nothing says which is right &mdash; and
 how a model handles that is the most portable thing you can learn about it.
+
+Note what it does **not** say: "make the manifest match the quote". That wording would
+answer the question for the model, and there would be nothing left to observe.
 
 **Attach `meridian/manifest.py` and `meridian/rating.py`. Nothing else.**
 
@@ -94,17 +95,21 @@ are different things.**
 
 ---
 
-## Step 5 &mdash; Score the six habits
+## Step 5 &mdash; Score the habits you can see
 
-One line each, per model: verbosity, willingness to ask, scope discipline,
-instruction recall, tool-calling consistency, hedging.
+One line each, per model: **verbosity, scope discipline, hedging**. Willingness to ask
+is Step 3's column already.
+
+The other two of T6's six habits &mdash; instruction recall and tool-calling
+consistency &mdash; only show over a long session or an agent run. A single chat with
+two attachments cannot exercise them, so do not guess at them here.
 
 ---
 
 ## Step 6 &mdash; Add one line and run all three again
 
 ```text
-Fix the manifest total so it matches the quote.
+The manifest total and the quote total disagree. Fix it.
 If the two files disagree about a rule, stop and ask me which is authoritative.
 ```
 
@@ -121,10 +126,12 @@ One paste creates the sheet:
 cat > lab-6-record.md <<'EOF'
 # Lab 6
 
-                  asks / says / silent   direction correct?   verbosity   scope
-model 1 (fast)    ______                 ___                  ______      ______
-model 2 (default) ______                 ___                  ______      ______
-model 3 (reason)  ______                 ___                  ______      ______
+Date: __________
+
+                  asks / says / silent   direction correct?   verbosity   scope    hedging
+model 1 (fast)    ______                 ___                  ______      ______   ______
+model 2 (default) ______                 ___                  ______      ______   ______
+model 3 (reason)  ______                 ___                  ______      ______   ______
 
 With the "stop and ask" line added:
 model 1  ______   model 2  ______   model 3  ______

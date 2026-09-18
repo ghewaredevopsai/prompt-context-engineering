@@ -1,28 +1,19 @@
 # Lab 1 &mdash; Rebuild the one-liner
 
 **Tier 1 &middot; The six parts** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
-Assistant: chat or agent mode &nbsp;|&nbsp; measured, not scored
+Assistant: **agent mode** &nbsp;|&nbsp; measured, not scored
 
 ## Objective
 
 Find out what the six parts of a prompt are worth, on one real feature, measured
-against rules that were never written in the code.
+against house rules scattered across a runbook, a data file and a docstring.
 
 By the end you should be able to:
 
 - name which part of a request was missing when an answer comes back wrong;
 - write a constraint a reviewer could check against a diff;
-- say which rule no amount of code-reading would have caught.
+- say which rule you would never have caught by reading the diff.
 
-## What to watch for
-
-- **Rule 4, the charging order.** If the surcharge lands after the fuel line, every
-  Saturday consignment under-bills forever and **no test in the repository fails**.
-  That is the defect class that survives review.
-- **Rule 5, export excluded.** It is the only rule stated as a negative, and the last
-  one to survive into run B. Watch whether quoting the runbook fixed it.
-- **Run A's code is good code.** Readable, typed, handles the empty case. That is
-  exactly the problem.
 ## The situation
 
 The desk has started collecting on Saturdays and the surcharge was never built. You
@@ -33,9 +24,21 @@ The point of the lab is not that the second one is better. It is **how much bett
 and which specific things changed** &mdash; because that is the only version of this
 claim you can take to a colleague who disagrees with you.
 
-**You will ask for the same feature twice** &mdash; once the way everybody asks, once
-with all six parts of a prompt present &mdash; and score both against the same eight
-house rules. Work straight down this page.
+**Use agent mode.** The assistant has to open `docs/ops-runbook.md` itself and edit
+the code you then test. In plain chat it can do neither, and run B's pointer to the
+runbook would point at nothing.
+
+Work straight down this page.
+
+## What to watch for
+
+- **Rule 4, the charging order.** If the surcharge lands after the fuel line, every
+  Saturday consignment under-bills forever and **no test in the repository fails**.
+  That is the defect class that survives review.
+- **Rule 5, export excluded.** It is the only rule stated as a negative, and the last
+  one to survive into run B. Watch whether pointing at the runbook was enough.
+- **Run A's code is good code.** Readable, typed, handles the empty case. That is
+  exactly the problem.
 
 ---
 
@@ -57,7 +60,7 @@ you.
 
 ## Step 2 &mdash; Run A, the one-liner
 
-**2.1** Open a **new chat**.
+**2.1** Open a **new chat**, in agent mode.
 
 **2.2** Send exactly this, and nothing else:
 
@@ -98,8 +101,9 @@ Mark each row kept or broken. Leave column B blank for the moment:
 | 7 | `unittest` only, no new dependency | | |
 | 8 | `manifest.py` untouched | | |
 
-Rules 1, 4 and 5 are the ones to check carefully &mdash; none of them is visible from
-the code alone.
+Rules 1, 4 and 5 are the ones to check carefully. All three are written down &mdash;
+1 and 5 in the `SAT` entry of `data/tariff.json`, 4 in the docstring of
+`rating.quote()` &mdash; but nothing in a one-liner points the model at either.
 
 ---
 
@@ -182,11 +186,26 @@ git add lab-1-record.md && git commit -m "lab 1: one-liner vs assembled"
 Put your two numbers on the board with everyone else's. **One row is a data point;
 twelve rows is a finding.** Look at the spread before you believe your own result.
 
+---
+
+## Step 8 &mdash; Put the code back
+
+Run B's code is still in your working tree, uncommitted. Throw it away now &mdash;
+Labs 4 and 6 read `rating.py`, and Lab 5 asks for this same surcharge again:
+
+```bash
+git restore . && git clean -fd
+git status
+```
+
+`git status` should report nothing to commit.
+
 ## Key takeaways
 
 - **Run A's code is usually good code.** Readable, typed, handles the empty case.
-  That is exactly the problem: rules 1, 4 and 5 are invisible to a reader who does
-  not already know them, and they are the three most likely to be wrong.
+  That is exactly the problem: rules 1, 4 and 5 live in a data file, a docstring and
+  a runbook, and the one-liner pointed at none of them. They are the three most
+  likely to be wrong.
 
 - **Rule 4 is the expensive one.** If the surcharge is added after the fuel line,
   every Saturday consignment under-bills by the fuel percentage of ₹320, forever,

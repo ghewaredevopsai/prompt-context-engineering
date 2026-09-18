@@ -35,7 +35,7 @@ Chain of thought is deliberately not among them &mdash; the last takeaway says w
 - **Whether the pattern made it quote the rule** before judging. Most apparent
   reasoning failure is the model never having looked the rule up.
 - **The ratio**, not the winner. "Self-critique found the most" is not a finding;
-  "self-critique found one more and cost 2.2x" is.
+  "self-critique found one more and cost 2x" is.
 - **In Step 5, whether the extra words bought anything.** That one run is the whole
   argument about chain of thought, and it takes a minute.
 
@@ -96,20 +96,26 @@ the *kind* of finding you want. Save as **`prompt-fewshot.txt`**:
 ```text
 Here are two examples of the kind of finding I want:
 
-FINDING: rating.py uses integer minor units throughout, no float anywhere.
-RULE: ops-runbook, "Money".
+FINDING: chargeable_weight_g() in rating.py divides volume by the divisor for the
+consignment's scope - 5000 domestic, 6000 export - and charges the larger weight.
+RULE: ops-runbook, "Weight".
 VERDICT: correct.
 
-FINDING: split_evenly() rounds halves to even, so the pieces add back to the total.
-RULE: ops-runbook, "Money".
-VERDICT: correct.
+FINDING: scripts/nightly_sync.py stamps its feed with datetime.now() instead of
+taking the date it is syncing as an argument.
+RULE: ops-runbook, "Clocks".
+VERDICT: wrong.
 
-Now do the same for meridian/manifest.py. Same three lines per finding.
+Now: Review meridian/manifest.py against docs/ops-runbook.md and find everything it
+gets wrong about money. Same three lines per finding.
 ```
 
-Both examples are about `rating.py` and both say **correct**, on rules that
-`manifest.py` does not break. That is deliberate: few-shot is meant to demonstrate a
-*format and a standard of evidence*, not to hand over an answer.
+The examples are about other files and other rules, one **correct** and one
+**wrong**, and neither touches anything `manifest.py` gets wrong. That is deliberate:
+few-shot is meant to demonstrate a *format and a standard of evidence* &mdash; name
+the rule, then judge &mdash; not to hand over an answer. Both verdicts are true of the
+code; an example that is itself wrong teaches the model your standard is low. The last
+line is the task, word for word.
 
 **Partner B &mdash; self-critique.** New chat. Send the bare task, wait for the
 answer, then send:
@@ -161,19 +167,25 @@ python3 tools/lab3_report.py
 ```
 
 ```
-pattern         file                 est. tokens   vs bare
---------------------------------------------------------------
-bare            prompt-bare.txt              24   baseline
-few-shot        prompt-fewshot.txt          101   4.2x
-decomposition   prompt-decomp.txt             -   not saved yet
-self-critique   prompt-critique.txt           -   not saved yet
+pattern         file                   typed  turns   est. sent   vs bare
+----------------------------------------------------------------------------
+bare            prompt-bare.txt           29      1        2469   baseline
+few-shot        prompt-fewshot.txt       149      1        2589   1.0x
+decomposition   prompt-decomp.txt          -      3           -   not saved yet
+self-critique   prompt-critique.txt        -      2           -   not saved yet
 ```
 
 *(An example, not a target &mdash; yours will differ with how you word things.)*
 
-The attachments are identical across runs, so the **difference between these numbers
-is the cost of the pattern itself**. Your partner's two rows stay blank until you
-swap.
+Two columns matter. **typed** is what you wrote. **est. sent** is what the pattern
+actually sent: the two attachments go again with *every turn*, so a three-turn pattern
+pays for them three times. That is why few-shot, with the most words, costs barely
+more than bare, and decomposition, with three short questions, costs the most.
+
+**est. sent is a floor.** From the second turn on, the model's own earlier replies are
+re-sent too, and no file can see them.
+
+Your partner's two rows stay blank until you swap.
 
 ---
 
@@ -190,8 +202,8 @@ on all four. Now you have the whole table.
 python3 tools/lab3_report.py --record
 ```
 
-That writes `lab-3-record.md` with the token columns already filled in. **You fill in
-the defects each pattern found, the turns, and the two questions at the foot** &mdash;
+That writes `lab-3-record.md` with the token and turn columns already filled in.
+**You fill in the defects each pattern found and the questions at the foot** &mdash;
 those are the judgements, and they are the point of the lab.
 
 The chain-of-thought run from Step 5 is deliberately not a row: it is a demonstration,
@@ -204,7 +216,7 @@ git add lab-3-record.md && git commit -m "lab 3: four patterns"
 ## Key takeaways
 
 - **The finding is the ratio, not the winner.** "Self-critique found the most" is not
-  a finding. "Self-critique found one more and cost 2.2x" is &mdash; it is the number
+  a finding. "Self-critique found one more and cost 2x" is &mdash; it is the number
   you need to decide, per task, whether doubling the bill is worth it. On money code
   it obviously is. On a docstring it obviously is not.
 
@@ -220,8 +232,8 @@ git add lab-3-record.md && git commit -m "lab 3: four patterns"
 
 - **Chain of thought is not in the table, and Step 5 is why.** Against a reasoning
   model, `think step by step` does not make it reason &mdash; it makes it narrate the
-  reasoning it was doing anyway, in output tokens, which bill at roughly six times
-  input. It remains worth asking for when you need the reasoning **visible** for a
+  reasoning it was doing anyway, in output tokens, which bill at several times the
+  input rate. It remains worth asking for when you need the reasoning **visible** for a
   human to audit. That is a different reason from "it makes the answer better".
 
 ## Stretch

@@ -39,8 +39,8 @@ Four things. Note each as it happens &mdash; they are what you discuss afterward
 1. **Does the reply parse at all?** Run A will not. That is the finding, not a failure.
 2. **Does anything wrap the answer?** A ``` fence, or a "Here is the summary:" line.
    A right answer in a wrong shape breaks a pipeline just as thoroughly as a wrong one.
-3. **Does a code appear that is not one of the six?** `MF-07` and `MF-99` both turn up.
-   Specific, plausible, correctly formatted, and invented.
+3. **Does a code appear that is not one of the six?** `MF-07` and `MF-99` have both
+   turned up in trainer runs. Specific, plausible, correctly formatted, and invented.
 4. **How the three lengths compare.** Write them down before forming an opinion about
    which shape is "efficient".
 
@@ -118,7 +118,7 @@ Return ONLY JSON, no fence, no preamble, in exactly this shape:
  "exceptions": [{"consignment": "MF-0000", "codes": ["MF-01"], "action": "<= 120 chars"}],
  "total": <number of entries in exceptions>}
 
-The codes are a closed set of six, defined in meridian/validate.py. Use no others.
+The codes are a closed set of six, MF-01 to MF-06. Use no others.
 ```
 
 **4.3** Paste `exceptions.txt` underneath. Send.
@@ -149,11 +149,11 @@ python3 tools/lab2_report.py
 ```
     shape       file              est. tokens   contract
 ------------------------------------------------------------------
-A   prose       answer.txt                 62   fail (not valid JSON...)
-B   delimited   answer.delimited          164   fail (not valid JSON...)
-C   schema      answer.json               706   pass
+A   prose       answer.txt                125   fail (not valid JSON...)
+B   delimited   answer.delimited          169   fail (not valid JSON...)
+C   schema      answer.json               707   pass
 
-  largest / smallest = 11.4x
+  largest / smallest = 5.7x
 ```
 
 Your numbers will differ &mdash; the shape of the table will not.
@@ -175,9 +175,10 @@ measuring and the model is estimating &mdash; which is itself worth a minute.
 
 From that table:
 
-- **prose** is the shortest, by a lot
-- **delimited** sits in the middle &mdash; one line per consignment, no repeated keys
-- **JSON** is the largest, several times the prose
+- **JSON** is the largest &mdash; every run, for a structural reason: it lists every
+  consignment and repeats the keys on every row
+- **prose** and **delimited** are both much smaller, and which of the two is smaller
+  depends on how much the prose narrated
 
 **Before you read the takeaways, answer this for yourself:** the prose is short
 because it left something out. What?
@@ -207,25 +208,29 @@ git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
    make sense. It tells you whether the next step can run without a person &mdash; a
    lower bar than "good", and the one that decides whether this can be a cron job.
 
-2. **A contract costs about five times the prose.** On this report &mdash; 16
-   exceptions &mdash; prose meters around 125 est. tokens, delimited 169, and the JSON
-   about 707. **Machine readability is bought, not free.**
+2. **A contract is the largest of the three, by about two to six times the prose.**
+   On this report &mdash; 16 exceptions &mdash; two measured runs put the JSON at 707
+   and 846 est. tokens against prose of 125 and 450. The multiple swings with how much
+   the prose narrated; the order does not. **Machine readability is bought, not free.**
 
 3. **Those are two different answers, not two renderings of one.** Prose is short
    because it *groups*: "eight are MF-03". JSON enumerates all sixteen and repeats the
    keys on every row. That is why it costs more, and why it is the only one the next
-   system can act on per consignment. Since output tokens bill at roughly six times
-   input, a contract you run thousands of times a day is a real invoice line.
+   system can act on per consignment. Since output tokens bill at several times the
+   input rate, a contract you run thousands of times a day is a real invoice line.
 
 4. **The delimited format is the trap.** It looks structured and it is the one teams
-   reach for first. A missing field shifts every column silently and nothing raises.
-   It fails quietly, which is the worst property a format can have.
+   reach for first. A `|` inside an action, or codes joined with `|` on one line and
+   `,` on the next, shifts the columns and nothing raises. A missing field is catchable,
+   but only by a check nobody writes for a format that looks structured. It fails
+   quietly, which is the worst property a format can have.
 
 5. **Repair the request, never the answer.** Hand-editing an answer to make the
    checker pass proves nothing about what the next run will do.
 
-6. **"Return ONLY JSON, no fence" earns its place.** Drop that clause and a third of
-   runs come back fenced. One clause, one whole class of failure removed.
+6. **"Return ONLY JSON, no fence" earns its place.** A fence is the commonest way a
+   right answer arrives in the wrong shape. One clause removes that whole class of
+   failure &mdash; try Stretch A without it if you doubt that.
 
 ## Stretch
 

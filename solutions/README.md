@@ -33,11 +33,11 @@ At the time of writing:
 
 | Measurement | Value |
 |---|---|
-| Practice repo, everything attached | ~52,000 est. tokens |
+| Practice repo, everything attached | ~54,000 est. tokens |
 | `naive.txt` bundle | ~38,400 |
 | `minimal.txt` &mdash; `rating.py` + `manifest.py` | ~2,200 |
-| Six runbook lines + the failing test output | ~300 |
-| Test suite | 27 tests, exactly 1 failure |
+| The *Charging order* rule + the fuel lines + the failing test output | ~370 |
+| Test suite | 28 tests, exactly 1 failure |
 | The failing assertion | `113987 != 114655` |
 
 ## Using these well

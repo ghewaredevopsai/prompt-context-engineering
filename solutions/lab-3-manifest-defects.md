@@ -19,7 +19,7 @@ the two**."
 to the base rate. Surcharges are added afterwards and are not themselves fuelled."* That document is
 stale and the runbook says so. Whoever wrote `manifest.py` read the wrong file. **This is a
 grounding failure preserved in code**, not a coding mistake — which is why Lab 4 can find it with
-six pasted lines and cannot find it with the whole repository.
+the rule and two lines of code pasted, and often cannot with the whole repository.
 
 This is the defect behind `AssertionError: 113987 != 114655`.
 
@@ -36,22 +36,29 @@ at all.
 ### The fourth answer, which is also right
 
 The band lookup is **duplicated** from `rating.py`, including the 1 kg short-circuit. Two copies of
-the same pricing table walk, and only one of them will be fixed when the tariff changes. The runbook
-says it plainly: *"Never re-implement rating in `manifest.py`; call `rating.quote()`."*
+the same pricing table walk, and only one of them will be fixed when the tariff changes. `rating.py`
+says it plainly: *"This module is the only place that decides what a consignment costs. If you find
+yourself adding up charges anywhere else, call `quote()` instead."* The runbook's *Money* section
+agrees: percentages are applied once, in `rating.quote()`.
 
 People who find this one usually find it *instead* of #2 and #3, because they stop reading once they
 see the duplication. Both readings are defensible.
 
 ## What each pattern typically surfaces
 
-| pattern | defects found | prompt tokens | notes |
+| pattern | defects found | est. sent vs bare | notes |
 |---|:--:|:--:|---|
 | bare | 1 of 3 | baseline | finds the fuel drift, stops |
-| few-shot | 2 of 3 | +40% | the worked examples set a standard of evidence, so it keeps going |
-| decomposition | 3 of 3 | +20%, over 3 turns | its second request forces it to quote the rule before judging |
-| self-critique | 3 of 3 | ~2.2x | finds the most, including the duplication; costs the most |
+| few-shot | 2 of 3 | ~1.05x | the worked examples set a standard of evidence, so it keeps going |
+| decomposition | 3 of 3 | ~3x, over 3 turns | its second request forces it to quote the rule before judging |
+| self-critique | 3 of 3 | ~2x + its own first answer | finds the most, including the duplication |
 
-⚠️ **These four rows are the trainer's expectation, not a measurement.** They have not
+The cost column is what `lab3_report.py` prints as **est. sent**: the attachments go again with
+every turn, so turns, not wording, set the price. It is a floor &mdash; the model's own replies are
+re-sent from turn two and are not counted. On those figures the three-turn decomposition, not
+self-critique, is the most expensive pattern.
+
+⚠️ **The defects column is the trainer's expectation, not a measurement.** They have not
 been run against a live model and recorded. Treat the room's table as the evidence and
 correct this file when it disagrees.
 
@@ -61,6 +68,13 @@ used to state that `rating.py` charges fuel on base plus surcharges. Both pointe
 straight at defect 1, so two of the four runs were being handed the answer the other
 two had to find. If you are running from an older copy, remove them &mdash; otherwise
 the comparison measures nothing.
+
+⚠️ **The few-shot examples were replaced again** on 18 Sep 2026. The earlier pair both
+said *correct*, which leans a model towards finding nothing, and both were untrue of the
+code: `split_evenly()` does not round halves at all, and `rating.py` truncated a float
+percentage (`int(1.15 * 100)` is 114, so insurance billed at 1.14% &mdash; fixed in
+meridian-freight the same day). The new pair is one correct and one wrong, both true,
+and ends with the task word for word.
 
 **The finding is the ratio, not the winner.** Decomposition tends to win on value here because the
 middle step — "quote the rule that governs each one" — does the work. Most of what looks like

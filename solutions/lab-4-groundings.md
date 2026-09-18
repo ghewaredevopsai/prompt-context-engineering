@@ -6,9 +6,9 @@ Deterministic — everyone in the room gets these:
 
 | grounding | est. tokens | ratio |
 |---|--:|--:|
-| A: attach everything | ~52,000 | ~180x |
-| B: `rating.py` + `manifest.py` | ~2,200 | ~8x |
-| C: six runbook lines + the failing test output | ~300 | 1x |
+| A: attach everything | ~54,000 | ~150x |
+| B: `rating.py` + `manifest.py` | ~2,200 | ~6x |
+| C: the *Charging order* rule + the fuel lines + the failing test output | ~370 | 1x |
 
 ## The right answer
 
@@ -19,8 +19,10 @@ Deterministic — everyone in the room gets these:
 
 ## What each grounding tends to say
 
-**C (six lines) — names it, and cites the rule.** You supplied the rule, so it can. Usually the
-best answer in the room, from the smallest context.
+**C (the rule and the fuel lines) — names it, and cites the rule.** You supplied the rule and the
+two lines of code it governs, so it can match one against the other. Usually the best answer in the
+room, from the smallest context. It cannot see a surcharge, so it cannot find the two that
+`manifest.py` omits &mdash; that cell is n/a, not a miss.
 
 **B (two files) — names the discrepancy, hedges on which side is wrong.** Both files are internally
 consistent; nothing in either says which is authoritative. A good answer here says *"these two
@@ -32,7 +34,7 @@ that `manifest.py` is **correct**.
 
 ## Why the biggest bundle loses
 
-It is not that the model got confused by volume, although 52,000 tokens of mostly-tariff-data does
+It is not that the model got confused by volume, although 54,000 tokens of mostly-tariff-data does
 not help.
 
 **It is that `docs/tariff-2026-notes.md` is in bundle A**, and that document says fuel applies to
@@ -45,13 +47,13 @@ extra files was lying.
 
 ## The stretch, and what it shows
 
-Re-run A without `data/*.json` and without `tariff-2026-notes.md`. Tokens fall to roughly B's range
+Re-run A without the `data/` folder and without `tariff-2026-notes.md`. Tokens fall to roughly B's range
 and the answer usually becomes B's answer. You have just written the context equivalent of a
 `.gitignore` — and it is the first thing to reach for when somebody says "the tool is not good at
 our codebase".
 
 ## What stays your job
 
-Neither B nor C can tell you which file is *right*. Both are internally consistent, and the runbook
-only wins because a human decided the runbook wins. Choosing the authoritative source is not a thing
+B cannot tell you which file is *right*, and C can only because you chose its rule. Both files are
+internally consistent, and the runbook only wins because a human decided the runbook wins. Choosing the authoritative source is not a thing
 you can delegate to the model, and no amount of context changes that.

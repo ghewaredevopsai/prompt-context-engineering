@@ -2,13 +2,13 @@
 
                        est. tokens sent   named the drift?   also found the two
                                                              missing surcharges?
-A: everything          51,866             no                 no
-B: two files           2,213              yes                yes
-C: six pasted lines    294                yes                yes
+A: everything          53,974             no                 no
+B: two files           2,214              yes                yes
+C: rule + fuel lines   367                yes                n/a
 
-Ratio of A to C: 178 times the context.
+Ratio of A to C: 147 times the context.
 Which gave the most useful answer? C - it named the drift AND quoted the runbook
-rule it breaks, because I had given it the rule.
+rule it breaks, because I had given it the rule and the two fuel lines.
 
 If A lost, what did it spend its attention on instead?
 It read tariff-2026-notes.md, which says fuel applies to the base alone, and

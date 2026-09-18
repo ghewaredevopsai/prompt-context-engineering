@@ -15,14 +15,6 @@ By the end you should be able to:
   logic you care about;
 - state what the estimator cannot see, without looking it up.
 
-## What to watch for
-
-- **One file is about a fifth of the repository.** Note which, and ask yourself
-  whether a question about pricing logic needs it.
-- **The tool made you type `--absolute`.** That is deliberate. Ask why before you
-  read the footer.
-- **The test that fails.** You are not fixing it today. Write down what you think it
-  is; Lab 4 tells you whether you were right.
 ## The situation
 
 You have just been handed the freight desk codebase. Before you ask an assistant
@@ -32,6 +24,15 @@ compared against the one you write down now.
 
 **You will clone the codebase, run its tests, and measure what "just attach the
 repository" costs.** Work straight down this page.
+
+## What to watch for
+
+- **One file is about a fifth of the repository.** Note which, and ask yourself
+  whether a question about pricing logic needs it.
+- **The tool made you type `--absolute`.** That is deliberate. Ask why before you
+  read the footer.
+- **The test that fails.** You are not fixing it today. Write down what you think it
+  is; Lab 4 tells you whether you were right.
 
 ---
 
@@ -51,7 +52,7 @@ cd meridian-freight
 python3 -m unittest discover -s tests -t .
 ```
 
-You should see **27 tests** and **exactly one failure**, in `test_manifest.py`.
+You should see **28 tests** and **exactly one failure**, in `test_manifest.py`.
 
 More or fewer than one failure means something has drifted &mdash; say so now, not in
 Lab 4, which depends on that failure being there.
@@ -127,9 +128,11 @@ git add lab-0-record.md && git commit -m "lab 0: baseline"
   of thing that ends up in someone's slide deck as a fact. Everything else in this
   module uses `diff`, which is the honest verb.
 
-- **Two data files are nearly half the repository.** Neither of them has anything to
-  do with how the desk prices freight &mdash; they are the freight. Every time
-  somebody says "just give it the whole repo", that is mostly what they are sending.
+- **Three data files are nearly half the repository.** None of them is pricing
+  *logic*: two are the tariff and forty sample consignments, and the third is run
+  history kept for another module. A question about how the desk prices freight needs
+  a few lines of the tariff at most. Every time somebody says "just give it the whole
+  repo", that is mostly what they are sending.
 
 - **You have not asked the model anything yet**, and you already know the most
   important number in the module.

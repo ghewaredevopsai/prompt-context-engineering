@@ -10,7 +10,7 @@ Return ONLY JSON, no fence, no preamble, in exactly this shape:
  "exceptions": [{"consignment": "MF-0000", "codes": ["MF-01"], "action": "<= 120 chars"}],
  "total": <number of entries in exceptions>}
 
-The codes are a closed set of six, defined in meridian/validate.py. Use no others.
+The codes are a closed set of six, MF-01 to MF-06. Use no others.
 If a consignment's action is unclear from the codes alone, set action to "review".
 ```
 
@@ -87,9 +87,9 @@ So the honest line is **not** "a contract costs 5x". It is:
 ratios and put them on a board &mdash; the spread *is* the lesson, and it is the same
 lesson as Tier 5's: one run is a data point.
 
-Prose is short because it **throws information away**: it groups, "four are MF-06",
+Prose is short because it **throws information away**: it groups, "eight are MF-03",
 where the JSON lists all sixteen. They are two different answers, and only one can be
-acted on per consignment. And since **output tokens bill at roughly six times input**,
+acted on per consignment. And since **output tokens bill at several times the input rate**,
 the difference is a real invoice line on anything that runs thousands of times a day.
 
 ## Why the checker is deliberately weak
