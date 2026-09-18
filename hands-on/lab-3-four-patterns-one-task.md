@@ -3,6 +3,18 @@
 **Tier 3 &middot; The pattern set** &nbsp;|&nbsp; ~13 minutes &nbsp;|&nbsp;
 Assistant: chat &nbsp;|&nbsp; measured, not scored &nbsp;|&nbsp; **in pairs**
 
+## Objective
+
+Find out what each named prompting pattern actually buys you, and what it costs
+&mdash; on one real task, measured rather than argued about.
+
+By the end you should be able to:
+
+- describe few-shot, decomposition, chain of thought and self-critique in terms of
+  what each does mechanically;
+- say what each costs, and name a task where that cost is worth paying;
+- choose one to take back to work, and say what for.
+
 ## The situation
 
 Four named moves, one task, and a question nobody usually asks: what does each one
@@ -12,13 +24,19 @@ actually cost, and is it worth it *for this task*?
 Four patterns each would take half an hour and you would stop reading the output
 carefully by the third one.
 
-**Four named patterns, one task, run in pairs.** Each of you runs two patterns, then
-you swap sheets. Four each would take half an hour and you would stop reading the
-output carefully by the third.
+## What to watch for
 
----
+- **How many of the three money defects each pattern surfaces.** That is the column
+  the script cannot fill in for you, and the one that decides everything.
+- **Whether the pattern made it quote the rule** before judging. Most apparent
+  reasoning failure is the model never having looked the rule up.
+- **The ratio**, not the winner. "Self-critique found the most" is not a finding;
+  "self-critique found one more and cost 2.2x" is.
 
 ## Step 1 &mdash; Split the work
+
+**Work in pairs.** Four patterns each would take half an hour and you would stop
+reading the output carefully by the third.
 
 - **Partner A:** bare, then few-shot
 - **Partner B:** decomposition, then self-critique
@@ -34,40 +52,36 @@ Every run uses this task, word for word:
 
 There are at least three defects to find.
 
-**Every run also starts in a new chat with the same two files attached** &mdash;
+**Every run starts in a new chat with the same two files attached** &mdash;
 `meridian/manifest.py` and `docs/ops-runbook.md`, nothing else. That way the pattern
 is the only thing that varies.
 
 ---
 
-## Step 3 &mdash; Your first pattern
+## Step 3 &mdash; Run your first pattern
 
-**Partner A &mdash; bare.** New chat, the task exactly as above, nothing added. This
-is the baseline.
+**Partner A &mdash; bare.** New chat. The task exactly as above, nothing added.
+Save what you sent as **`prompt-bare.txt`**.
 
 **Partner B &mdash; decomposition.** New chat. Three requests, one at a time, waiting
 for each answer:
 
 ```text
 1. List every arithmetic operation in manifest.py that touches money. Do not judge them yet.
-```
-
-```text
 2. For each one, quote the rule in ops-runbook.md that governs it.
-```
-
-```text
 3. Now tell me which of them disagree with their rule.
 ```
 
-Both: count the defects it found, and how many turns you sent.
+Save all three, together, as **`prompt-decomp.txt`**.
+
+Both: note how many of the three defects it found, and how many turns you sent.
 
 ---
 
-## Step 4 &mdash; Your second pattern
+## Step 4 &mdash; Run your second pattern
 
 **Partner A &mdash; few-shot.** New chat. The task, preceded by two worked examples of
-the *kind* of finding you want:
+the *kind* of finding you want. Save as **`prompt-fewshot.txt`**:
 
 ```text
 Here are two examples of the kind of finding I want:
@@ -91,59 +105,53 @@ Now find three ways your own review was incomplete. Check the charging order
 specifically.
 ```
 
+Save both messages together as **`prompt-critique.txt`**.
+
 ---
 
-## Step 5 &mdash; Count what each pattern cost you
-
-Save each prompt you sent as its own file &mdash; in your editor, or with
-`cat > prompt-bare.txt` in a terminal
-([how](README.md#getting-text-out-of-the-chat-window-and-into-a-file)) &mdash; then:
+## Step 5 &mdash; Let the script do the arithmetic
 
 ```bash
-python3 tools/ctxmeter.py count --absolute prompt-bare.txt
+python3 tools/lab3_report.py
 ```
 
-The attachments are identical across runs, so the **difference** between these
-numbers is the cost of the pattern itself.
+```
+pattern         file                 est. tokens   vs bare
+--------------------------------------------------------------
+bare            prompt-bare.txt              24   baseline
+few-shot        prompt-fewshot.txt          101   4.2x
+decomposition   prompt-decomp.txt             -   not saved yet
+self-critique   prompt-critique.txt           -   not saved yet
+```
+
+The attachments are identical across runs, so the **difference between these numbers
+is the cost of the pattern itself**. Your partner's two rows stay blank until you
+swap.
 
 ---
 
-## Step 6 &mdash; Swap sheets
+## Step 6 &mdash; Swap with your partner
 
-Fill in your partner's two rows from their numbers. You now have all four patterns on
-one sheet.
+Copy their two prompt files into your folder, or sit together and run the script once
+on all four. Now you have the whole table.
 
 ---
 
 ## Step 7 &mdash; Record
 
-One paste creates the sheet:
-
 ```bash
-cat > lab-3-record.md <<'EOF'
-# Lab 3
-
-                  defects found   est. prompt tokens   turns   would I use it here?
-bare              ___ / 3         ______               ___     ______
-few-shot          ___ / 3         ______               ___     ______
-decomposition     ___ / 3         ______               ___     ______
-self-critique     ___ / 3         ______               ___     ______
-
-The three defects in manifest.py: ____________________________________
-
-Cheapest pattern that found all three: ______________
-The pattern I will actually use at work, and for what: ______________
-EOF
+python3 tools/lab3_report.py --record
 ```
 
-Fill in the blanks in any editor, then commit it &mdash; the sheet is the
-deliverable, not your memory of the run:
+That writes `lab-3-record.md` with the token columns already filled in. **You fill in
+the defects each pattern found, the turns, and the two questions at the foot** &mdash;
+those are the judgements, and they are the point of the lab.
 
 ```bash
 git add lab-3-record.md && git commit -m "lab 3: four patterns"
 ```
 
-## Notice
+## Key takeaways
 
 - **The finding is the ratio, not the winner.** Self-critique usually finds the most
   and usually costs about twice as much. That is not an argument for or against it
