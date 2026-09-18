@@ -10,45 +10,72 @@ anything about it, you are going to find out what "just attach the repository" w
 cost you &mdash; because for the rest of this module, every number you record is
 compared against the one you write down now.
 
-## Do
+**You will clone the codebase, run its tests, and measure what "just attach the
+repository" costs.** Work straight down this page.
 
-1. **Clone it and prove it runs.**
+---
 
-   ```bash
-   git clone https://github.com/ghewaredevopsai/meridian-freight
-   cd meridian-freight
-   python3 -m unittest discover -s tests -t .
-   ```
+## Step 1 &mdash; Clone it
 
-   You should see **27 tests** and **exactly one failure**, in `test_manifest.py`.
-   More or fewer than one means something has drifted &mdash; say so now, not in
-   Lab 4, which depends on that failure being there.
+```bash
+cd ~
+git clone https://github.com/ghewaredevopsai/meridian-freight
+cd meridian-freight
+```
 
-2. **Look at what failed, and do not fix it.**
+---
 
-   ```
-   AssertionError: 113987 != 114655
-   ```
+## Step 2 &mdash; Run the tests
 
-   The manifest says the depot should collect ₹1,139.87. The quote says ₹1,146.55.
-   Six rupees and change, on every consignment that carries a surcharge. Write down
-   what you think is going on in one line. You will find out in Lab 4 whether you
-   were right.
+```bash
+python3 -m unittest discover -s tests -t .
+```
 
-3. **Meter the repository.**
+You should see **27 tests** and **exactly one failure**, in `test_manifest.py`.
 
-   ```bash
-   python3 tools/ctxmeter.py repo --absolute
-   ```
+More or fewer than one failure means something has drifted &mdash; say so now, not in
+Lab 4, which depends on that failure being there.
 
-   Read the itemised list, not just the total. One file is over a fifth of the whole
-   repository on its own.
+---
 
-4. **Read the footer.** All six lines of it. That footer is the reason the numbers
-   in this module can be trusted for what they are used for, and the reason they
-   cannot be used for anything else.
+## Step 3 &mdash; Look at what failed, and do not fix it
 
-## Record
+Scroll up in that output to the assertion:
+
+```
+AssertionError: 113987 != 114655
+```
+
+The manifest says the depot should collect &#8377;1,139.87. The quote says
+&#8377;1,146.55. Six rupees and change, on every consignment that carries a surcharge.
+
+**Write down in one line what you think is going on.** You will find out in Lab 4
+whether you were right.
+
+---
+
+## Step 4 &mdash; Meter the repository
+
+```bash
+python3 tools/ctxmeter.py repo --absolute
+```
+
+Read the **itemised list**, not just the total at the bottom. Note which single file
+is the largest, and what share of the repository it is on its own.
+
+---
+
+## Step 5 &mdash; Read the footer
+
+All six lines of it, printed under every `ctxmeter` run.
+
+That footer is the reason the numbers in this module can be trusted for what they are
+used for &mdash; and the reason they cannot be used for anything else. Pick the one
+line you would quote to your own team; you will write it down in the next step.
+
+---
+
+## Step 6 &mdash; Record
 
 One paste creates the sheet:
 

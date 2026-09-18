@@ -12,45 +12,80 @@ settles the argument about whether attaching more context buys you a better answ
 
 > Why does the manifest total differ from the quote total?
 
-## Do
+**One question, asked three times with three sizes of context.** This is the lab that
+settles whether attaching more buys you a better answer.
 
-1. **Measure the three bundles before you send anything.**
+The question, identical in all three runs:
 
-   ```bash
-   python3 tools/ctxmeter.py count --absolute $(cat tools/bundles/everything.txt | grep -v '^#')
-   python3 tools/ctxmeter.py count --absolute meridian/rating.py meridian/manifest.py
-   ```
+> Why does the manifest total differ from the quote total?
 
-   And for the third: the six lines of `docs/ops-runbook.md` under **Charging order**
-   that decide this. Put them in a file and meter that:
+---
 
-   ```bash
-   sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
-   python3 tools/ctxmeter.py count --absolute six-lines.txt
-   ```
+## Step 1 &mdash; Measure the three bundles first
 
-   Write all three numbers down **now**, before you know which answer is best.
+Before you send anything &mdash; so you cannot talk yourself into a number afterwards.
 
-2. **Run A &mdash; attach everything.** New chat. Attach the whole repository (in
-   VS Code: `#codebase`, or drag the folder in). Ask the question.
+```bash
+cd ~/meridian-freight
 
-3. **Run B &mdash; attach two files.** New chat. Attach `meridian/rating.py` and
-   `meridian/manifest.py`. Nothing else. Ask the question.
+# A: everything
+python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/everything.txt)
 
-4. **Run C &mdash; paste the rule.** New chat. Attach **nothing**. Paste the six
-   runbook lines and the failing test output:
+# B: the two files that decide it
+python3 tools/ctxmeter.py count --absolute meridian/rating.py meridian/manifest.py
 
-   ```bash
-   python3 -m unittest tests.test_manifest -v 2>&1 | tail -12
-   ```
+# C: just the rule that settles it
+sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
+python3 tools/ctxmeter.py count --absolute six-lines.txt
+```
 
-   Ask the question.
+Write all three totals down now.
 
-5. **Score each answer on one thing only:** did it name the fuel-surcharge drift
-   &mdash; that `manifest.py` applies fuel to the base alone while `rating.py`
-   applies it to base plus surcharges? Yes or no. Not "did it sound insightful".
+---
 
-## Record
+## Step 2 &mdash; Run A, attach everything
+
+New chat. Attach the whole repository &mdash; in VS Code, `#codebase`, or drag the
+folder in. Ask the question.
+
+Record the answer against one thing only, in Step 5.
+
+---
+
+## Step 3 &mdash; Run B, attach two files
+
+New chat. Attach **`meridian/rating.py` and `meridian/manifest.py`**. Nothing else.
+Ask the same question.
+
+---
+
+## Step 4 &mdash; Run C, paste the rule
+
+New chat. Attach **nothing at all**.
+
+Paste the contents of `six-lines.txt`, then the failing test output:
+
+```bash
+python3 -m unittest tests.test_manifest -v 2>&1 | tail -12
+```
+
+Ask the same question.
+
+---
+
+## Step 5 &mdash; Score all three on one question
+
+Not "did it sound insightful". Only this:
+
+> Did it name the fuel-surcharge drift &mdash; that `manifest.py` applies fuel to the
+> base alone, while `rating.py` applies it to base plus surcharges?
+
+Yes or no, for each run. Note separately whether it also spotted the two surcharges
+`manifest.py` omits entirely.
+
+---
+
+## Step 6 &mdash; Record
 
 One paste creates the sheet:
 

@@ -9,61 +9,121 @@ You have a prompt that works &mdash; run B from Lab 1. In three months it will s
 working and nobody will notice on the day. This lab is about finding out which part
 of it is load-bearing, and writing down the thing that would have caught it.
 
-## Before you start
+**You have a prompt that works** &mdash; run B from Lab 1. You are going to break it
+three prescribed ways, repair it, and write down the checks that would have caught
+the damage. Work straight down this page.
+
+---
+
+## Step 1 &mdash; Set up
 
 ```bash
-cd meridian-freight
+cd ~/meridian-freight
 git switch -c lab-5-drift
 ```
 
-Have your Lab 1 run B prompt and its eight-row checklist in front of you.
+Have **your Lab 1 run B prompt** and its **eight-row checklist** in front of you. You
+score against those same eight rows five times in this lab.
 
-## Do
+---
 
-1. **Re-establish the baseline.** Run your Lab 1 run B prompt once more in a new
-   chat. Score it against the eight rows. This is your "before" column &mdash; do
-   not reuse Lab 1's number, because the point of the exercise is that the same
-   prompt does not always give the same answer.
+## Step 2 &mdash; Re-establish the baseline
 
-   ```bash
-   git restore . && git clean -fd
-   ```
+**2.1** Send your Lab 1 run B prompt again, in a **new chat**, unchanged.
 
-2. **Break it three ways.** Each time: start from the working prompt, make **one**
-   prescribed change, run it in a new chat, score the eight rows, then reset.
+**2.2** Score it against the eight rows. This is your "before" column.
 
-   - **Break 1 &mdash; delete the `# constraints` block.**
-   - **Break 2 &mdash; corrupt the context.** Change `docs/ops-runbook.md, section
-     "Saturday collections"` to `docs/tariff-2026-notes.md`. The file exists. It is
-     just the wrong one.
-   - **Break 3 &mdash; loosen the format.** Replace the `# format` block with
-     `Explain your approach and then implement it.`
+**Do not reuse Lab 1's number.** The point of the exercise is that the same prompt
+does not always give the same answer, and you need today's figure to compare against.
 
-3. **Repair.** Put the prompt back together and confirm it scores as it did in
-   step 1. If it does not, that is a finding &mdash; write down what else changed.
+**2.3** Reset:
 
-4. **Lock it.** Create `prompt-check.md` with **five rows** &mdash; one paste starts it:
+```bash
+git restore . && git clean -fd
+```
 
-   ```bash
-   cat > prompt-check.md <<'EOF'
-   | case | what must be true of the output | how I check it |
-   |---|---|---|
-   | a Saturday domestic booking | a SAT charge of exactly 32000 appears | assert in test |
-   |  |  |  |
-   |  |  |  |
-   |  |  |  |
-   |  |  |  |
-   EOF
-   ```
+---
 
-   Fill in four more. **Try to make every row checkable by something other than a
-   person reading it.** You will not manage it for all five. That is the exercise,
-   not a failure of it.
+## Step 3 &mdash; Break 1: delete the constraints
 
-5. **Run your own checks.** Take a fresh run of the repaired prompt and see how many
-   of your five rows it passes.
+**3.1** Take the working prompt and **delete the whole `# constraints` block**. Change
+nothing else.
 
-## Record
+**3.2** New chat, send it, score the eight rows.
+
+**3.3** Reset: `git restore . && git clean -fd`
+
+---
+
+## Step 4 &mdash; Break 2: point at the wrong document
+
+**4.1** Take the working prompt again. In the `# context` block, change
+
+`docs/ops-runbook.md, section "Saturday collections"` &rarr; `docs/tariff-2026-notes.md`
+
+That file exists. It is simply the wrong one.
+
+**4.2** New chat, send it, score the eight rows.
+
+**4.3** Reset.
+
+---
+
+## Step 5 &mdash; Break 3: loosen the format
+
+**5.1** Take the working prompt again. Replace the whole `# format` block with:
+
+```text
+Explain your approach and then implement it.
+```
+
+**5.2** New chat, send it, score the eight rows.
+
+**5.3** Reset.
+
+---
+
+## Step 6 &mdash; Repair
+
+Put the prompt back together as it was in Step 2. Run it once more and confirm it
+scores as it did then.
+
+If it does not, that is a finding, not a mistake &mdash; write down what else changed.
+
+---
+
+## Step 7 &mdash; Lock it
+
+Create `prompt-check.md` with **five rows**. One paste starts it:
+
+```bash
+cat > prompt-check.md <<'EOF'
+| case | what must be true of the output | how I check it |
+|---|---|---|
+| a Saturday domestic booking | a SAT charge of exactly 32000 appears | assert in test |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+EOF
+```
+
+Fill in the other four. **Try to make every row checkable by something other than a
+person reading it.**
+
+You will not manage it for all five. That is the exercise, not a failure of it
+&mdash; see the Notice section once you have tried.
+
+---
+
+## Step 8 &mdash; Run your own checks
+
+Take one fresh run of the repaired prompt and see how many of your five rows it
+passes.
+
+---
+
+## Step 9 &mdash; Record
 
 One paste creates the sheet:
 

@@ -16,49 +16,84 @@ on this model's habits?**
 You need a model picker with at least three options. If your seat only offers Auto,
 skip to the Stretch, which works with one model.
 
-## The prompt, identical every time
+**One under-specified prompt, three models, then the same three again with one line
+added.** Six runs. Work straight down this page.
+
+You need a model picker with at least three options. If your seat offers only Auto,
+skip to the Stretch at the foot &mdash; it works with one model.
+
+---
+
+## Step 1 &mdash; Know what you are sending
+
+The prompt, identical every time:
 
 ```text
 Fix the manifest total so it matches the quote.
 ```
 
 That is deliberately under-specified. It is ambiguous in exactly one way &mdash;
-`manifest.py` and `rating.py` disagree, and nothing in the request says which one is
-right &mdash; and how a model handles that ambiguity is the most portable thing you
-can learn about it.
+`manifest.py` and `rating.py` disagree, and nothing says which is right &mdash; and
+how a model handles that is the most portable thing you can learn about it.
 
-Attach `meridian/manifest.py` and `meridian/rating.py`. Nothing else. **Do not attach
-the runbook**: that would resolve the ambiguity, which is the opposite of the point.
+**Attach `meridian/manifest.py` and `meridian/rating.py`. Nothing else.**
 
-## Do
+⚠️ **Do not attach the runbook.** It would resolve the ambiguity, which is the
+opposite of the point.
 
-1. **Run it on three models.** A fast one, a default one, a reasoning one. New chat
-   each time, same attachments, same sentence.
+---
 
-2. **Classify each response** into one of the three columns from the deck:
+## Step 2 &mdash; Run it on three models
 
-   - **Asks** &mdash; stops and puts the contradiction to you
-   - **Picks, and says so** &mdash; states an assumption, then proceeds
-   - **Picks, silently** &mdash; edits one file to match the other and reports success
+New chat each time, same attachments, same sentence. A fast model, a default one, a
+reasoning one.
 
-3. **Then check which direction it went.** Did it change `manifest.py` to match
-   `rating.py` (correct &mdash; the runbook backs `rating.py`) or `rating.py` to match
-   `manifest.py` (wrong, and now both are consistently wrong)? A model can land in
-   "picks, silently" and still pick correctly. Record both, they are different things.
+---
 
-4. **Score the six habits** from the deck, one line each: verbosity, willingness to
-   ask, scope discipline, instruction recall, tool-calling consistency, hedging.
+## Step 3 &mdash; Classify each reply
 
-5. **Now add one line** to the prompt and run all three again:
+Put each into one of three columns:
 
-   ```text
-   Fix the manifest total so it matches the quote.
-   If the two files disagree about a rule, stop and ask me which is authoritative.
-   ```
+- **Asks** &mdash; stops and puts the contradiction to you
+- **Picks, and says so** &mdash; states an assumption, then proceeds
+- **Picks, silently** &mdash; edits one file to match the other, reports success
 
-   Re-classify. This is the measurement that matters.
+---
 
-## Record
+## Step 4 &mdash; Check which direction it went
+
+Separately from Step 3, for each run:
+
+- did it change **`manifest.py`** to match `rating.py`? That is correct &mdash; the
+  runbook backs `rating.py`.
+- or **`rating.py`** to match `manifest.py`? Now both are consistently wrong, and the
+  failing test passes.
+
+A model can land in "picks, silently" and still pick correctly. **Record both; they
+are different things.**
+
+---
+
+## Step 5 &mdash; Score the six habits
+
+One line each, per model: verbosity, willingness to ask, scope discipline,
+instruction recall, tool-calling consistency, hedging.
+
+---
+
+## Step 6 &mdash; Add one line and run all three again
+
+```text
+Fix the manifest total so it matches the quote.
+If the two files disagree about a rule, stop and ask me which is authoritative.
+```
+
+Re-classify all three using Step 3's columns. **This is the measurement that
+matters.**
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 

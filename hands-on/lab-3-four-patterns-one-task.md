@@ -12,76 +12,110 @@ actually cost, and is it worth it *for this task*?
 Four patterns each would take half an hour and you would stop reading the output
 carefully by the third one.
 
-## The task, identical for all four runs
+**Four named patterns, one task, run in pairs.** Each of you runs two patterns, then
+you swap sheets. Four each would take half an hour and you would stop reading the
+output carefully by the third.
 
-> Review `meridian/manifest.py` against `docs/ops-runbook.md` and find everything it
-> gets wrong about money.
+---
 
-There are at least three defects to find. You are measuring **how many each pattern
-surfaces**, and what you paid for them.
-
-## Before you start
-
-Decide who runs which pair:
+## Step 1 &mdash; Split the work
 
 - **Partner A:** bare, then few-shot
 - **Partner B:** decomposition, then self-critique
 
-Each run starts in a **new chat**. Attach `meridian/manifest.py` and
-`docs/ops-runbook.md` every time, and nothing else &mdash; so the only thing that
-varies is the pattern.
+---
 
-## Do
+## Step 2 &mdash; Agree the task, and do not change it
 
-1. **Bare.** Just the task, as written above. This is your baseline.
+Every run uses this task, word for word:
 
-2. **Few-shot.** The task, preceded by two worked examples of the *kind* of finding
-   you want &mdash; lift them from `meridian/rating.py`:
+> Review `meridian/manifest.py` against `docs/ops-runbook.md` and find everything it
+> gets wrong about money.
 
-   ```text
-   Here are two examples of the kind of finding I want:
+There are at least three defects to find.
 
-   FINDING: rating.py charges fuel on (base + surcharges).
-   RULE: ops-runbook, "Charging order" - fuel applies to the sum.
-   VERDICT: correct.
+**Every run also starts in a new chat with the same two files attached** &mdash;
+`meridian/manifest.py` and `docs/ops-runbook.md`, nothing else. That way the pattern
+is the only thing that varies.
 
-   FINDING: rating.py uses integer minor units throughout, no float.
-   RULE: ops-runbook, "Money".
-   VERDICT: correct.
+---
 
-   Now do the same for meridian/manifest.py. Same three lines per finding.
-   ```
+## Step 3 &mdash; Your first pattern
 
-3. **Decomposition.** Three separate requests in the same chat, one at a time:
+**Partner A &mdash; bare.** New chat, the task exactly as above, nothing added. This
+is the baseline.
 
-   ```text
-   1. List every arithmetic operation in manifest.py that touches money. Do not judge them yet.
-   2. For each one, quote the rule in ops-runbook.md that governs it.
-   3. Now tell me which of them disagree with their rule.
-   ```
+**Partner B &mdash; decomposition.** New chat. Three requests, one at a time, waiting
+for each answer:
 
-4. **Self-critique.** The bare task, then when it answers:
+```text
+1. List every arithmetic operation in manifest.py that touches money. Do not judge them yet.
+```
 
-   ```text
-   Now find three ways your own review was incomplete. Check the charging order
-   specifically.
-   ```
+```text
+2. For each one, quote the rule in ops-runbook.md that governs it.
+```
 
-5. **Count the tokens you sent.** Save each prompt as its own file &mdash; in your
-   editor, or with `cat > prompt-bare.txt` in a terminal. Either way is spelt out in
-   [hands-on/README](README.md#getting-text-out-of-the-chat-window-and-into-a-file).
-   Then:
+```text
+3. Now tell me which of them disagree with their rule.
+```
 
-   ```bash
-   python3 tools/ctxmeter.py count --absolute prompt-bare.txt
-   ```
+Both: count the defects it found, and how many turns you sent.
 
-   The attachments are identical across runs, so the difference between these
-   numbers is the cost of the pattern itself.
+---
 
-6. **Swap sheets with your partner** and fill in their two columns.
+## Step 4 &mdash; Your second pattern
 
-## Record
+**Partner A &mdash; few-shot.** New chat. The task, preceded by two worked examples of
+the *kind* of finding you want:
+
+```text
+Here are two examples of the kind of finding I want:
+
+FINDING: rating.py charges fuel on (base + surcharges).
+RULE: ops-runbook, "Charging order" - fuel applies to the sum.
+VERDICT: correct.
+
+FINDING: rating.py uses integer minor units throughout, no float.
+RULE: ops-runbook, "Money".
+VERDICT: correct.
+
+Now do the same for meridian/manifest.py. Same three lines per finding.
+```
+
+**Partner B &mdash; self-critique.** New chat. Send the bare task, wait for the
+answer, then send:
+
+```text
+Now find three ways your own review was incomplete. Check the charging order
+specifically.
+```
+
+---
+
+## Step 5 &mdash; Count what each pattern cost you
+
+Save each prompt you sent as its own file &mdash; in your editor, or with
+`cat > prompt-bare.txt` in a terminal
+([how](README.md#getting-text-out-of-the-chat-window-and-into-a-file)) &mdash; then:
+
+```bash
+python3 tools/ctxmeter.py count --absolute prompt-bare.txt
+```
+
+The attachments are identical across runs, so the **difference** between these
+numbers is the cost of the pattern itself.
+
+---
+
+## Step 6 &mdash; Swap sheets
+
+Fill in your partner's two rows from their numbers. You now have all four patterns on
+one sheet.
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 

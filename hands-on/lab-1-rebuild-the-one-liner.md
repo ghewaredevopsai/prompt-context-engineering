@@ -13,76 +13,126 @@ The point of the lab is not that the second one is better. It is **how much bett
 and which specific things changed** &mdash; because that is the only version of this
 claim you can take to a colleague who disagrees with you.
 
-## Before you start
+**You will ask for the same feature twice** &mdash; once the way everybody asks, once
+with all six parts of a prompt present &mdash; and score both against the same eight
+house rules. Work straight down this page.
+
+---
+
+## Step 1 &mdash; Make a branch
 
 ```bash
-cd meridian-freight
-git switch -c lab-1-one-liner          # or copy the folder, see hands-on/README.md
+cd ~/meridian-freight
+git switch -c lab-1-one-liner
 ```
 
-**Do not read `docs/ops-runbook.md` yet.** Read it after run A. Half the value of
-this lab is noticing what you personally assumed.
+No `git`? Copy the folder instead &mdash; see
+[hands-on/README](README.md#no-git-no-problem).
 
-## Do
+⚠️ **Do not open `docs/ops-runbook.md` yet.** You read it in Step 3. Half the value of
+this lab is noticing what you personally assumed before you had the rules in front of
+you.
 
-1. **Run A &mdash; the one-liner.** Open a **new chat**. Send exactly this and nothing
-   else:
+---
 
-   ```text
-   add a saturday collection surcharge
-   ```
+## Step 2 &mdash; Run A, the one-liner
 
-   Let it work. Accept what it produces. Run the tests. If it is red, say "fix it"
-   and let it try again &mdash; up to three times, then stop and record where you got to.
+**2.1** Open a **new chat**.
 
-   **Count your own messages**, not its steps. Three "fix it"s is four turns.
+**2.2** Send exactly this, and nothing else:
 
-2. **Score run A against the checklist.** Now open `docs/ops-runbook.md` and find the
-   Saturday collections section. Mark each row broken or kept:
+```text
+add a saturday collection surcharge
+```
 
-   | # | House rule | A | B |
-   |---|---|:--:|:--:|
-   | 1 | Flat 32000 paise, not a percentage of anything | | |
-   | 2 | Charge code is `SAT` | | |
-   | 3 | Money stays an integer &mdash; no float, no `Decimal` | | |
-   | 4 | Applied **before** fuel, so fuel is charged on it | | |
-   | 5 | Export is excluded | | |
-   | 6 | Returns a `Charge`, not a dict or a tuple | | |
-   | 7 | `unittest` only, no new dependency | | |
-   | 8 | `manifest.py` untouched | | |
+**2.3** Let it work. Accept what it produces.
 
-3. **Reset.**
+**2.4** Run the tests:
 
-   ```bash
-   git restore . && git clean -fd
-   ```
+```bash
+python3 -m unittest discover -s tests -t .
+```
 
-4. **Run B &mdash; the same request, assembled.** Open a **new chat** again (this
-   matters: a fresh context, not a follow-up). Send:
+**2.5** If it is red, say `fix it` and let it try again &mdash; **up to three times**,
+then stop wherever you got to.
 
-   ```text
-   # task
-   Add the Saturday collection surcharge to meridian/rating.py.
+**2.6** Write down your **turn count**. Count *your own messages*, not its steps:
+three "fix it"s is four turns.
 
-   # context
-   The rule is in docs/ops-runbook.md, section "Saturday collections".
-   The tariff entry already exists under surcharges.SAT.
-   Money is integer paise throughout this package.
+---
 
-   # constraints
-   Do not change manifest.py or any existing test.
-   No new dependencies. unittest only.
-   Do not call datetime.now() - the clock is on the consignment.
+## Step 3 &mdash; Score run A
 
-   # format
-   Show me the diff to rating.py first. Then the test you added. Nothing else.
-   ```
+**Now** open `docs/ops-runbook.md` and find the **Saturday collections** section.
 
-   Run the tests. Count turns the same way.
+Mark each row kept or broken. Leave column B blank for the moment:
 
-5. **Score run B** against the same eight rows.
+| # | House rule | A | B |
+|---|---|:--:|:--:|
+| 1 | Flat 32000 paise, not a percentage of anything | | |
+| 2 | Charge code is `SAT` | | |
+| 3 | Money stays an integer &mdash; no float, no `Decimal` | | |
+| 4 | Applied **before** fuel, so fuel is charged on it | | |
+| 5 | Export is excluded | | |
+| 6 | Returns a `Charge`, not a dict or a tuple | | |
+| 7 | `unittest` only, no new dependency | | |
+| 8 | `manifest.py` untouched | | |
 
-## Record
+Rules 1, 4 and 5 are the ones to check carefully &mdash; none of them is visible from
+the code alone.
+
+---
+
+## Step 4 &mdash; Throw run A away
+
+```bash
+git restore . && git clean -fd
+```
+
+Confirm you are back to a clean start: `git status` should report nothing to commit,
+and the test suite should be back to its one original failure.
+
+---
+
+## Step 5 &mdash; Run B, the same request assembled
+
+**5.1** Open a **new chat**. This matters: a fresh context, not a follow-up. A
+follow-up has already seen run A and will imitate it.
+
+**5.2** Send this:
+
+```text
+# task
+Add the Saturday collection surcharge to meridian/rating.py.
+
+# context
+The rule is in docs/ops-runbook.md, section "Saturday collections".
+The tariff entry already exists under surcharges.SAT.
+Money is integer paise throughout this package.
+
+# constraints
+Do not change manifest.py or any existing test.
+No new dependencies. unittest only.
+Do not call datetime.now() - the clock is on the consignment.
+
+# format
+Show me the diff to rating.py first. Then the test you added. Nothing else.
+```
+
+**5.3** Run the tests, exactly as in 2.4.
+
+**5.4** Count turns the same way.
+
+---
+
+## Step 6 &mdash; Score run B
+
+Fill in column B of the same eight rows. Then compare the two columns &mdash; that
+comparison is the lab.
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 
