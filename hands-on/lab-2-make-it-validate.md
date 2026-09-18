@@ -9,121 +9,142 @@ The duty supervisor wants a morning summary of the exceptions list. Today somebo
 pastes the report into chat and reads whatever comes back. You are going to find out
 what it would take to stop a human being in that loop &mdash; and what it costs.
 
-## Before you start
+**You will ask for the same summary three ways, three times each. Nine runs.**
+Work straight down this page; every step says exactly what to do.
+
+---
+
+## Step 1 &mdash; Make the report
+
+Run this once. The output is the input for all nine runs.
 
 ```bash
-cd meridian-freight
-python3 -m meridian exceptions > /tmp/exceptions.txt
-cat /tmp/exceptions.txt
+cd ~/meridian-freight
+python3 -m meridian exceptions > exceptions.txt
+cat exceptions.txt
 ```
 
-That output is the input for every run below. Use the same text every time.
+You should see about 35 lines, starting `MERIDIAN FREIGHT  exceptions`.
 
-## Do
+**Use this same text every time.** If the input changes between runs, nothing you
+measure afterwards means anything.
 
-You will ask for the same summary **three ways**, and run each answer through the
-same checker.
+---
 
-### Getting an answer into a file
+## Step 2 &mdash; Request A, free prose
 
-`check_contract.py` reads a **file**. It cannot see your chat window, so after each
-run you have to put the reply somewhere it can read.
+**2.1** Open a **new chat**. Not a follow-up &mdash; a new one.
 
-**In your editor** &mdash; the easiest way, and you are already there:
+**2.2** Paste this:
 
-1. In the chat panel, use the **Copy** button on the reply.
-2. **File &rarr; New File**, paste, then save it as `answer.json` in the
-   `meridian-freight` folder. (Run 1 is prose, not JSON &mdash; save that one as
-   `answer.txt`.)
+```text
+Here is this morning's exceptions report. Summarise it for the duty supervisor.
+```
 
-**Or in a terminal**, if you prefer:
+**2.3** Paste the contents of `exceptions.txt` underneath it. Send.
+
+**2.4** Save the reply as **`answer.txt`**: copy it, then **File &rarr; New File** in
+your editor, paste, save into the `meridian-freight` folder. Paste it **exactly as it
+came back**. (Prefer the terminal? See the last section of this lab.)
+
+**2.5** Check it:
 
 ```bash
-cat > answer.json
+python3 tools/check_contract.py answer.txt
 ```
 
-When you press Enter, **the cursor just sits there with no prompt and no message.
-That is correct** &mdash; it is waiting for you to type or paste. So:
+It fails on the first line: `not valid JSON`. **That is the finding** &mdash; there is
+nothing in prose for a program to check. Write "fail" in the tally at Step 5.
 
-1. Paste the reply.
-2. Press <kbd>Enter</kbd> once, so the cursor is on a fresh empty line.
-3. Press <kbd>Ctrl</kbd>+<kbd>D</kbd>. Nothing is printed; you simply get your shell
-   prompt back, and the file now exists.
+**2.6** Repeat 2.1 to 2.5 **twice more**, in a new chat each time. Three attempts at
+request A in total.
 
-<kbd>Ctrl</kbd>+<kbd>D</kbd> only ends the input when the line is empty, which is why
-step 2 matters. If you press <kbd>Ctrl</kbd>+<kbd>C</kbd> instead, you abandon the
-whole thing and the file is left empty.
+---
 
-**Check it landed before you go on:**
+## Step 3 &mdash; Request B, delimited
 
-```bash
-wc -c answer.json && head -3 answer.json
+**3.1** Open a **new chat**.
+
+**3.2** Paste this:
+
+```text
+Summarise this exceptions report for the duty supervisor.
+One line per consignment: id|codes|action, pipe separated, no header, no prose.
 ```
 
-That counts **bytes**, not lines, on purpose: a paste with no final newline is a
-perfectly good file that `wc -l` reports as 0 lines. If the byte count is `0`, the
-paste did not arrive &mdash; do it again.
+**3.3** Paste `exceptions.txt` underneath. Send.
 
-### One rule about pasting
+**3.4** Save the reply as **`answer.json`**, the same way as 2.4.
 
-**Paste the reply exactly as it came back**, including a ``` fence if there is one and
-any "Here is the summary:" line before it. Whether that material is there is part of
-what you are measuring; tidying it up by hand throws the result away.
+**3.5** Check it. It is rejected too &mdash; the checker wants JSON. So score this one
+**by hand**, on a single question:
 
-Then check it:
+> If one field had gone missing from a line, would you be able to tell?
+
+**3.6** Repeat **twice more**, new chat each time.
+
+---
+
+## Step 4 &mdash; Request C, a schema you supply
+
+**4.1** Open a **new chat**.
+
+**4.2** Paste this:
+
+```text
+Summarise this exceptions report for the duty supervisor.
+
+Return ONLY JSON, no fence, no preamble, in exactly this shape:
+{"generated_for": "YYYY-MM-DD",
+ "exceptions": [{"consignment": "MF-0000", "codes": ["MF-01"], "action": "<= 120 chars"}],
+ "total": <number of entries in exceptions>}
+
+The codes are a closed set of six, defined in meridian/validate.py. Use no others.
+```
+
+**4.3** Paste `exceptions.txt` underneath. Send.
+
+**4.4** Save the reply as **`answer.json`**.
+
+**4.5** Check it:
 
 ```bash
 python3 tools/check_contract.py answer.json
 ```
 
-1. **Run 1 &mdash; free prose.** New chat.
+`satisfies the contract` is a pass. If it fails, read *which* line it objected to
+&mdash; then **change the request and run again**. Never hand-edit the answer to make
+it pass; that proves nothing. Note what you changed.
 
-   ```text
-   Here is this morning's exceptions report. Summarise it for the duty supervisor.
-   ```
+**4.6** Repeat **twice more**, new chat each time.
 
-   Paste the report underneath. Save what comes back. Run the checker on it. It will
-   fail at the first line, and **that is the finding**: there is nothing to check.
+---
 
-2. **Run 2 &mdash; delimited.** New chat.
+## Step 5 &mdash; Fill in the tally
 
-   ```text
-   Summarise this exceptions report for the duty supervisor.
-   One line per consignment: id|codes|action, pipe separated, no header, no prose.
-   ```
+Nine runs, pass or fail:
 
-   Save it. The checker will still reject it &mdash; it wants JSON. Score this run by
-   hand instead: can you name a field that is missing, or would a dropped field just
-   shift the columns silently?
+```
+          attempt 1   attempt 2   attempt 3
+A prose    ___         ___         ___
+B pipes    ___         ___         ___
+C schema   ___         ___         ___
+```
 
-3. **Run 3 &mdash; a schema you supply.** New chat.
+---
 
-   ```text
-   Summarise this exceptions report for the duty supervisor.
+## Step 6 &mdash; Measure the length
 
-   Return ONLY JSON, no fence, no preamble, in exactly this shape:
-   {"generated_for": "YYYY-MM-DD",
-    "exceptions": [{"consignment": "MF-0000", "codes": ["MF-01"], "action": "<= 120 chars"}],
-    "total": <number of entries in exceptions>}
+```bash
+python3 tools/ctxmeter.py count --absolute answer.txt
+python3 tools/ctxmeter.py count --absolute answer.json
+```
 
-   The codes are a closed set of six, defined in meridian/validate.py. Use no others.
-   ```
+Compare the two totals. One of them will surprise you.
 
-   Run the checker. If it fails, **change the request, not the answer**, and run
-   again. Note what you changed.
+---
 
-4. **Run each of the three twice more**, so you have three attempts at each shape.
-   Same text, new chat each time.
-
-5. **Measure the length.**
-
-   ```bash
-   python3 tools/ctxmeter.py count --absolute answer.json
-   ```
-
-   Do the same for your run-1 prose answer.
-
-## Record
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 
@@ -136,7 +157,7 @@ free prose           _ / 3             ______               ______________
 delimited            _ / 3             ______               ______________
 supplied schema      _ / 3             ______               ______________
 
-What I changed in the request to make run 3 pass: ____________________
+What I changed in the request to make C pass: ____________________
 
 Shorter or longer than the prose? ______   By how much? ______
 EOF
@@ -149,30 +170,59 @@ deliverable, not your memory of the run:
 git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
 ```
 
+---
+
 ## Notice
 
 - **The JSON is usually shorter than the prose.** Almost nobody predicts this. A
-  contract does not cost you tokens; it stops the model narrating, and narration is
+  contract does not cost you tokens; it stops the model narrating, and narration was
   most of what you were paying for.
 
-- **`check_contract.py` judges shape, not quality.** Read its docstring. It cannot
-  tell you whether those are the right consignments, whether the actions make sense,
-  or whether it understood the question. It tells you whether the next system can run
-  without a person. That is a lower bar than "good" &mdash; and it is the bar that
-  decides whether this can be a cron job.
+- **`check_contract.py` judges shape, not quality.** It cannot tell you whether those
+  are the right consignments, whether the actions make sense, or whether it understood
+  the question at all. It tells you whether the next system can run without a person
+  &mdash; a lower bar than "good", and the bar that decides whether this can be a
+  cron job.
 
 - **Watch for an invented code.** `MF-07` and `MF-99` both turn up. They are the
   cheapest possible demonstration of a fabricated fact: specific, plausible,
-  formatted correctly, and it would reject the whole batch downstream.
+  correctly formatted, and they would reject the whole batch downstream.
 
 - **"Return ONLY JSON, no fence" earns its place.** Drop that clause and a third of
-  runs come back inside a Markdown fence, which is a right answer in the wrong shape
-  &mdash; the cheapest quadrant to fix, and still a broken pipeline.
+  runs come back inside a Markdown fence &mdash; a right answer in the wrong shape.
+  The cheapest quadrant to fix, and still a broken pipeline.
 
 ## Stretch
 
-Add one line to the run-3 request: `If a consignment's action is unclear from the
-codes alone, set action to "review" rather than guessing.` Run it three more times.
-Did the contract pass rate change? Did the *content* get more honest? Only one of
-those two is something `check_contract.py` can see, and noticing which is the
-point of Tier 5.
+Add one line to request C: `If a consignment's action is unclear from the codes
+alone, set action to "review" rather than guessing.` Run it three more times. Did the
+pass rate change? Did the *content* get more honest? Only one of those two is
+something `check_contract.py` can see, and noticing which is the point of Tier 5.
+
+---
+
+## If you would rather use the terminal than the editor
+
+`check_contract.py` reads a **file**; it cannot see your chat window. To save a reply
+without leaving the shell:
+
+```bash
+cat > answer.json
+```
+
+When you press Enter, **the cursor sits there with no prompt and no message. That is
+correct** &mdash; it is waiting for input. Paste the reply, press <kbd>Enter</kbd> so
+the cursor is on an empty line, then <kbd>Ctrl</kbd>+<kbd>D</kbd>. Nothing is printed;
+you simply get your shell prompt back.
+
+<kbd>Ctrl</kbd>+<kbd>D</kbd> only ends the input from an empty line, which is why that
+Enter matters. <kbd>Ctrl</kbd>+<kbd>C</kbd> abandons it and leaves the file empty.
+
+Confirm it landed:
+
+```bash
+wc -c answer.json && head -3 answer.json
+```
+
+That counts **bytes**, not lines, on purpose: a paste with no final newline is a
+perfectly good file that `wc -l` reports as 0 lines.
