@@ -34,43 +34,43 @@
   <div class="body">
     <svg class="dg fill" viewBox="0 0 1180 300" style="max-height:44vh">
       <!-- the request -->
-      <rect class="box-a" x="10" y="120" width="250" height="60" rx="6"/>
-      <text x="135" y="146" text-anchor="middle" class="t-acc" font-size="19.5" font-weight="700">your request</text>
-      <text x="135" y="168" text-anchor="middle" class="t-mono t-dim" font-size="16.9">"add a surcharge"</text>
+      <rect class="box-a" x="10" y="120" width="200" height="60" rx="6"/>
+      <text x="110" y="146" text-anchor="middle" class="t-acc" font-size="19.5" font-weight="700">your request</text>
+      <text x="110" y="168" text-anchor="middle" class="t-mono t-dim" font-size="16.9">"add a surcharge"</text>
 
-      <!-- the four hidden pipes -->
-      <rect class="box" x="300" y="8"   width="300" height="44" rx="5"/>
-      <text x="316" y="36" class="t-faint" font-size="16.9">vendor system prompt</text>
-      <text x="586" y="36" text-anchor="end" class="t-faint t-mono" font-size="16.2">not yours</text>
+      <!-- the four hidden pipes: label left, ownership right, 400px of room -->
+      <rect class="box" x="240" y="8"   width="400" height="44" rx="5"/>
+      <text x="258" y="36" class="t-faint" font-size="16.9">vendor system prompt</text>
+      <text x="622" y="36" text-anchor="end" class="t-faint t-mono" font-size="16.2">not yours</text>
 
-      <rect class="box-b" x="300" y="62" width="300" height="44" rx="5"/>
-      <text x="316" y="90" class="t-blue" font-size="16.9">instruction files in the repo</text>
-      <text x="586" y="90" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
+      <rect class="box-b" x="240" y="62" width="400" height="44" rx="5"/>
+      <text x="258" y="90" class="t-blue" font-size="16.9">instruction files in the repo</text>
+      <text x="622" y="90" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
 
-      <rect class="box-b" x="300" y="196" width="300" height="44" rx="5"/>
-      <text x="316" y="224" class="t-blue" font-size="16.9">this conversation so far</text>
-      <text x="586" y="224" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
+      <rect class="box-b" x="240" y="196" width="400" height="44" rx="5"/>
+      <text x="258" y="224" class="t-blue" font-size="16.9">this conversation so far</text>
+      <text x="622" y="224" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours</text>
 
-      <rect class="box-b" x="300" y="250" width="300" height="44" rx="5"/>
-      <text x="316" y="278" class="t-blue" font-size="16.9">files it chose to read</text>
-      <text x="586" y="278" text-anchor="end" class="t-blue t-mono" font-size="16.2">yours, indirectly</text>
+      <rect class="box-b" x="240" y="250" width="400" height="44" rx="5"/>
+      <text x="258" y="278" class="t-blue" font-size="16.9">files it chose to read</text>
+      <text x="622" y="278" text-anchor="end" class="t-blue t-mono" font-size="16.2">indirectly yours</text>
 
       <!-- joining -->
-      <path class="wire-a" d="M260 150 H660"/>
-      <path class="wire-faint" d="M600 30 H630 V140 M600 84 H620 V146 M600 218 H620 V156 M600 272 H630 V162"/>
-      <polygon points="660,150 648,144 648,156" fill="var(--accent)"/>
+      <path class="wire-a" d="M210 150 H680"/>
+      <path class="wire-faint" d="M640 30 H662 V140 M640 84 H654 V146 M640 218 H654 V156 M640 272 H662 V162"/>
+      <polygon points="680,150 668,144 668,156" fill="var(--accent)"/>
 
-      <rect class="box-a" x="660" y="118" width="150" height="64" rx="6"/>
-      <text x="735" y="156" text-anchor="middle" font-size="19.5" font-weight="700">model</text>
+      <rect class="box-a" x="680" y="118" width="150" height="64" rx="6"/>
+      <text x="755" y="156" text-anchor="middle" font-size="19.5" font-weight="700">model</text>
 
       <!-- three answers -->
-      <path class="wire" d="M810 150 H860 V60 H900 M810 150 H900 M810 150 H860 V240 H900"/>
-      <rect class="box-g" x="900" y="38"  width="270" height="44" rx="5"/>
-      <text x="916" y="66" class="t-good" font-size="16.9">uses integer paise, has a test</text>
-      <rect class="box"   x="900" y="128" width="270" height="44" rx="5"/>
-      <text x="916" y="156" class="t-dim" font-size="16.9">works, but floats the money</text>
-      <rect class="box-r" x="900" y="218" width="270" height="44" rx="5"/>
-      <text x="916" y="246" class="t-bad" font-size="16.9">invents a pricing rule</text>
+      <path class="wire" d="M830 150 H850 V60 H870 M830 150 H870 M830 150 H850 V240 H870"/>
+      <rect class="box-g" x="870" y="38"  width="300" height="44" rx="5"/>
+      <text x="886" y="66" class="t-good" font-size="16.9">uses integer paise, has a test</text>
+      <rect class="box"   x="870" y="128" width="300" height="44" rx="5"/>
+      <text x="886" y="156" class="t-dim" font-size="16.9">works, but floats the money</text>
+      <rect class="box-r" x="870" y="218" width="300" height="44" rx="5"/>
+      <text x="886" y="246" class="t-bad" font-size="16.9">invents a pricing rule</text>
     </svg>
     <div class="note"><b>Only the top pipe is out of your hands.</b> The other three are files you can write,
       a conversation you can restart, and a set of attachments you can choose. This module is about those three.</div>

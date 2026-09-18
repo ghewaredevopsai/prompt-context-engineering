@@ -7,6 +7,7 @@ Renders each deck in headless Chrome at 1280x720 and reports, per slide:
   top/bottom/edge  a block sits over the title, the footer, or past the right margin
   pre      a code block is clipped on the right (pre is overflow:hidden)
   svgtext  SVG text runs outside its own viewBox
+  svgover  two SVG labels overlap each other
 
     python3 check-decks.py                              # every deck in ../python-accelerated
     python3 check-decks.py ../presentation/t3-service.html
@@ -58,13 +59,32 @@ PROBE = r"""
     });
     sl.querySelectorAll('svg[viewBox]').forEach(function(svg){
       var vb=svg.getAttribute('viewBox').trim().split(/[\s,]+/).map(Number);
+      var boxes=[];
       svg.querySelectorAll('text').forEach(function(t){
         if(t.getAttribute('transform')) return;
         var b; try{ b=t.getBBox(); }catch(e){ return; }
         if(!b.width) return;
         var over=Math.max(b.x+b.width-vb[2], b.y+b.height-vb[3], -b.x);
         if(over > 2) out.push({s:i+1,k:'svgtext',d:Math.round(over),t:t.textContent.trim().slice(0,40)});
+        boxes.push({b:b,t:t.textContent.trim()});
       });
+      /* two labels written into the same box collide long before either leaves the
+         viewBox - that is invisible to the check above and very visible on a screen */
+      for(var a=0;a<boxes.length;a++){
+        for(var c=a+1;c<boxes.length;c++){
+          var p=boxes[a].b, q=boxes[c].b;
+          var ox=Math.min(p.x+p.width,q.x+q.width)-Math.max(p.x,q.x);
+          var oy=Math.min(p.y+p.height,q.y+q.height)-Math.max(p.y,q.y);
+          /* em boxes of consecutive lines touch by a pixel or two - that is ordinary
+             line spacing. Only flag labels sharing most of a line height. */
+          /* ox > 0 is a true overlap; a gap under 6px reads as run-together text
+             ("promptnot yours"), which is just as broken on a screen. */
+          if(ox > -6 && oy > 0.5*Math.min(p.height,q.height)){
+            out.push({s:i+1,k:'svgover',d:Math.round(ox),
+                      t:(boxes[a].t+' / '+boxes[c].t).slice(0,52)});
+          }
+        }
+      }
     });
     sl.classList.remove('active');
   });
