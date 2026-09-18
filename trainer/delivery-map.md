@@ -11,7 +11,7 @@ Written 18 September 2026.
 | 0 &mdash; Same request, three answers | 5 | 5 | 0:10 |
 | 1 &mdash; The six parts of a prompt | 10 | 12 | 0:32 |
 | 2 &mdash; Output contracts | 8 | 14 | 0:54 |
-| 3 &mdash; The pattern set | 8 | 13 | 1:15 |
+| 3 &mdash; The pattern set | 8 | 15 | 1:17 |
 | 4 &mdash; Grounding | 7 | 12 | 1:34 |
 | 5 &mdash; Failure and drift | 8 | 12 | 1:54 |
 | Buffer / questions | | 6 | **2:00** |

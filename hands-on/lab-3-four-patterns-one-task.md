@@ -1,6 +1,6 @@
 # Lab 3 &mdash; Four patterns, one task
 
-**Tier 3 &middot; The pattern set** &nbsp;|&nbsp; ~13 minutes &nbsp;|&nbsp;
+**Tier 3 &middot; The pattern set** &nbsp;|&nbsp; ~15 minutes &nbsp;|&nbsp;
 Assistant: chat &nbsp;|&nbsp; measured, not scored &nbsp;|&nbsp; **in pairs**
 
 ## Objective
@@ -36,6 +36,8 @@ Chain of thought is deliberately not among them &mdash; the last takeaway says w
   reasoning failure is the model never having looked the rule up.
 - **The ratio**, not the winner. "Self-critique found the most" is not a finding;
   "self-critique found one more and cost 2.2x" is.
+- **In Step 5, whether the extra words bought anything.** That one run is the whole
+  argument about chain of thought, and it takes a minute.
 
 ## Step 1 &mdash; Split the work
 
@@ -124,7 +126,35 @@ where to look is not being compared with runs that are not.
 
 ---
 
-## Step 5 &mdash; Let the script do the arithmetic
+## Step 5 &mdash; The one you should not run, run once
+
+Sixty seconds, whoever finishes their second pattern first.
+
+New chat, the bare task, with one line added:
+
+```text
+Review meridian/manifest.py against docs/ops-runbook.md and find everything it
+gets wrong about money.
+
+Think step by step.
+```
+
+Compare what comes back with the plain bare run:
+
+- **Is it more correct?** Usually not &mdash; the same defects, found the same way.
+- **Is it longer?** Usually yes, sometimes much.
+
+If your assistant is on a reasoning model, it was already reasoning before you asked.
+`Think step by step` does not switch that on; it asks the model to *narrate* it as
+well. **You pay for the reasoning twice and read it once.**
+
+Do not save this one as a prompt file &mdash; it is not one of the three, and it is
+not in the table. It is here so that when somebody asks why chain of thought is not in
+this lab, you have seen the answer rather than been told it.
+
+---
+
+## Step 6 &mdash; Let the script do the arithmetic
 
 ```bash
 python3 tools/lab3_report.py
@@ -147,14 +177,14 @@ swap.
 
 ---
 
-## Step 6 &mdash; Swap with your partner
+## Step 7 &mdash; Swap with your partner
 
 Copy their two prompt files into your folder, or sit together and run the script once
 on all four. Now you have the whole table.
 
 ---
 
-## Step 7 &mdash; Record
+## Step 8 &mdash; Record
 
 ```bash
 python3 tools/lab3_report.py --record
@@ -163,6 +193,9 @@ python3 tools/lab3_report.py --record
 That writes `lab-3-record.md` with the token columns already filled in. **You fill in
 the defects each pattern found, the turns, and the two questions at the foot** &mdash;
 those are the judgements, and they are the point of the lab.
+
+The chain-of-thought run from Step 5 is deliberately not a row: it is a demonstration,
+not a contender.
 
 ```bash
 git add lab-3-record.md && git commit -m "lab 3: four patterns"
@@ -185,9 +218,11 @@ git add lab-3-record.md && git commit -m "lab 3: four patterns"
   the model think harder; it is showing it a format and a standard of evidence. Use
   it when the rule is easier to show than to say.
 
-- **Nobody should be running chain of thought here.** If you tried "think step by
-  step" on a reasoning model, compare its output length with the bare run. You paid
-  for the same reasoning twice.
+- **Chain of thought is not in the table, and Step 5 is why.** Against a reasoning
+  model, `think step by step` does not make it reason &mdash; it makes it narrate the
+  reasoning it was doing anyway, in output tokens, which bill at roughly six times
+  input. It remains worth asking for when you need the reasoning **visible** for a
+  human to audit. That is a different reason from "it makes the answer better".
 
 ## Stretch
 
