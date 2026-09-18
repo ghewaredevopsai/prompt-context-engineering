@@ -26,10 +26,10 @@ These are deterministic. If yours differ, something has changed in the practice 
 
 | Measurement | Value |
 |---|---|
-| Practice repo, everything attached | ~46,700 est. tokens |
-| `naive.txt` bundle | ~37,500 |
-| `minimal.txt` &mdash; `rating.py` + `manifest.py` | ~2,900 |
-| Six pasted runbook lines | ~600 |
+| Practice repo, everything attached | ~45,700 est. tokens |
+| `naive.txt` bundle | ~38,400 |
+| `minimal.txt` &mdash; `rating.py` + `manifest.py` | ~2,200 |
+| Six runbook lines + the failing test output | ~300 |
 | Test suite | 27 tests, exactly 1 failure |
 | The failing assertion | `113987 != 114655` |
 

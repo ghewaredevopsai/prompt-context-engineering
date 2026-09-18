@@ -67,8 +67,10 @@ varies is the pattern.
    specifically.
    ```
 
-5. **Count the tokens you sent.** For each pattern, paste your prompt text into a
-   file and:
+5. **Count the tokens you sent.** Save each prompt as a file &mdash; `cat >
+   prompt-bare.txt`, paste, <kbd>Ctrl</kbd>+<kbd>D</kbd> (see
+   [hands-on/README](README.md#getting-text-out-of-the-chat-window-and-into-a-file))
+   &mdash; then:
 
    ```bash
    python3 tools/ctxmeter.py count --absolute prompt-bare.txt

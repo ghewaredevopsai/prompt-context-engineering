@@ -59,10 +59,10 @@ Deterministic, identical in every room, safe to quote from the front:
 
 | Measurement | Value |
 |---|---|
-| Practice repo, everything attached | ~46,700 est. tokens |
-| `naive.txt` bundle | ~37,500 |
-| `minimal.txt` (rating.py + manifest.py) | ~2,900 |
-| Six pasted runbook lines | ~600 |
+| Practice repo, everything attached | ~45,700 est. tokens |
+| `naive.txt` bundle | ~38,400 |
+| `minimal.txt` (rating.py + manifest.py) | ~2,200 |
+| Six runbook lines + the failing test output | ~300 |
 | Test suite | 27 tests, exactly 1 failure |
 | The failing assertion | `113987 != 114655` |
 
@@ -117,11 +117,26 @@ different governance conversation from attaching a repository.
   It is used by the Token Optimization module, not this one, but if anyone opens it here, say so
   immediately. Replace it with recorded runs before anyone quotes a row.
 
+**Re-measure these before a delivery**, and after any change to the practice repo or to
+`ctxmeter`'s constants:
+
+```bash
+cd ../meridian-freight
+python3 tools/ctxmeter.py repo --absolute | grep TOTAL
+for b in everything naive minimal; do
+  python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/$b.txt) | grep TOTAL
+done
+```
+
+⚠️ These figures moved once already: they were first written against the uncalibrated
+estimator, and recalibrating it changed every one of them by 10-50%. A number quoted on
+a slide and never re-derived is the exact failure this module teaches people to avoid.
+
 ## 7. Before a delivery
 
 - [ ] `python3 check-decks.py` &rarr; **0 problems** on all seven decks
 - [ ] Clone the practice repo fresh and confirm **27 tests, 1 failure**
-- [ ] `python3 tools/ctxmeter.py repo --absolute` still gives ~46,700 &mdash; if it has moved, update
+- [ ] `python3 tools/ctxmeter.py repo --absolute` still gives ~45,700 &mdash; if it has moved, update
       section 4 and Lab 4's slide numbers in T4 slide 4
 - [ ] Run Labs 1 and 4 with live Copilot and time them. **The lab minutes above are estimates and
       have not been rehearsed against a live assistant.**

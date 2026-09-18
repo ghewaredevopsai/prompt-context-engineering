@@ -22,11 +22,31 @@ That output is the input for every run below. Use the same text every time.
 ## Do
 
 You will ask for the same summary **three ways**, and run each answer through the
-same checker. Save each answer as `answer.json` (or `answer.txt` for run 1) and run:
+same checker.
+
+### Getting an answer into a file
+
+`check_contract.py` reads a file. It cannot see your chat window, so each time a run
+comes back you have to save the reply first. In a terminal:
+
+```bash
+cat > answer.json
+```
+
+Paste the reply, press <kbd>Enter</kbd>, then <kbd>Ctrl</kbd>+<kbd>D</kbd> to finish.
+Saving it from your editor works just as well.
+
+**Paste it exactly as it came back** &mdash; including a ``` fence if there is one,
+and any "Here is the summary:" line before it. Whether that material is there is part
+of what you are measuring; tidying it up by hand throws away the result.
+
+Then check it:
 
 ```bash
 python3 tools/check_contract.py answer.json
 ```
+
+Use `answer.txt` for run 1, which is prose rather than JSON.
 
 1. **Run 1 &mdash; free prose.** New chat.
 

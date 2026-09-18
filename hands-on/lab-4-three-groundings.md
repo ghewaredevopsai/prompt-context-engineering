@@ -22,7 +22,12 @@ settles the argument about whether attaching more context buys you a better answ
    ```
 
    And for the third: the six lines of `docs/ops-runbook.md` under **Charging order**
-   that decide this. Copy them into `six-lines.txt` and meter that.
+   that decide this. Put them in a file and meter that:
+
+   ```bash
+   sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
+   python3 tools/ctxmeter.py count --absolute six-lines.txt
+   ```
 
    Write all three numbers down **now**, before you know which answer is best.
 
@@ -73,7 +78,7 @@ worth more discussion than any slide.
 
 ## Notice
 
-- **Run A is roughly sixteen times the context of run C.** If it also gave the worse
+- **Run A is over a hundred times the context of run C.** If it also gave the worse
   answer, then you have just watched context work against you, not for you. The model
   had everything it needed in run A &mdash; it also had two large data files, forty
   sample consignments and a stale notes document.

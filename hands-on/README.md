@@ -22,6 +22,22 @@ program can read.
 - **Nothing is installed.** The practice repo is standard library only, on purpose:
   a corporate laptop with no network still does every lab.
 
+## Getting text out of the chat window and into a file
+
+Three labs meter or check something you have to save first &mdash; `ctxmeter` and
+`check_contract.py` read files, and neither can see your chat window. In a terminal:
+
+```bash
+cat > answer.json
+```
+
+Paste, press <kbd>Enter</kbd>, then <kbd>Ctrl</kbd>+<kbd>D</kbd>. Saving from your
+editor works just as well.
+
+**Paste it exactly as it came back** &mdash; the ``` fence, the "Here is the summary:"
+preamble, all of it. Whether that material is there is part of what the lab measures,
+so tidying it by hand throws the result away.
+
 ## No git? No problem
 
 Several labs branch and reset. If `git` is unavailable or restricted on your machine,
