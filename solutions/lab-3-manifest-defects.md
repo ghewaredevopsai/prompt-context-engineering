@@ -48,8 +48,19 @@ see the duplication. Both readings are defensible.
 |---|:--:|:--:|---|
 | bare | 1 of 3 | baseline | finds the fuel drift, stops |
 | few-shot | 2 of 3 | +40% | the worked examples set a standard of evidence, so it keeps going |
-| decomposition | 3 of 3 | +20%, over 3 turns | step 2 forces it to quote the rule before judging |
+| decomposition | 3 of 3 | +20%, over 3 turns | its second request forces it to quote the rule before judging |
 | self-critique | 3 of 3 | ~2.2x | finds the most, including the duplication; costs the most |
+
+⚠️ **These four rows are the trainer's expectation, not a measurement.** They have not
+been run against a live model and recorded. Treat the room's table as the evidence and
+correct this file when it disagrees.
+
+⚠️ **Two hints were removed from this lab** after review: the self-critique follow-up
+used to say "check the charging order specifically", and the first few-shot example
+used to state that `rating.py` charges fuel on base plus surcharges. Both pointed
+straight at defect 1, so two of the four runs were being handed the answer the other
+two had to find. If you are running from an older copy, remove them &mdash; otherwise
+the comparison measures nothing.
 
 **The finding is the ratio, not the winner.** Decomposition tends to win on value here because the
 middle step — "quote the rule that governs each one" — does the work. Most of what looks like

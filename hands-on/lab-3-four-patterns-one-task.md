@@ -10,24 +10,28 @@ Find out what each named prompting pattern actually buys you, and what it costs
 
 By the end you should be able to:
 
-- describe few-shot, decomposition, chain of thought and self-critique in terms of
-  what each does mechanically;
-- say what each costs, and name a task where that cost is worth paying;
+- describe few-shot, decomposition and self-critique in terms of what each does
+  mechanically;
+- say what each costs against an unpatterned baseline, and name a task where that
+  cost is worth paying;
+- say why chain of thought is **not** one of the three you ran;
 - choose one to take back to work, and say what for.
 
 ## The situation
 
-Four named moves, one task, and a question nobody usually asks: what does each one
-actually cost, and is it worth it *for this task*?
+One task, run four ways: **a bare baseline and three named patterns**. The question
+nobody usually asks is what each pattern costs against that baseline, and whether it
+is worth it *for this task*.
 
-**Work in pairs.** Each of you runs two patterns, then you swap sheets and compare.
-Four patterns each would take half an hour and you would stop reading the output
-carefully by the third one.
+Chain of thought is deliberately not among them &mdash; the last takeaway says why.
 
 ## What to watch for
 
 - **How many of the three money defects each pattern surfaces.** That is the column
   the script cannot fill in for you, and the one that decides everything.
+- **Whether a run was handed a clue.** Each pattern here is written to add *structure*
+  and no information &mdash; see Step 2. If you reword one and accidentally name a
+  defect, its score stops meaning anything.
 - **Whether the pattern made it quote the rule** before judging. Most apparent
   reasoning failure is the model never having looked the rule up.
 - **The ratio**, not the winner. "Self-critique found the most" is not a finding;
@@ -35,11 +39,13 @@ carefully by the third one.
 
 ## Step 1 &mdash; Split the work
 
-**Work in pairs.** Four patterns each would take half an hour and you would stop
-reading the output carefully by the third.
+**Work in pairs.** Four runs each would take half an hour, and you would stop reading
+the output carefully by the third.
 
-- **Partner A:** bare, then few-shot
+- **Partner A:** the bare baseline, then few-shot
 - **Partner B:** decomposition, then self-critique
+
+**Working alone?** Run all four yourself and allow about twenty minutes.
 
 ---
 
@@ -50,7 +56,9 @@ Every run uses this task, word for word:
 > Review `meridian/manifest.py` against `docs/ops-runbook.md` and find everything it
 > gets wrong about money.
 
-There are at least three defects to find.
+**There are three money defects to find.** A fourth answer &mdash; that the band
+lookup is duplicated from `rating.py` &mdash; is also defensible, and people who find
+it often find it *instead* of one of the three.
 
 **Every run starts in a new chat with the same two files attached** &mdash;
 `meridian/manifest.py` and `docs/ops-runbook.md`, nothing else. That way the pattern
@@ -86,26 +94,33 @@ the *kind* of finding you want. Save as **`prompt-fewshot.txt`**:
 ```text
 Here are two examples of the kind of finding I want:
 
-FINDING: rating.py charges fuel on (base + surcharges).
-RULE: ops-runbook, "Charging order" - fuel applies to the sum.
+FINDING: rating.py uses integer minor units throughout, no float anywhere.
+RULE: ops-runbook, "Money".
 VERDICT: correct.
 
-FINDING: rating.py uses integer minor units throughout, no float.
+FINDING: split_evenly() rounds halves to even, so the pieces add back to the total.
 RULE: ops-runbook, "Money".
 VERDICT: correct.
 
 Now do the same for meridian/manifest.py. Same three lines per finding.
 ```
 
+Both examples are about `rating.py` and both say **correct**, on rules that
+`manifest.py` does not break. That is deliberate: few-shot is meant to demonstrate a
+*format and a standard of evidence*, not to hand over an answer.
+
 **Partner B &mdash; self-critique.** New chat. Send the bare task, wait for the
 answer, then send:
 
 ```text
-Now find three ways your own review was incomplete. Check the charging order
-specifically.
+Now find three ways your own review was incomplete.
 ```
 
 Save both messages together as **`prompt-critique.txt`**.
+
+⚠️ **Do not add "check the charging order" or any other pointer.** An earlier version
+of this lab did, and it made self-critique look better than it is: a run that is told
+where to look is not being compared with runs that are not.
 
 ---
 
@@ -123,6 +138,8 @@ few-shot        prompt-fewshot.txt          101   4.2x
 decomposition   prompt-decomp.txt             -   not saved yet
 self-critique   prompt-critique.txt           -   not saved yet
 ```
+
+*(An example, not a target &mdash; yours will differ with how you word things.)*
 
 The attachments are identical across runs, so the **difference between these numbers
 is the cost of the pattern itself**. Your partner's two rows stay blank until you
@@ -153,15 +170,16 @@ git add lab-3-record.md && git commit -m "lab 3: four patterns"
 
 ## Key takeaways
 
-- **The finding is the ratio, not the winner.** Self-critique usually finds the most
-  and usually costs about twice as much. That is not an argument for or against it
-  &mdash; it is the number you need in order to decide, per task, whether doubling
-  the bill is worth it. On money code it obviously is. On a docstring it obviously
-  is not.
+- **The finding is the ratio, not the winner.** "Self-critique found the most" is not
+  a finding. "Self-critique found one more and cost 2.2x" is &mdash; it is the number
+  you need to decide, per task, whether doubling the bill is worth it. On money code
+  it obviously is. On a docstring it obviously is not.
 
-- **Decomposition wins more often than people expect**, because step 2 forces the
-  model to quote the rule before judging it. Most of what looks like reasoning
-  failure is the model never having looked the rule up.
+- **Two expectations to test, not to accept.** The trainer's experience is that
+  self-critique surfaces the most and costs roughly double, and that decomposition
+  does better than people expect because its second request forces the model to quote
+  the rule before judging. **Neither is measured.** Your table is the evidence; if it
+  disagrees, your table wins and the room should hear it.
 
 - **Few-shot is doing something different from the other three.** It is not making
   the model think harder; it is showing it a format and a standard of evidence. Use
@@ -175,6 +193,6 @@ git add lab-3-record.md && git commit -m "lab 3: four patterns"
 
 Run the bare task once more, but first add one line: `Quote the runbook line you are
 judging against for every finding.` One line, no pattern, no extra turns. Compare it
-with your decomposition column. A large part of what patterns buy you can sometimes
+with the decomposition column once you have swapped sheets. A large part of what patterns buy you can sometimes
 be bought with a sentence &mdash; and a sentence is cheaper to maintain than a
 four-step procedure.
