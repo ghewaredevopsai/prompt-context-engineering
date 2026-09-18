@@ -3,13 +3,47 @@
 **Tier 2 &middot; Output contracts** &nbsp;|&nbsp; ~14 minutes &nbsp;|&nbsp;
 Assistant: chat &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find out what it takes to get an answer a **program** can act on, instead of one a
+person has to read &mdash; and what that costs.
+
+By the end of this lab you should be able to:
+
+- ask for an answer in a shape a script can verify, and say what each clause of that
+  request is doing;
+- state precisely what a shape validator can and cannot tell you;
+- put a number on what a contract costs, and say what it buys.
+
 ## The situation
 
 The duty supervisor wants a morning summary of the exceptions list. Today somebody
 pastes the report into chat and reads whatever comes back. You are going to find out
-what it would take to stop a human being in that loop &mdash; and what it costs.
+what it would take to take the human out of that loop.
 
-**You will ask for the same summary three ways, three times each. Nine runs.**
+## What you will do
+
+**Three requests, three attempts each. Nine runs.**
+
+| | the request | what you are testing |
+|---|---|---|
+| **A** | ask for a summary | free prose &mdash; nothing to check |
+| **B** | ask for pipe-separated lines | delimited &mdash; looks checkable, is not |
+| **C** | ask for JSON in a shape you supply | a contract a program can verify |
+
+## What to watch for
+
+Four things. Note each one as it happens &mdash; they are what you discuss afterwards.
+
+1. **Does the reply parse at all?** Run A will not. That is the finding, not a failure.
+2. **Does anything wrap the answer?** A ``` fence, or a "Here is the summary:" line.
+   That is a right answer in a wrong shape, and it breaks a pipeline just as
+   thoroughly as a wrong one.
+3. **Does an exception code appear that is not one of the six?** `MF-07` and `MF-99`
+   both turn up. Specific, plausible, correctly formatted, and invented.
+4. **How the three lengths compare.** Write the numbers down before you form an
+   opinion about which shape is "efficient".
+
 Work straight down this page; every step says exactly what to do.
 
 ---
@@ -173,36 +207,32 @@ git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
 
 ---
 
-## Notice
+## Key takeaways
 
-- **The contract costs about five times the prose, and that is the point.** On this
-  report &mdash; 16 exceptions &mdash; prose meters around 125 est. tokens, the
-  delimited version 169, and the JSON about 707. The contract is not free; **machine
-  readability is a thing you buy.**
+1. **Shape is not quality, and shape is what you can automate.** `check_contract.py`
+   cannot tell you whether those are the right consignments or whether the actions
+   make sense. It tells you whether the next step can run without a person &mdash; a
+   lower bar than "good", and the one that decides whether this can be a cron job.
 
-- **The two answers are not the same information.** Prose is short because it
-  *groups*: "four consignments are MF-06". JSON enumerates every consignment and
-  repeats the keys on every row. That is why the JSON costs more, and also why it is
-  the only one the next system can act on per consignment. Comparing raw length is
-  comparing two different answers.
+2. **A contract costs about five times the prose.** On this report &mdash; 16
+   exceptions &mdash; prose meters around 125 est. tokens, delimited 169, and the JSON
+   about 707. **Machine readability is bought, not free.**
 
-- **Output tokens are the expensive kind** &mdash; roughly six times the input rate.
-  So a contract you generate thousands of times a day is a real cost decision, not a
-  free win. The Token Optimization module's Tier 4 is about exactly this trade.
+3. **Those are two different answers, not two renderings of one.** Prose is short
+   because it *groups*: "eight are MF-03". JSON enumerates all sixteen and repeats the
+   keys on every row. That is why it costs more, and why it is the only one the next
+   system can act on per consignment. Since output tokens bill at roughly six times
+   input, a contract you run thousands of times a day is a real invoice line.
 
-- **`check_contract.py` judges shape, not quality.** It cannot tell you whether those
-  are the right consignments, whether the actions make sense, or whether it understood
-  the question at all. It tells you whether the next system can run without a person
-  &mdash; a lower bar than "good", and the bar that decides whether this can be a
-  cron job.
+4. **The delimited format is the trap.** It looks structured and it is the one teams
+   reach for first. A missing field shifts every column silently and nothing raises.
+   It fails quietly, which is the worst property a format can have.
 
-- **Watch for an invented code.** `MF-07` and `MF-99` both turn up. They are the
-  cheapest possible demonstration of a fabricated fact: specific, plausible,
-  correctly formatted, and they would reject the whole batch downstream.
+5. **Repair the request, never the answer.** Hand-editing an answer to make the
+   checker pass proves nothing about what the next run will do.
 
-- **"Return ONLY JSON, no fence" earns its place.** Drop that clause and a third of
-  runs come back inside a Markdown fence &mdash; a right answer in the wrong shape.
-  The cheapest quadrant to fix, and still a broken pipeline.
+6. **"Return ONLY JSON, no fence" earns its place.** Drop that clause and a third of
+   runs come back fenced. One clause, one whole class of failure removed.
 
 ## Stretch
 
