@@ -26,27 +26,55 @@ same checker.
 
 ### Getting an answer into a file
 
-`check_contract.py` reads a file. It cannot see your chat window, so each time a run
-comes back you have to save the reply first. In a terminal:
+`check_contract.py` reads a **file**. It cannot see your chat window, so after each
+run you have to put the reply somewhere it can read.
+
+**In your editor** &mdash; the easiest way, and you are already there:
+
+1. In the chat panel, use the **Copy** button on the reply.
+2. **File &rarr; New File**, paste, then save it as `answer.json` in the
+   `meridian-freight` folder. (Run 1 is prose, not JSON &mdash; save that one as
+   `answer.txt`.)
+
+**Or in a terminal**, if you prefer:
 
 ```bash
 cat > answer.json
 ```
 
-Paste the reply, press <kbd>Enter</kbd>, then <kbd>Ctrl</kbd>+<kbd>D</kbd> to finish.
-Saving it from your editor works just as well.
+When you press Enter, **the cursor just sits there with no prompt and no message.
+That is correct** &mdash; it is waiting for you to type or paste. So:
 
-**Paste it exactly as it came back** &mdash; including a ``` fence if there is one,
-and any "Here is the summary:" line before it. Whether that material is there is part
-of what you are measuring; tidying it up by hand throws away the result.
+1. Paste the reply.
+2. Press <kbd>Enter</kbd> once, so the cursor is on a fresh empty line.
+3. Press <kbd>Ctrl</kbd>+<kbd>D</kbd>. Nothing is printed; you simply get your shell
+   prompt back, and the file now exists.
+
+<kbd>Ctrl</kbd>+<kbd>D</kbd> only ends the input when the line is empty, which is why
+step 2 matters. If you press <kbd>Ctrl</kbd>+<kbd>C</kbd> instead, you abandon the
+whole thing and the file is left empty.
+
+**Check it landed before you go on:**
+
+```bash
+wc -c answer.json && head -3 answer.json
+```
+
+That counts **bytes**, not lines, on purpose: a paste with no final newline is a
+perfectly good file that `wc -l` reports as 0 lines. If the byte count is `0`, the
+paste did not arrive &mdash; do it again.
+
+### One rule about pasting
+
+**Paste the reply exactly as it came back**, including a ``` fence if there is one and
+any "Here is the summary:" line before it. Whether that material is there is part of
+what you are measuring; tidying it up by hand throws the result away.
 
 Then check it:
 
 ```bash
 python3 tools/check_contract.py answer.json
 ```
-
-Use `answer.txt` for run 1, which is prose rather than JSON.
 
 1. **Run 1 &mdash; free prose.** New chat.
 

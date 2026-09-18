@@ -25,14 +25,17 @@ program can read.
 ## Getting text out of the chat window and into a file
 
 Three labs meter or check something you have to save first &mdash; `ctxmeter` and
-`check_contract.py` read files, and neither can see your chat window. In a terminal:
+`check_contract.py` read files, and neither can see your chat window.
 
-```bash
-cat > answer.json
-```
+**In your editor:** use the **Copy** button on the reply, then **File &rarr; New
+File**, paste, and save it into the `meridian-freight` folder under the name the lab
+asks for.
 
-Paste, press <kbd>Enter</kbd>, then <kbd>Ctrl</kbd>+<kbd>D</kbd>. Saving from your
-editor works just as well.
+**Or in a terminal:** `cat > answer.json`, paste, press <kbd>Enter</kbd> so the cursor
+is on an empty line, then <kbd>Ctrl</kbd>+<kbd>D</kbd>. Nothing is printed while it
+waits and nothing is printed when it finishes &mdash; you just get your prompt back.
+Check it worked with `wc -c answer.json`; a byte count of `0` means the paste did not
+arrive.
 
 **Paste it exactly as it came back** &mdash; the ``` fence, the "Here is the summary:"
 preamble, all of it. Whether that material is there is part of what the lab measures,
