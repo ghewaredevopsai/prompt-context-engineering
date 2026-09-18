@@ -50,9 +50,10 @@ compared against the one you write down now.
 
 ## Record
 
-Create `lab-0-record.md` in the repository root and fill it in:
+One paste creates the sheet:
 
-```markdown
+```bash
+cat > lab-0-record.md <<'EOF'
 # Lab 0
 
 Tests: __ passed, __ failed
@@ -62,7 +63,11 @@ My guess at the failing test: ____________________________________
 
 The one line from the ctxmeter footer I would quote to my team:
 ____________________________________________________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-0-record.md && git commit -m "lab 0: baseline"

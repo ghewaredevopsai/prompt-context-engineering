@@ -83,7 +83,10 @@ varies is the pattern.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-3-record.md <<'EOF'
 # Lab 3
 
                   defects found   est. prompt tokens   turns   would I use it here?
@@ -96,7 +99,11 @@ The three defects in manifest.py: ____________________________________
 
 Cheapest pattern that found all three: ______________
 The pattern I will actually use at work, and for what: ______________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-3-record.md && git commit -m "lab 3: four patterns"

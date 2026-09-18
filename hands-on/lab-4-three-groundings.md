@@ -52,7 +52,10 @@ settles the argument about whether attaching more context buys you a better answ
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-4-record.md <<'EOF'
 # Lab 4
 
                        est. tokens sent   named the drift?   also found the two
@@ -65,7 +68,11 @@ Ratio of A to C: ______ times the context.
 Which gave the most useful answer? ______
 
 If A lost, what did it spend its attention on instead? ____________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-4-record.md && git commit -m "lab 4: three groundings"

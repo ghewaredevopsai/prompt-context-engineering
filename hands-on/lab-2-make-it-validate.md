@@ -97,7 +97,10 @@ Use `answer.txt` for run 1, which is prose rather than JSON.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-2-record.md <<'EOF'
 # Lab 2
 
                      contract passes   est. output tokens   what broke
@@ -108,7 +111,11 @@ supplied schema      _ / 3             ______               ______________
 What I changed in the request to make run 3 pass: ____________________
 
 Shorter or longer than the prose? ______   By how much? ______
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"

@@ -42,9 +42,10 @@ Have your Lab 1 run B prompt and its eight-row checklist in front of you.
 3. **Repair.** Put the prompt back together and confirm it scores as it did in
    step 1. If it does not, that is a finding &mdash; write down what else changed.
 
-4. **Lock it.** Create `prompt-check.md` in the repository root with **five rows**:
+4. **Lock it.** Create `prompt-check.md` with **five rows** &mdash; one paste starts it:
 
-   ```markdown
+   ```bash
+   cat > prompt-check.md <<'EOF'
    | case | what must be true of the output | how I check it |
    |---|---|---|
    | a Saturday domestic booking | a SAT charge of exactly 32000 appears | assert in test |
@@ -52,6 +53,7 @@ Have your Lab 1 run B prompt and its eight-row checklist in front of you.
    |  |  |  |
    |  |  |  |
    |  |  |  |
+   EOF
    ```
 
    Fill in four more. **Try to make every row checkable by something other than a
@@ -63,7 +65,10 @@ Have your Lab 1 run B prompt and its eight-row checklist in front of you.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-5-record.md <<'EOF'
 # Lab 5
 
                           rules broken / 8
@@ -78,7 +83,11 @@ The check I could not write, and what I would need to make it writable:
 ____________________________________________________________
 
 A fresh run passed ___ of my 5 checks.
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-5-record.md prompt-check.md && git commit -m "lab 5: break, repair, lock"

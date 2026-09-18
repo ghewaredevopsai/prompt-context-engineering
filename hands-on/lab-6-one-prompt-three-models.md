@@ -60,7 +60,10 @@ the runbook**: that would resolve the ambiguity, which is the opposite of the po
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-6-record.md <<'EOF'
 # Lab 6
 
                   asks / says / silent   direction correct?   verbosity   scope
@@ -73,7 +76,11 @@ model 1  ______   model 2  ______   model 3  ______
 
 How many of the three changed behaviour because of one added line? ___
 The habit I was relying on without realising: ____________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-6-record.md && git commit -m "lab 6: one prompt, three models"

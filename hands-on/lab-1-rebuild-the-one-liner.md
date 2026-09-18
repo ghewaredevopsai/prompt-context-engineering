@@ -84,7 +84,10 @@ this lab is noticing what you personally assumed.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-1-record.md <<'EOF'
 # Lab 1
 
                         run A (one-liner)   run B (assembled)
@@ -96,7 +99,11 @@ The rule it broke in A that I would never have caught by reading the diff:
 ____________________________________________________________
 
 Parts of the six that run A was missing: ____________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-1-record.md && git commit -m "lab 1: one-liner vs assembled"
