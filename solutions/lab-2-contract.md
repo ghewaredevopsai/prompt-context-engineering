@@ -52,20 +52,37 @@ check_contract: bad.json breaks the contract in 3 place(s)
 3. **`total` disagreeing with the list.** Usually because the model counted the consignments it
    *described in prose first* rather than the rows it emitted.
 
-## The result that surprises people
+## What the three shapes actually cost
 
-| shape | est. output tokens |
-|---|---|
-| free prose | ~210 |
-| delimited | ~90 |
-| supplied schema | ~140 |
+Measured on this report, which carries 16 exceptions:
 
-The JSON is **shorter than the prose**, not longer. A contract does not cost you tokens — it stops
-the model narrating, and the narration was most of what you were paying for. The delimited version
-is shortest of all and is still the worst option, because a dropped field shifts every column
-silently and nothing raises.
+| shape | est. tokens | what it can do |
+|---|--:|---|
+| free prose | ~125 | a person reads it |
+| delimited | ~169 | a regex, badly |
+| supplied schema | **~707** | `json.loads`, key checks, a closed code set |
 
-(Your numbers will differ; the ordering is the stable part.)
+**The JSON is about five and a half times the prose.** If you expected the contract to
+be cheaper, so did the person who wrote the first version of this lab &mdash; it is
+not, and the reason is worth sitting with.
+
+**Prose is short because it throws information away.** It groups: *"four consignments
+are MF-06"*. The JSON enumerates all sixteen and repeats `consignment`, `codes` and
+`action` on every row. They are not two renderings of one answer; they are two
+different answers, and only one of them can be acted on per consignment.
+
+So the honest framing is not "contracts are free". It is:
+
+> A contract costs roughly five times the tokens, and buys you a pipeline that runs
+> without a person in it.
+
+That is a trade a team can actually reason about &mdash; and since **output tokens
+bill at roughly six times the input rate**, it is a real number on a real invoice if
+the thing runs thousands of times a day. The Token Optimization module picks this up
+in Tier 4: the cheapest answer is the one no model generates at all.
+
+**Where "shorter" can be true:** a very short list, two or three rows, where prose
+still carries a paragraph of narration and the JSON does not. It does not hold at 16.
 
 ## Why the checker is deliberately weak
 

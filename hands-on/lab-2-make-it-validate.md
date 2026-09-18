@@ -140,7 +140,8 @@ python3 tools/ctxmeter.py count --absolute answer.txt
 python3 tools/ctxmeter.py count --absolute answer.json
 ```
 
-Compare the two totals. One of them will surprise you.
+Compare the two totals. **The JSON will be several times larger** &mdash; write down
+the ratio, because the Notice section below is about what that buys you.
 
 ---
 
@@ -159,7 +160,7 @@ supplied schema      _ / 3             ______               ______________
 
 What I changed in the request to make C pass: ____________________
 
-Shorter or longer than the prose? ______   By how much? ______
+JSON vs prose: ______ times larger.   What does that buy? ______________
 EOF
 ```
 
@@ -174,9 +175,20 @@ git add lab-2-record.md && git commit -m "lab 2: three shapes of answer"
 
 ## Notice
 
-- **The JSON is usually shorter than the prose.** Almost nobody predicts this. A
-  contract does not cost you tokens; it stops the model narrating, and narration was
-  most of what you were paying for.
+- **The contract costs about five times the prose, and that is the point.** On this
+  report &mdash; 16 exceptions &mdash; prose meters around 125 est. tokens, the
+  delimited version 169, and the JSON about 707. The contract is not free; **machine
+  readability is a thing you buy.**
+
+- **The two answers are not the same information.** Prose is short because it
+  *groups*: "four consignments are MF-06". JSON enumerates every consignment and
+  repeats the keys on every row. That is why the JSON costs more, and also why it is
+  the only one the next system can act on per consignment. Comparing raw length is
+  comparing two different answers.
+
+- **Output tokens are the expensive kind** &mdash; roughly six times the input rate.
+  So a contract you generate thousands of times a day is a real cost decision, not a
+  free win. The Token Optimization module's Tier 4 is about exactly this trade.
 
 - **`check_contract.py` judges shape, not quality.** It cannot tell you whether those
   are the right consignments, whether the actions make sense, or whether it understood

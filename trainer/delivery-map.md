@@ -65,6 +65,7 @@ Deterministic, identical in every room, safe to quote from the front:
 | Six runbook lines + the failing test output | ~300 |
 | Test suite | 27 tests, exactly 1 failure |
 | The failing assertion | `113987 != 114655` |
+| Lab 2 answer sizes, 16 exceptions | prose ~125 / delimited ~169 / **JSON ~707** est. tokens |
 
 **Not deterministic, and the labs say so:** turns to green, house rules broken, contract pass rate,
 whether a given run names the drift. Put these on a board and read the spread. If you quote a single
@@ -75,6 +76,17 @@ participant's number as a result you have taught the opposite of Tier 5.
 Lab 3 says "at least three". They are: fuel applied to the base alone rather than base plus
 surcharges; `OVERSIZE` omitted entirely; `INSURANCE` omitted entirely. The band lookup is also
 duplicated, including the 1 kg short-circuit, which is a fourth answer and a good one.
+
+### Lab 2: the contract is LONGER, and that is the lesson
+
+⚠️ An earlier version of Tier 2 and Lab 2 claimed the JSON was the *shortest* of the
+three shapes. It is not: on this report it is about **five and a half times** the
+prose. Prose groups and discards per-consignment detail; JSON enumerates sixteen rows
+and repeats the keys on each. If anyone saw the old wording, correct it out loud.
+
+The corrected point is stronger: a contract costs roughly 5x, and buys a pipeline that
+runs without a person in it. Output tokens bill at about 6x input, so this is a real
+invoice line, not a free win.
 
 ### Why `ctxmeter diff` refuses a percentage on the flagship cut
 

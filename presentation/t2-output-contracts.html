@@ -37,11 +37,11 @@
     <div class="grid3 fill">
       <div class="card bad">
         <h3>Free prose</h3>
-<pre class="sm">There are seven exceptions
-this morning. Most are
-MF-06 &mdash; four consignments
-booked against last year's
-tariff. Two need dimensions.</pre>
+<pre class="sm">There are 16 consignments
+needing attention. The largest
+group is MF-03 &mdash; eight booked
+before cutoff, still unrouted.
+Two need dimensions.</pre>
         <p><b>Checked by:</b> a person, reading.</p>
       </div>
       <div class="card">
@@ -63,12 +63,17 @@ MF-1038|MF-06|reprice</pre>
         <p><b>Checked by:</b> <u>json.loads</u>, then keys, then a closed set.</p>
       </div>
     </div>
-    <div class="note"><b>The JSON is usually the shortest of the three.</b> People expect a contract to cost
-      tokens; most of the time it saves them, because the model stops narrating.</div>
+    <div class="warn"><b>The contract is the longest of the three, by about five times.</b> Prose is short
+      because it <b>groups</b> &mdash; "four are MF-06" &mdash; and throws the per-consignment detail away.
+      JSON enumerates all sixteen and repeats the keys on every row. They are not two renderings of one
+      answer; only one of them can be acted on per consignment. <b>Machine readability is bought, not free.</b></div>
   </div>
-  <div class="notes"><p>The delimited middle column is worth a moment. It looks structured and it is the one
-    teams reach for first, but a missing field shifts every column silently and nothing raises. It is the
-    format that fails quietly, which is the worst property a format can have.</p></div>
+  <div class="notes"><p>Measured on the practice report's 16 exceptions: prose ~125 est. tokens, delimited
+    ~169, JSON ~707. An earlier version of this deck claimed the JSON was the shortest, which is wrong at
+    this size and only holds for a two-or-three-row list where prose still carries a paragraph of narration.
+    The delimited middle column is also worth a moment: it looks structured, it is the one teams reach for
+    first, and a missing field shifts every column silently. It fails quietly, which is the worst property
+    a format can have.</p></div>
 </section>
 
 <!-- 3 ---------------------------------------------------------------- -->
@@ -151,8 +156,8 @@ which is not one of the six</s>
       </div>
     </div>
     <div class="takeaway"><b>Lab 2 now:</b> ask for the same summary three ways and run each through
-      <code>check_contract.py</code>. Record the pass rate over three runs each, and the output length.
-      One of those numbers will surprise you.</div>
+      <code>check_contract.py</code>. Record the pass rate over three runs each, and the output length
+      &mdash; then decide out loud whether what the contract buys is worth what it costs.</div>
   </div>
   <div class="notes"><p>The complaint in the caption is usually genuine: a schema written too early does
     flatten a summary. The fix is a better schema - an optional notes field - not the removal of the
